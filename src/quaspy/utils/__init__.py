@@ -1,0 +1,1 @@
+""" @brief  A module for non-mathematical utility functions and classes. """

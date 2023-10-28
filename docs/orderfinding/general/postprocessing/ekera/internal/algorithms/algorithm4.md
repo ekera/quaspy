@@ -1,0 +1,34 @@
+## Function: <code>algorithm4(g, S, m, ..)</code>
+Returns a subset Sp of S consisting of all r_tilde in S that are such that d * r_tilde is a positive integer multiple of r, where d is cm-smooth.
+
+This function implements Algorithm 4 from [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+
+As in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for q1, .., qk pairwise distinct primes, and e1, .., ek positive integer exponents, if it holds that qi^ei <= cm for all i in [1, k].
+
+## Import directive
+```python
+from quaspy.orderfinding.general.postprocessing.ekera.internal.algorithms import algorithm4
+```
+
+## Parent module
+- [<code>algorithms</code>](README.md)
+
+## Prototype
+```python
+def algorithm4(g,
+               S,
+               m,
+               c = 1)
+```
+
+## Parameters
+| <b>Name</b> | <b>Description</b> |
+| ----------- | ------------------ |
+| g | The element g of order r. |
+| S | A set S of candidates for the integer r_tilde. |
+| m | A positive integer m such that r < 2^m. |
+| c | A parameter c >= 1 that specifies the maximum size of the missing cm-smooth component d in r = d * r_tilde. |
+
+## Return value
+A subset Sp of S consisting of all r_tilde in S that are such that d * r_tilde is a positive integer multiple of r, where d is cm-smooth.
+

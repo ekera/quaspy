@@ -1,0 +1,34 @@
+## Function: <code>algorithm1(g, r_tilde, m, ..)</code>
+Recovers a multiple rp of r, assuming r_tilde is such that r = d * r_tilde where d is cm-smooth.
+
+This function implements Algorithm 1 from [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+
+As in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for q1, .., qk pairwise distinct primes, and e1, .., ek positive integer exponents, if it holds that qi^ei <= cm for all i in [1, k].
+
+## Import directive
+```python
+from quaspy.orderfinding.general.postprocessing.ekera.internal.algorithms import algorithm1
+```
+
+## Parent module
+- [<code>algorithms</code>](README.md)
+
+## Prototype
+```python
+def algorithm1(g,
+               r_tilde,
+               m,
+               c = 1)
+```
+
+## Parameters
+| <b>Name</b> | <b>Description</b> |
+| ----------- | ------------------ |
+| g | The element g of order r. |
+| r_tilde | The integer r_tilde. |
+| m | A positive integer m such that r < 2^m. |
+| c | A parameter c >= 1 that specifies the maximum size of the missing cm-smooth component d in r = d * r_tilde. |
+
+## Return value
+A multiple rp of r, assuming that r_tilde is such that r = d * r_tilde where d is cm-smooth, and None otherwise.
+

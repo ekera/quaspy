@@ -1,0 +1,82 @@
+## Function: <code>solve\_j\_for\_r\_tilde\_lattice\_enumerate(j, m, l, g, ..)</code>
+For j = j0(z) an optimal frequency, for m such that r < 2^m and l = m - Delta for some Delta in [0, m), and z in [0, r), this function recovers r_tilde = r / d where d = gcd(r, z), provided that d is cm-smooth, by enumerating at most 6 * sqrt(3) * 2^Delta) vectors in a two-dimensional lattice L as described in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+
+More specifically, this function uses Lagrange's lattice basis reduction algorithm to find a reduced basis for the lattice L spanned by (j, 1/2) and (2^(m+l), 0). It then enumerates all vectors within a ball of radius 2^(m-1/2) in L centered at the origin to find
+
+u = (rj - 2^(m+l) z, r / 2) / d,
+
+and hence r_tilde, as the second component is r_tilde / 2.
+
+By Lemma 8 in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), provided that r < 2^m and l = m - Delta, at most 6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and hence r_tilde, so if Delta is small then this method is efficient.
+
+In practice, as mentioned in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), the leading constant in the above bound is not tight, and the enumeration can be optimized. Some of these optimizations have been integrated into this implementation, so the enumeration typically considers fewer points than the bound indicates.
+
+> Unlike the solve_j_for_r_tilde_lattice_svp() function, and the solve_j_for_r_tilde_continued_fractions(), this function does check that the candidates x for r_tilde returned fulfill the requirement that e(x) * x is a positive multiple of r, where e(x) is cm-smooth by the definition of cm-smooth in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+
+This is necessary as the enumeration may generate a comparatively, and it can also be done efficiently.
+
+A side effect of this test being performed is that this function will typically not find r_tilde = r / d if d is not cm-smooth.
+
+> By default, this implementation uses an instance of the CandidateCollection to keep track of the collection of candidates for r_tilde found during the enumeration.
+
+As is explained in the documentation for the CandidateCollection class, this class keeps the collection reduced. In turn, this may lead to r_tilde not being returned as one of the candidates for r_tilde that represent the collection. This being said, one of the candidates x for r_tilde that represent the collection will then be such that r = e(x) * x, where e(x) is cm-smooth, and from such x it is always possible to correctly recover r.
+
+As is also explained below, you may input set() instead of CandidateCollection() to the filtered_r_tilde_candidates parameter to ensure all candidates for r_tilde are returned.
+
+For further details, see Lemma 8, and Sect. 4 and App. C, of [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+
+## Import directive
+```python
+from quaspy.orderfinding.general.postprocessing.ekera.internal.solve import solve_j_for_r_tilde_lattice_enumerate
+```
+
+## Parent module
+- [<code>solve</code>](README.md)
+
+## Prototype
+```python
+def solve_j_for_r_tilde_lattice_enumerate(j,
+                                          m,
+                                          l,
+                                          g,
+                                          g_pow_e_context = None,
+                                          c = 1,
+                                          accept_multiple = False,
+                                          partial_exponentiation = True,
+                                          filtered_r_tilde_candidates = None,
+                                          dismissed_reduced_r_tilde_candidates = None,
+                                          mu = 0,
+                                          multiples = None,
+                                          verbose = False)
+```
+
+## Parameters
+| <b>Name</b> | <b>Description</b> |
+| ----------- | ------------------ |
+| j | An optimal frequency j0(z), for m and l as passed to this function, and for z in [0, r). |
+| m | A positive integer m such that r < 2^m. |
+| l | A positive integer l <= m, such that m+l is the length of the control register in the quantum order-finding algorithm.<br><br>As is explained in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), it is possible to select l = m-Delta, for some Delta in [0, m), at the expense of enumerating at most 6 * sqrt(3) * 2^Delta lattice vectors. |
+| g | The group element g of order r. |
+| g_pow_e_context | The pair [x, e] for x = g^e and e a maximal cm-smooth product, or None, in which case this function will compute x and e. |
+| c | A parameter c >= 1 that specifies the maximum size of the missing cm-smooth component d in r = d * r_tilde. As is explained in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), increasing c increases the success probability, at the expense of increasing the runtime. |
+| accept_multiple | A flag that may be set to True to indicate that only a positive integer multiple of r is sought. If set to True, this function returns as soon as it finds a candidate x for r_tilde such that g^(d * x) = 1, for d a cm-smooth prime power product. |
+| partial_exponentiation | A flag that may be set to True to indicate that x^s1[1] and x^s1[2] shall first be computed, and that the candidate for r_tilde for element i1 * s[1] + i2 * s[2] in the lattice shall then be computed by as (x1^i1) * (x2^i2). |
+| filtered_r_tilde_candidates | A collection of candidates x for r_tilde, such that g^(e(x) * x) = 1, for e(x) some cm-smooth prime power product.<br><br>When e.g. solving not only j, but also j ± 1, .., j ± B, for r, for B some bound, then this parameter allows for accounting for candidates of r_tilde found in enumerations for previous offsets when enumerating for a given offset. In particular, it removes the need to perform exponentiations to test candidates x for r_tilde that have been found before, and checked to meet the requirement that g^(e(x) * x) = 1, for e(x) some cm-smooth prime power product.<br><br>May be set to CandidateCollection(), as is the default when passing None, to start with an empty collection of candidates for r_tilde that is kept reduced, or to set(), to keep all candidates for r_tilde found during the enumeration in the set.<br><br>The set of candidates for r_tilde returned by this function will be of the same type as the set input via this parameter. |
+| dismissed_reduced_r_tilde_candidates | A set of reduced candidates for r_tilde that have already been dismissed and may be dismissed immediately if encountered again.<br><br>May be set to set(), as is the default when passing None, if no candidates for r_tilde have been dismissed. |
+| mu | A non-negative multiple of the order r used to reduce the candidates for r_tilde found during the enumeration. May be set to zero, as is the default, if no non-trivial multiple of r is known. |
+| multiples | Row multiples to use as a starting point when computing the Lagrange-reduced basis for the slightly scaled basis A = [[j, 1], [2^(m+l+1), 0]], see the lagrange() function for further details, or None, as is the default, if no such multiples are available.<br><br>The idea is that when trying to solve not only j but also j ± 1, .., j ± B for r_tilde, in the hope that this will lead to an optimal frequency j0(z) being solved for r_tilde, the row multiples that yield a Lagrange-reduced basis for adjecent offsets in j are likely to be close.<br><br>For this reason, this function accepts row multiples as input, and it furthermore returns as output the row multiples that yield a Lagrange-reduced basis for the value of j input, so that these can be fed back to this function when processing j + 1 or j - 1, recursively. |
+| verbose | A flag that may be set to True to print intermediary results and status updates when performing th enumeration. |
+
+## Return value
+The tuple [filtered_r_tilde_candidates', [success, dismissed_reduced_r_tilde_candidates', mu', multiples']], where
+
+- filtered_r_tilde_candidates' is filtered_r_tilde_candidates as input to this function updated with the additional candidates for r_tilde found when enumerating the lattice (these candidates have all passed the filtration step, and are such that d * t is a multiple of r, where d is cm-smooth),
+
+- success is set to True if at least one candidate for r_tilde passed the filter when enumerating the lattice, even if this candidate was already in filtered_r_tilde_candidates, and to False otherwise,
+
+- dismissed_reduced_r_tilde_candidates' is dismissed_reduced_r_tilde_candidates as input to this function updated with the additional reduced candidates for r_tilde dismissed when enumerating the lattice,
+
+- mu' is an updated non-negative multiple of r, obtained by letting mu = mu' and then updating mu' recursively by letting mu' = gcd(mu', filted_r_tilde_candidate * e), where e is a maximal cm-smooth product and x runs over all candidates for r_tilde that pass the filtration step when enumerating the lattice, and
+
+- multiple' are the row multiples that yield a reduced basis for the value of j input.
+
