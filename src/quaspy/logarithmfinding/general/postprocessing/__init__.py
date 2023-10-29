@@ -40,6 +40,13 @@ def solve_j_k_for_d_given_r(
                          general discrete logarithms".
                         ArXiv 1905.09084v3 (2023).
 
+      Note that this function does not implement meet-in-the-middle-techniques,
+      although it is noted in [E23p] that it is possible to use such techniques
+      to speed up the post-processing also for general discrete logarithms.
+
+      [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
+                         the short DLP". ArXiv 2309.01754 (2023).
+
       @param j  The frequency j.
 
       @param k  The frequency k.

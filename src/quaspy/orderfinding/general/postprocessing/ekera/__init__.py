@@ -132,6 +132,13 @@ def solve_j_for_r(
 
       the order r will be found by this function.
 
+      Note that this function does not implement meet-in-the-middle-techniques,
+      although it is noted in [E23p] that it is possible to use such techniques
+      to speed up the post-processing also for order finding.
+
+      [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
+                         the short DLP". ArXiv 2309.01754 (2023).
+
       @param j  The frequency j yielded by the quantum order-finding algorithm.
 
       @param m  A positive integer m such that r < 2^m.
@@ -489,6 +496,13 @@ def solve_j_for_r_mod_N(
         - that the accept_multiple flag is set to False,
 
       the order r will be found by this function.
+
+      Note that this function does not implement meet-in-the-middle-techniques,
+      although it is noted in [E23p] that it is possible to use such techniques
+      to speed up the post-processing also for order finding.
+
+      [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
+                         the short DLP". ArXiv 2309.01754 (2023).
 
       @param j  The frequency j yielded by the quantum order-finding algorithm.
 

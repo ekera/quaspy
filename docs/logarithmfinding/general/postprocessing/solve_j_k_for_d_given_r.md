@@ -3,6 +3,8 @@ Attempts to compute the general discrete logarithm d given a frequency pair (j, 
 
 The modified post-processing algorithm is described in Sect. 6 of [[E19p]](https://doi.org/10.48550/arXiv.1905.09084):
 
+Note that this function does not implement meet-in-the-middle-techniques, although it is noted in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754) that it is possible to use such techniques to speed up the post-processing also for general discrete logarithms.
+
 ## Import directive
 ```python
 from quaspy.logarithmfinding.general.postprocessing import solve_j_k_for_d_given_r
