@@ -12,6 +12,12 @@ reinstall:
 	pip3 uninstall -y quaspy
 	pip3 install dist/quaspy-*.whl
 
+publish:
+	twine upload dist/*
+
+publish-test:
+	twine upload -r testpypi dist/*
+
 clean:
 	rm -rf dist
 	rm -rf src/quaspy.egg-info
