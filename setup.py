@@ -1,6 +1,6 @@
 import setuptools;
 
-long_description  = "![Quaspy](https://github.com/ekera/quaspy/blob/main/docs/quaspy.png)\n\n";
+long_description  = "![Quaspy](https://raw.githubusercontent.com/ekera/quaspy/main/docs/quaspy.png)\n\n";
 long_description += "# Quaspy\n";
 long_description += "[Quaspy](https://github.com/ekera/quaspy) is a [Python3](https://www.python.org) library. [Quaspy](https://github.com/ekera/quaspy) is an abbreviation of <i>Quantum algorithm simulations in Python</i>.\n\n";
 long_description += "[Quaspy](https://github.com/ekera/quaspy) contains modules that implement:\n\n";
