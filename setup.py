@@ -28,7 +28,7 @@ setuptools.setup(
   version="0.9.2",
   author="Martin Ekerå",
   author_email="ekera@kth.se",
-  description="A package for post-processing Shor's order-finding and factoring algorithms.",
+  description="The Quaspy library for Python3 for simulating and post-processing various quantum algorithms, including Shor's algorithms and Ekerå–Håstad's variations of Shor's algorithms.",
   long_description=long_description,
   long_description_content_type="text/markdown",
   url="https://github.com/ekera/quaspy",
