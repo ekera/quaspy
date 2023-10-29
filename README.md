@@ -1,10 +1,7 @@
 ![Quaspy](docs/quaspy.png)
 
 # Quaspy
-This is the repository for the [Quaspy](https://github.com/ekera/quaspy) library for [Python3](https://www.python.org).
-[Quaspy](https://github.com/ekera/quaspy) is an abbreviation of <i>Quantum algorithm simulations in Python</i>.
-
-[Quaspy](https://github.com/ekera/quaspy) contains modules that implement:
+The [Quaspy](https://github.com/ekera/quaspy) (<i>Quantum algorithm simulations in Python</i>) library for [Python3](https://www.python.org) contains modules that implement:
 
 - Simulators for the quantum part of Shor's order-finding algorithm [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), modified as in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), and the classical post-processing in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791) that recovers the order in a single run with very high success probability.
 
@@ -26,15 +23,12 @@ This is the repository for the [Quaspy](https://github.com/ekera/quaspy) library
 
    [Examples](examples/factoring-rsa.ipynb) | [Documentation](docs/factoring/rsa/README.md)
 
-[Quaspy](https://github.com/ekera/quaspy) does not implement support for tradeoffs in the aforementioned algorithms. Support for tradeoffs may potentially be added in the future. For the time being, see instead the [Qunundrum](https://www.github.com/ekera/qunundrum) suite of MPI programs.
+All modules, classes, methods and functions in [Quaspy](https://github.com/ekera/quaspy) are [documented](docs/README.md) using [Python3](https://www.python.org) docstrings.
 
-Portions of [Quaspy](https://github.com/ekera/quaspy) are inherited from the [factoritall](https://www.github.com/ekera/factoritall) repository.
+Note that [Quaspy](https://github.com/ekera/quaspy) does not implement support for tradeoffs in the aforementioned algorithms. Support for tradeoffs may potentially be added in the future. For the time being, see instead the [Qunundrum](https://www.github.com/ekera/qunundrum) repository with its suite of MPI programs. Note furthermore that portions of [Quaspy](https://github.com/ekera/quaspy) are inherited from the [Factoritall](https://www.github.com/ekera/factoritall) repository.
 
-[Quaspy](https://github.com/ekera/quaspy) is a work in progress. [Quaspy](https://github.com/ekera/quaspy) is not yet published to the [Python3](https://www.python.org) repository, and may be subject to major changes without prior notice.
-
-All modules, classes, methods and functions are [documented](docs/README.md) using [Python3](https://www.python.org) docstrings.
-
-The [Quaspy](https://github.com/ekera/quaspy) library was developed for academic research purposes. It grew out of our research project in an organic manner as research questions were posed and answered. It is distributed "as is" without warranty of any kind, either expressed or implied. For further details, see the [license](LICENSE.md).
+[Quaspy](https://github.com/ekera/quaspy) is a work in progress, and may be subject to major changes without prior notice.
+[Quaspy](https://github.com/ekera/quaspy) was developed for academic research purposes. It grew out of our research project in an organic manner as research questions were posed and answered. It is distributed "as is" without warranty of any kind, either expressed or implied. For further details, see the [license](LICENSE.md).
 
 ## Prerequisites
 To install [Python3](https://www.python.org) under [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04), along with required dependencies, execute:
@@ -50,18 +44,17 @@ For other Linux and Unix distributions, or operating systems, you may need to [d
 To install the [Quaspy](https://github.com/ekera/quaspy) library, execute:
 
 ```console
-$ pip3 install dist/quaspy-0.9.0-py3-none-any.whl
+$ pip3 install dist/quaspy-0.9.2-py3-none-any.whl
 ```
 
-As mentioned above, [Quaspy](https://github.com/ekera/quaspy) is a work in progress, and has not yet been published to the [Python3](https://www.python.org) repository.
-In the future, once [Quaspy](https://github.com/ekera/quaspy) is published, you will be able to install [Quaspy](https://github.com/ekera/quaspy) by executing:
+You may also install [Quaspy](https://github.com/ekera/quaspy) via [Pip3](https://pypi.org) by executing:
 
 ```console
 $ pip3 install quaspy
 ```
 
 ## Examples
-For examples that illustrate how to use the [Quaspy](https://github.com/ekera/quaspy) library, please see the [<code>examples</code>](examples) directory.
+For examples that illustrate how to use [Quaspy](https://github.com/ekera/quaspy), please see the [<code>examples</code>](examples) directory.
 
 See also the [documentation](docs/README.md) for [Quaspy](https://github.com/ekera/quaspy) for help on how to use the library.
 

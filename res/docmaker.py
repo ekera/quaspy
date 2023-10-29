@@ -82,8 +82,12 @@ def fixup(paragraph):
 
   citations["factoritall repository"] = \
     "https://www.github.com/ekera/factoritall";
+  citations["Factoritall repository"] = \
+    "https://www.github.com/ekera/factoritall";
 
   citations["qunundrum repository"] = \
+    "https://www.github.com/ekera/qunundrum";
+  citations["Qunundrum repository"] = \
     "https://www.github.com/ekera/qunundrum";
 
   for key in citations.keys():

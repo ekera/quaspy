@@ -1,4 +1,5 @@
-""" @brief  The root module for the Quaspy library.
+""" @brief  The root module for the Quaspy (Quantum algorithm simulations in
+            Python) library for Python3.
 
     Quaspy contains modules that implement:
 
@@ -27,20 +28,35 @@
       post-processing in [E23p] that factors random RSA integers in a single run
       with very high probability of success.
 
-    Quaspy does not implement support for tradeoffs in the aforementioned
-    algorithms. Support for tradeoffs may potentially be added in the future.
-    For the time being, see instead the qunundrum repository (see
+    All modules, classes, methods and functions in Quaspy are documented using
+    Python3 docstrings (see https://github.com/ekera/quaspy/blob/main/docs).
+
+    Note that Quaspy does not implement support for tradeoffs in the
+    aforementioned algorithms. Support for tradeoffs may potentially be added in
+    the future. For the time being, see instead the Qunundrum repository (see
     https://www.github.com/ekera/qunundrum) with its suite of MPI programs.
 
-    Portions of Quaspy are inherited from the factoritall repository (see
-    https://www.github.com/ekera/factoritall).
+    Note furthermore that portions of Quaspy are inherited from the Factoritall
+    repository (see https://www.github.com/ekera/factoritall).
 
-    Quaspy is a work in progress. Quaspy is not yet published via Pip3, and may
-    be subject to major changes without prior notice.
+    Quaspy is a work in progress, and may be subject to major changes without
+    prior notice. Quaspy was developed for academic research purposes. It grew
+    out of our research project in an organic manner as research questions were
+    posed and answered. It is distributed "as is" without warranty of any kind,
+    either expressed or implied. For further details, see the license (see
+    https://github.com/ekera/quaspy/blob/main/LICENSE.md).
+
+    Quaspy was developed by Martin Ekerå, in part at KTH, the Royal Institute of
+    Technology, in Stockholm, Sweden. Valuable comments and advice were provided
+    by Johan Håstad throughout the development process. Funding and support was
+    provided by the Swedish NCSA that is a part of the Swedish Armed Forces.
+
+    For further details on Quaspy, see the Quaspy repository on GitHub
+    (available at https://github.com/ekera/quaspy).
 
     [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
                           Logarithms and Factoring".
-                         In: Proceedings from FOCS '94, pp. 124–134 (1994).
+                          In: Proceedings from FOCS '94, pp. 124–134 (1994).
 
     [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                       Discrete Logarithms and Factoring RSA
@@ -57,10 +73,10 @@
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
-                      Quantum Inf. Process. 20(6):205 (2021).
+                       Quantum Inf. Process. 20(6):205 (2021).
 
     [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                      ArXiv 2201.07791 (2022).
+                       ArXiv 2201.07791 (2022).
 
     [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                        the short DLP". ArXiv 2309.01754 (2023). """
