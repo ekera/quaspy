@@ -3,7 +3,7 @@
             discrete logarithm d in a group of known order r. """
 
 from ..sampling import sample_j_k_given_d_r_heuristic as \
-  sample_j_k_for_d_r_heuristic_general;
+  sample_j_k_given_d_r_heuristic_general;
 
 from ..sampling import B_DEFAULT_DELTA;
 from ..sampling import B_DEFAULT_ETA;
@@ -62,7 +62,7 @@ def sample_j_k_given_d_r_heuristic(
                 because the upper bound on the offset from the optimal frequency
                 k0(j) or on eta were reached. """
 
-  return sample_j_k_for_d_r_heuristic_general(
+  return sample_j_k_given_d_r_heuristic_general(
            d = d,
            r = r,
            m = m,
