@@ -53,7 +53,7 @@ To install the [Quaspy](https://github.com/ekera/quaspy) library, execute:
 $ pip3 install dist/quaspy-0.9.0-py3-none-any.whl
 ```
 
-As mentioned above, [Quaspy](https://github.com/ekera/quaspy) is a work in progress, and has not yet benn published to the [Python3](https://www.python.org) repository.
+As mentioned above, [Quaspy](https://github.com/ekera/quaspy) is a work in progress, and has not yet been published to the [Python3](https://www.python.org) repository.
 In the future, once [Quaspy](https://github.com/ekera/quaspy) is published, you will be able to install [Quaspy](https://github.com/ekera/quaspy) by executing:
 
 ```console
