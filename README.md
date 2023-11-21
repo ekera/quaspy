@@ -5,23 +5,23 @@ The [Quaspy](https://github.com/ekera/quaspy) (<i>Quantum algorithm simulations 
 
 - Simulators for the quantum part of Shor's order-finding algorithm [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), modified as in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), and the classical post-processing in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791) that recovers the order in a single run with very high success probability.
 
-   [Examples](examples/orderfinding.ipynb) | [Documentation](docs/orderfinding/general/README.md)
+   [Examples](examples/orderfinding.ipynb) | [Documentation](docs/orderfinding/general/README.md) | [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/orderfinding.ipynb)
 
 - Simulators for factoring general integers via order-finding, and the post-processing in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1) and [[E22p]](https://doi.org/10.48550/arXiv.2201.07791) that factors any integer completely in a single order-finding run with very high success probability.
 
-   [Examples](examples/factoring.ipynb) | [Documentation](docs/factoring/general/README.md)
+   [Examples](examples/factoring.ipynb) | [Documentation](docs/factoring/general/README.md) | [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/factoring.ipynb)
 
 - Simulators for the quantum part of Shor's algorithm for computing general discrete logarithms [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), modified as in [[E19p]](https://doi.org/10.48550/arXiv.1905.09084), and the post-processing in [[E19p]](https://doi.org/10.48550/arXiv.1905.09084) that recovers the logarithm given the order in a single run with very high probability of success.
 
-   [Examples](examples/logarithmfinding.ipynb) | [Documentation](docs/logarithmfinding/general/README.md)
+   [Examples](examples/logarithmfinding.ipynb) | [Documentation](docs/logarithmfinding/general/README.md) | [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/logarithmfinding.ipynb)
 
 - Simulators for the quantum part of Ekerå–Håstad's algorithm for computing short discrete logarithms [[EH17]](https://doi.org/10.1007/978-3-319-59879-6_20), modified as in [[E20]](https://doi.org/10.1007/s10623-020-00783-2) and [[E23p]](https://doi.org/10.48550/arXiv.2309.01754), and the post-processing in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754) that recovers the logarithm in a single run with very high probability of success. This algorithm does not require the order to be known.
 
-   [Examples](examples/logarithmfinding-short.ipynb) | [Documentation](docs/logarithmfinding/short/README.md)
+   [Examples](examples/logarithmfinding-short.ipynb) | [Documentation](docs/logarithmfinding/short/README.md) | [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/logarithmfinding-short.ipynb)
 
 - Simulators for factoring RSA integers via short discrete logarithms, by using the reduction in [[EH17]](https://doi.org/10.1007/978-3-319-59879-6_20), modified as in [[E20]](https://doi.org/10.1007/s10623-020-00783-2) and [[E23p]](https://doi.org/10.48550/arXiv.2309.01754), and the post-processing in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754) that factors random RSA integers in a single run with very high probability of success.
 
-   [Examples](examples/factoring-rsa.ipynb) | [Documentation](docs/factoring/rsa/README.md)
+   [Examples](examples/factoring-rsa.ipynb) | [Documentation](docs/factoring/rsa/README.md) | [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/factoring-rsa.ipynb)
 
 All modules, classes, methods and functions in [Quaspy](https://github.com/ekera/quaspy) are [documented](docs/README.md) using [Python3](https://www.python.org) docstrings.
 
