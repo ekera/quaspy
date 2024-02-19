@@ -29,6 +29,8 @@ B_DEFAULT_DELTA = 1000;
 
 B_DEFAULT_ETA = 10000;
 
+DEFAULT_INTEGRATION_STEPS = 128;
+
 def sample_j_k_given_d_r_heuristic(
   d,
   r,
@@ -37,6 +39,7 @@ def sample_j_k_given_d_r_heuristic(
   l,
   B_DELTA = B_DEFAULT_DELTA,
   B_ETA = B_DEFAULT_ETA,
+  integration_steps = DEFAULT_INTEGRATION_STEPS,
   verbose = False,
   extended_result = False):
 
@@ -72,6 +75,9 @@ def sample_j_k_given_d_r_heuristic(
                       frequency k0(j) when sampling k given j and eta.
 
       @param B_ETA  A parameter that upper-bounds eta when sampling j and eta.
+
+      @param integration_steps  The number of steps to perform when integrating
+                                the probability distribution.
 
       @param verbose  A flag that may be set to True to print intermediary
                       results when sampling.
@@ -143,7 +149,7 @@ def sample_j_k_given_d_r_heuristic(
     # Return the probability.
     return probability;
 
-  def sample_j_eta(steps = 128):
+  def sample_j_eta(steps = integration_steps):
     # Define the precision.
     precision = 3 * (m + sigma);
     if precision < 256:
@@ -181,11 +187,12 @@ def sample_j_k_given_d_r_heuristic(
             step = mpz(mpfr_round(mpfr(base) / mpfr(steps)));
 
             for t in range(0, steps):
-              # Positive angles.
+              # Positive angles. Use Simpson's method.
               p1 = P_alpha_r(base + step * (t    ), r, m, sigma, eta);
+              pm = P_alpha_r(base + step * (t + mpfr(1 / 2)), r, m, sigma, eta);
               p2 = P_alpha_r(base + step * (t + 1), r, m, sigma, eta);
 
-              probability = step * (p1 + p2) / 2;
+              probability = step * (p1 + 4 * pm + p2) / 6;
               pivot -= probability;
 
               if pivot <= 0:
@@ -193,11 +200,13 @@ def sample_j_k_given_d_r_heuristic(
                 return [base + step * (t    ), \
                         base + step * (t + 1), eta];
 
-              # Negative angles.
+              # Negative angles. Use Simpson's method.
               p1 = P_alpha_r(-(base + step * (t    )), r, m, sigma, eta);
+              pm = P_alpha_r(-(base + \
+                                 step * (t + mpfr(1 / 2))), r, m, sigma, eta);
               p2 = P_alpha_r(-(base + step * (t + 1)), r, m, sigma, eta);
 
-              probability = step * (p1 + p2) / 2;
+              probability = step * (p1 + 4 * pm + p2) / 6;
               pivot -= probability;
 
               if pivot <= 0:

@@ -9,6 +9,7 @@ from ..sampling import sample_j_k_given_d_r_heuristic as \
 
 from ..sampling import B_DEFAULT_DELTA;
 from ..sampling import B_DEFAULT_ETA;
+from ..sampling import DEFAULT_INTEGRATION_STEPS;
 
 def sample_j_k_given_d_r_heuristic(
   d,
@@ -18,6 +19,7 @@ def sample_j_k_given_d_r_heuristic(
   l,
   B_DELTA = B_DEFAULT_DELTA,
   B_ETA = B_DEFAULT_ETA,
+  integration_steps = DEFAULT_INTEGRATION_STEPS,
   verbose = False,
   extended_result = False):
 
@@ -51,6 +53,9 @@ def sample_j_k_given_d_r_heuristic(
 
       @param B_ETA  A parameter that upper-bounds eta when sampling j and eta.
 
+      @param integration_steps  The number of steps to perform when integrating
+                                the probability distribution.
+
       @param verbose  A flag that may be set to True to print intermediary
                       results when sampling.
 
@@ -72,5 +77,6 @@ def sample_j_k_given_d_r_heuristic(
            l = l,
            B_DELTA = B_DELTA,
            B_DEFAULT_ETA = B_ETA,
+          integration_steps = integration_steps,
            verbose = verbose,
            extended_result = extended_result);
