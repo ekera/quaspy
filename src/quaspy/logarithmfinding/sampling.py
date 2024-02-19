@@ -147,7 +147,7 @@ def sample_j_k_given_d_r_heuristic(
 
     log2_r = mpz(mpfr_ceil(mpfr_log(r) / mpfr_log(2)));
 
-    for abs_eta in range(0, B_ETA):
+    for abs_eta in range(0, B_ETA + 1):
       for sign_eta in [1, -1]:
 
         if (abs_eta == 0) and (sign_eta == -1):
@@ -252,7 +252,7 @@ def sample_j_k_given_d_r_heuristic(
   if verbose:
     print("Sampling k...");
 
-  for offset in range(B_DELTA):
+  for offset in range(B_DELTA + 1):
     for sign in [1, -1]:
       if (0 == offset) and (-1 == sign):
         continue;
