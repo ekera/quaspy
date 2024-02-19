@@ -254,6 +254,7 @@ def sample_j_k_given_d_r_heuristic(
 
   for offset in range(B_DELTA + 1):
     for sign in [1, -1]:
+
       if (0 == offset) and (-1 == sign):
         continue;
 
@@ -264,7 +265,7 @@ def sample_j_k_given_d_r_heuristic(
       phi = (2 * mpfr_const_pi(precision) * phi) / mpz(2 ** (m + sigma));
 
       # Use that 2 sin^2(x / 2) = 1 - cos(x) for improved stability:
-      # probability  = (mpfr_cos(phi * mpz(2 ** l)) - 1) / (mpfr_cos(phi) - 1);
+      # probability = (mpfr_cos(phi * mpz(2 ** l)) - 1) / (mpfr_cos(phi) - 1);
       probability  = (mpfr_sin(phi * mpz(2 ** l) / 2) ** 2) / \
         (mpfr_sin(phi / 2) ** 2);
       probability /= mpz(2 ** (2 * l));
