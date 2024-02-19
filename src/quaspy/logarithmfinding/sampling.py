@@ -42,7 +42,7 @@ def sample_j_k_given_d_r_heuristic(
 
   """ @brief  Samples a frequency pair (j, k) heuristically from the
               distribution induced by Shor's quantum algorithm for finding a
-              given short discrete logarithm d in a group of known order r, or
+              given discrete logarithm d in a group of known order r, or
               from the distribution induced by Ekerå–Håstad's and Ekerå's
               quantum algorithms, depending on how parameters are selected.
 
@@ -63,7 +63,7 @@ def sample_j_k_given_d_r_heuristic(
 
       @param sigma  An non-negative integer sigma such that m + sigma is the
                     length of the first control register in the quantum
-                    algorithm. It is required that r < 2^(m + sigma).
+                    algorithm.
 
       @param l  A positive integer l such that l is the length of the second
                 control register in the quantum algorithm.
@@ -87,8 +87,14 @@ def sample_j_k_given_d_r_heuristic(
                 k0(j) or on eta were reached. """
 
   # Sanity checks.
-  if (m <= 0) or (not (d < (2 ** m))):
+  if m <= 0:
     raise Exception("Error: Incorrect parameter m.");
+
+  if (r < 2) or (r >= (2 ** m)):
+    raise Exception("Error: Incorrect parameter r.");
+
+  if (d < 1) or (d >= r):
+    raise Exception("Error: Incorrect parameter d.");
 
   if l <= 0:
     raise Exception("Error: Incorrect parameter l.");
@@ -96,8 +102,11 @@ def sample_j_k_given_d_r_heuristic(
   if sigma < 0:
     raise Exception("Error: Incorrect parameter sigma.");
 
-  if 2 ** (m + sigma) <= r:
-    raise Exception("Error: It is required that 2^(m + sigma) > r.");
+  if (B_DELTA < 0):
+    raise Exception("Error: Incorrect parameter B_DELTA.");
+
+  if (B_ETA < 0):
+    raise Exception("Error: Incorrect parameter B_ETA.");
 
   # Define the precision.
   precision = 3 * (m + sigma);

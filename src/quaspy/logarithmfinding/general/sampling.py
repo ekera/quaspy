@@ -1,6 +1,8 @@
 """ @brief  A module for sampling a frequency pair (j, k) heuristically from the
             distribution induced by Shor's quantum algorithm for finding a given
-            discrete logarithm d in a group of known order r. """
+            discrete logarithm d in a group of known order r, or from the
+            distribution induced by Ekerå's quantum algorithm, depending on how
+            parameters are selected. """
 
 from ..sampling import sample_j_k_given_d_r_heuristic as \
   sample_j_k_given_d_r_heuristic_general;
@@ -12,6 +14,7 @@ def sample_j_k_given_d_r_heuristic(
   d,
   r,
   m,
+  sigma,
   l,
   B_DELTA = B_DEFAULT_DELTA,
   B_ETA = B_DEFAULT_ETA,
@@ -20,7 +23,9 @@ def sample_j_k_given_d_r_heuristic(
 
   """ @brief  Samples a frequency pair (j, k) heuristically from the
               distribution induced by Shor's quantum algorithm for finding a
-              given short discrete logarithm d in a group of known order r
+              given discrete logarithm d in a group of known order r, or
+              from the distribution induced by Ekerå's quantum algorithm,
+              depending on how parameters are selected.
 
       The sampling procedure is described in Sect. 5 of [E19p].
 
@@ -32,14 +37,11 @@ def sample_j_k_given_d_r_heuristic(
 
       @param r  The order r.
 
-      @param m  A positive integer m such that r < 2^m when sampling from the
-                distribution induced by Shor's algorithm or Ekerå's algorithm,
-                and such that d < 2^m when sampling from the distribution
-                induced by Ekerå-Håstad's algorithm.
+      @param m  A positive integer m such that r < 2^m.
 
       @param sigma  An non-negative integer sigma such that m + sigma is the
                     length of the first control register in the quantum
-                    algorithm. It is required that r < 2^(m + sigma).
+                    algorithm.
 
       @param l  A positive integer l such that l is the length of the second
                 control register in the quantum algorithm.
@@ -66,7 +68,7 @@ def sample_j_k_given_d_r_heuristic(
            d = d,
            r = r,
            m = m,
-           sigma = l,
+           sigma = sigma,
            l = l,
            B_DELTA = B_DELTA,
            B_DEFAULT_ETA = B_ETA,
