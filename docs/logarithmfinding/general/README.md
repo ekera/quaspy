@@ -16,5 +16,5 @@ import quaspy.logarithmfinding.general
 
 - [<code>sampling</code>](sampling/README.md)
 
-  A module for sampling a frequency pair (j, k) heuristically from the distribution induced by Shor's quantum algorithm for finding a given discrete logarithm d in a group of known order r.
+  A module for sampling a frequency pair (j, k) heuristically from the distribution induced by Shor's quantum algorithm for finding a given discrete logarithm d in a group of known order r, or from the distribution induced by Ekerå's quantum algorithm, depending on how parameters are selected.
 
