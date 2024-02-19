@@ -20,6 +20,7 @@ def sample_j_k_given_d_r_heuristic(d,
                                    l,
                                    B_DELTA = 1000,
                                    B_ETA = 10000,
+                                   integration_steps = 128,
                                    verbose = False,
                                    extended_result = False)
 ```
@@ -34,6 +35,7 @@ def sample_j_k_given_d_r_heuristic(d,
 | l | A positive integer l such that l is the length of the second control register in the quantum algorithm. |
 | B_DELTA | A parameter that upper-bounds the offset from the optimal frequency k0(j) when sampling k given j and eta. |
 | B_ETA | A parameter that upper-bounds eta when sampling j and eta. |
+| integration_steps | The number of steps to perform when integrating the probability distribution. |
 | verbose | A flag that may be set to True to print intermediary results when sampling. |
 | extended_result | A flag that may be set to True to not only return the frequency pair [j, k], but [[j, k], [k0(j), offset, eta]]. |
 
