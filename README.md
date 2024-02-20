@@ -44,7 +44,7 @@ For other Linux and Unix distributions, or operating systems, you may need to [d
 To install the [Quaspy](https://github.com/ekera/quaspy) library, execute:
 
 ```console
-$ pip3 install dist/quaspy-0.9.2-py3-none-any.whl
+$ pip3 install dist/quaspy-0.9.3-py3-none-any.whl
 ```
 
 You may also install [Quaspy](https://github.com/ekera/quaspy) via [Pip3](https://pypi.org) by executing:
