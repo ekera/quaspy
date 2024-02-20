@@ -243,7 +243,8 @@ def solve_j_for_r_tilde_lattice_enumerate(
       @param filtered_r_tilde_candidates  A collection of candidates x for
                                           r_tilde, such that g^(e(x) * x) = 1,
                                           for e(x) some cm-smooth prime power
-                                          product.
+                                          product, and such that x is in the
+                                          integer range [1, 2^m).
 
                                           When e.g. solving not only j, but also
                                           j ± 1, .., j ± B, for r, for B some
@@ -426,37 +427,38 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
     r_tilde_candidate = abs(s1[1]);
 
-    if r_tilde_candidate in filtered_r_tilde_candidates:
-      success = True;
-    else:
-      # Use that mu is an r-multiple to reduce the candidate for r_tilde.
-      reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
-
-      if (reduced_r_tilde_candidate in dismissed_reduced_r_tilde_candidates):
-        # Dismiss the reduced candidate.
-        if verbose:
-          print("Dismissing:", r_tilde_candidate);
+    if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+      if r_tilde_candidate in filtered_r_tilde_candidates:
+        success = True;
       else:
-        # The reduced candidate has not already been dismissed.
-        if verbose:
-          print("Testing the reduced candidate:", \
-            reduced_r_tilde_candidate);
+        # Use that mu is an r-multiple to reduce the candidate for r_tilde.
+        reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
 
-        # Test the reduced candidate.
-        if (x ** reduced_r_tilde_candidate) == 1:
-          success = True;
-
-          # Add r_tilde_candidate to the filtered candidates for r_tilde.
-          filtered_r_tilde_candidates.add(r_tilde_candidate);
-
-          # We know that reduced_r_tilde_candidate * e is a multiple of r,
-          # so we may update mu to account for this fact:
-          mu = gcd(reduced_r_tilde_candidate * e, mu);
+        if (reduced_r_tilde_candidate in dismissed_reduced_r_tilde_candidates):
+          # Dismiss the reduced candidate.
+          if verbose:
+            print("Dismissing:", r_tilde_candidate);
         else:
-          # Add reduced_r_tilde_candidate to the dismissed reduced
-          # candidates for r_tilde to avoid future exponentiations.
-          dismissed_reduced_r_tilde_candidates.\
-            add(reduced_r_tilde_candidate);
+          # The reduced candidate has not already been dismissed.
+          if verbose:
+            print("Testing the reduced candidate:", \
+              reduced_r_tilde_candidate);
+
+          # Test the reduced candidate.
+          if (x ** reduced_r_tilde_candidate) == 1:
+            success = True;
+
+            # Add r_tilde_candidate to the filtered candidates for r_tilde.
+            filtered_r_tilde_candidates.add(r_tilde_candidate);
+
+            # We know that reduced_r_tilde_candidate * e is a multiple of r,
+            # so we may update mu to account for this fact:
+            mu = gcd(reduced_r_tilde_candidate * e, mu);
+          else:
+            # Add reduced_r_tilde_candidate to the dismissed reduced
+            # candidates for r_tilde to avoid future exponentiations.
+            dismissed_reduced_r_tilde_candidates.\
+              add(reduced_r_tilde_candidate);
 
     gmpy2.get_context().precision = swapped_out_precision;
     return [filtered_r_tilde_candidates,
@@ -523,62 +525,63 @@ def solve_j_for_r_tilde_lattice_enumerate(
         # Compute r_tilde_candidate.
         r_tilde_candidate = abs(i1 * s1[1] + i2 * s2[1]);
 
-        if r_tilde_candidate in filtered_r_tilde_candidates:
-          success = True;
+        if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+          if r_tilde_candidate in filtered_r_tilde_candidates:
+            success = True;
 
-          if accept_multiple:
-            gmpy2.get_context().precision = swapped_out_precision;
-            return [filtered_r_tilde_candidates,
-                    [success,
-                     dismissed_reduced_r_tilde_candidates,
-                     mu,
-                     multiples]];
-        else:
-          # Use that mu is an r-multiple to reduce the candidate for r_tilde.
-          reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
-
-          if (reduced_r_tilde_candidate in \
-            dismissed_reduced_r_tilde_candidates):
-            # Dismiss the reduced candidate.
-            if verbose:
-              print("Dismissing:", r_tilde_candidate);
+            if accept_multiple:
+              gmpy2.get_context().precision = swapped_out_precision;
+              return [filtered_r_tilde_candidates,
+                      [success,
+                       dismissed_reduced_r_tilde_candidates,
+                       mu,
+                       multiples]];
           else:
-            # The reduced candidate has not already been dismissed.
-            if verbose:
-              print("Testing the candidate:", i1, i2, \
-                reduced_r_tilde_candidate, r_tilde_candidate);
+            # Use that mu is an r-multiple to reduce the candidate for r_tilde.
+            reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
 
-            # Test the reduced candidate.
-            if partial_exponentiation:
-              if x_basis == None:
-                  x_basis = [x ** s1[1], x ** s2[1]];
-
-              z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
+            if (reduced_r_tilde_candidate in \
+              dismissed_reduced_r_tilde_candidates):
+              # Dismiss the reduced candidate.
+              if verbose:
+                print("Dismissing:", r_tilde_candidate);
             else:
-              z = x ** reduced_r_tilde_candidate;
+              # The reduced candidate has not already been dismissed.
+              if verbose:
+                print("Testing the candidate:", i1, i2, \
+                  reduced_r_tilde_candidate, r_tilde_candidate);
 
-            if z == 1:
-              success = True;
+              # Test the reduced candidate.
+              if partial_exponentiation:
+                if x_basis == None:
+                    x_basis = [x ** s1[1], x ** s2[1]];
 
-              # Add r_tilde_candidate to the filtered candidates for r_tilde.
-              filtered_r_tilde_candidates.add(r_tilde_candidate);
+                z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
+              else:
+                z = x ** reduced_r_tilde_candidate;
 
-              if accept_multiple:
-                gmpy2.get_context().precision = swapped_out_precision;
-                return [filtered_r_tilde_candidates,
-                        [success,
-                         dismissed_reduced_r_tilde_candidates,
-                         mu,
-                         multiples]];
+              if z == 1:
+                success = True;
 
-              # We know that reduced_r_tilde_candidate * e is a multiple of r,
-              # so we may update mu to account for this fact:
-              mu = gcd(reduced_r_tilde_candidate * e, mu);
-            else:
-              # Add reduced_r_tilde_candidate to the dismissed reduced
-              # candidates for r_tilde to avoid future exponentiations.
-              dismissed_reduced_r_tilde_candidates.\
-                add(reduced_r_tilde_candidate);
+                # Add r_tilde_candidate to the filtered candidates for r_tilde.
+                filtered_r_tilde_candidates.add(r_tilde_candidate);
+
+                if accept_multiple:
+                  gmpy2.get_context().precision = swapped_out_precision;
+                  return [filtered_r_tilde_candidates,
+                          [success,
+                           dismissed_reduced_r_tilde_candidates,
+                           mu,
+                           multiples]];
+
+                # We know that reduced_r_tilde_candidate * e is a multiple of r,
+                # so we may update mu to account for this fact:
+                mu = gcd(reduced_r_tilde_candidate * e, mu);
+              else:
+                # Add reduced_r_tilde_candidate to the dismissed reduced
+                # candidates for r_tilde to avoid future exponentiations.
+                dismissed_reduced_r_tilde_candidates.\
+                  add(reduced_r_tilde_candidate);
 
       if s1f[0] >= 0:
         if uf[0] >=  pow2mf:
@@ -630,62 +633,63 @@ def solve_j_for_r_tilde_lattice_enumerate(
         # Compute r_tilde_candidate.
         r_tilde_candidate = abs(i1 * s1[1] + i2 * s2[1]);
 
-        if r_tilde_candidate in filtered_r_tilde_candidates:
-          success = True;
+        if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+          if r_tilde_candidate in filtered_r_tilde_candidates:
+            success = True;
 
-          if accept_multiple:
-            gmpy2.get_context().precision = swapped_out_precision;
-            return [filtered_r_tilde_candidates,
-                    [success,
-                     dismissed_reduced_r_tilde_candidates,
-                     mu,
-                     multiples]];
-        else:
-          # Use that mu is an r-multiple to reduce the candidate for r_tilde.
-          reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
-
-          if (reduced_r_tilde_candidate in \
-            dismissed_reduced_r_tilde_candidates):
-            # Dismiss the reduced candidate.
-            if verbose:
-              print("Dismissing:", r_tilde_candidate);
+            if accept_multiple:
+              gmpy2.get_context().precision = swapped_out_precision;
+              return [filtered_r_tilde_candidates,
+                      [success,
+                       dismissed_reduced_r_tilde_candidates,
+                       mu,
+                       multiples]];
           else:
-            # The reduced candidate has not already been dismissed.
-            if verbose:
-              print("Testing the candidate:", i1, i2, \
-                reduced_r_tilde_candidate, r_tilde_candidate);
+            # Use that mu is an r-multiple to reduce the candidate for r_tilde.
+            reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
 
-            # Test the reduced candidate.
-            if partial_exponentiation:
-              if x_basis == None:
-                  x_basis = [x ** s1[1], x ** s2[1]];
-
-              z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
+            if (reduced_r_tilde_candidate in \
+              dismissed_reduced_r_tilde_candidates):
+              # Dismiss the reduced candidate.
+              if verbose:
+                print("Dismissing:", r_tilde_candidate);
             else:
-              z = x ** reduced_r_tilde_candidate;
+              # The reduced candidate has not already been dismissed.
+              if verbose:
+                print("Testing the candidate:", i1, i2, \
+                  reduced_r_tilde_candidate, r_tilde_candidate);
 
-            if z == 1:
-              success = True;
+              # Test the reduced candidate.
+              if partial_exponentiation:
+                if x_basis == None:
+                    x_basis = [x ** s1[1], x ** s2[1]];
 
-              # Add r_tilde_candidate to the filtered candidates for r_tilde.
-              filtered_r_tilde_candidates.add(r_tilde_candidate);
+                z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
+              else:
+                z = x ** reduced_r_tilde_candidate;
 
-              if accept_multiple:
-                gmpy2.get_context().precision = swapped_out_precision;
-                return [filtered_r_tilde_candidates,
-                        [success,
-                         dismissed_reduced_r_tilde_candidates,
-                         mu,
-                         multiples]];
+              if z == 1:
+                success = True;
 
-              # We know that reduced_r_tilde_candidate * e is a multiple of r,
-              # so we may update mu to account for this fact:
-              mu = gcd(reduced_r_tilde_candidate * e, mu);
-            else:
-              # Add reduced_r_tilde_candidate to the dismissed reduced
-              # candidates for r_tilde to avoid future exponentiations.
-              dismissed_reduced_r_tilde_candidates.\
-                add(reduced_r_tilde_candidate);
+                # Add r_tilde_candidate to the filtered candidates for r_tilde.
+                filtered_r_tilde_candidates.add(r_tilde_candidate);
+
+                if accept_multiple:
+                  gmpy2.get_context().precision = swapped_out_precision;
+                  return [filtered_r_tilde_candidates,
+                          [success,
+                           dismissed_reduced_r_tilde_candidates,
+                           mu,
+                           multiples]];
+
+                # We know that reduced_r_tilde_candidate * e is a multiple of r,
+                # so we may update mu to account for this fact:
+                mu = gcd(reduced_r_tilde_candidate * e, mu);
+              else:
+                # Add reduced_r_tilde_candidate to the dismissed reduced
+                # candidates for r_tilde to avoid future exponentiations.
+                dismissed_reduced_r_tilde_candidates.\
+                  add(reduced_r_tilde_candidate);
 
       if s1f[0] <= 0:
         if uf[0] >=  pow2mf:

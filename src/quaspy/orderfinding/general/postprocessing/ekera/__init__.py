@@ -295,9 +295,12 @@ def solve_j_for_r(
         success = False;
 
         # Solve for r_tilde.
-        [r_tilde_candidates, multiples] = \
+        [r_tilde_candidate, multiples] = \
           solve_j_for_r_tilde_lattice_svp(offset_j, m, l, multiples);
-        r_tilde_candidates = [r_tilde_candidates];
+        if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+          r_tilde_candidates = [r_tilde_candidate];
+        else:
+          r_tilde_candidates = [];
 
         # Update the guess for the row multiples.
         if offset == 0:
@@ -354,8 +357,12 @@ def solve_j_for_r(
         success = False;
 
         # Solve for r_tilde.
-        r_tilde_candidates = \
-          [solve_j_for_r_tilde_continued_fractions(offset_j, m, l)];
+        r_tilde_candidate = \
+          solve_j_for_r_tilde_continued_fractions(offset_j, m, l);
+        if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+          r_tilde_candidates = [r_tilde_candidate];
+        else:
+          r_tilde_candidates = [];
 
       else:
         raise Exception("Error: Incorrect parameters: Unknown method.");
