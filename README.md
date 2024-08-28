@@ -1,7 +1,7 @@
 ![Quaspy](docs/quaspy.png)
 
-# The Quaspy library for Python3
-The [Quaspy](https://github.com/ekera/quaspy) (<i>Quantum algorithm simulations in Python</i>) library for [Python3](https://www.python.org) contains modules that implement:
+# The Quaspy library for Python
+The [Quaspy](https://github.com/ekera/quaspy) (<i>Quantum algorithm simulations in Python</i>) library for [Python](https://www.python.org) contains modules that implement:
 
 - Simulators for the quantum part of Shor's order-finding algorithm [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), modified as in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), and the classical post-processing in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791) that recovers the order in a single run with very high success probability.
 
@@ -23,7 +23,7 @@ The [Quaspy](https://github.com/ekera/quaspy) (<i>Quantum algorithm simulations 
 
    [Examples](examples/factoring-rsa.ipynb) | [Documentation](docs/factoring/rsa/README.md) | [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/factoring-rsa.ipynb)
 
-All modules, classes, methods and functions in [Quaspy](https://github.com/ekera/quaspy) are [documented](docs/README.md) using [Python3](https://www.python.org) docstrings.
+All modules, classes, methods and functions in [Quaspy](https://github.com/ekera/quaspy) are [documented](docs/README.md) using [Python](https://www.python.org) docstrings.
 
 Note that [Quaspy](https://github.com/ekera/quaspy) does not implement support for tradeoffs in the aforementioned algorithms. Support for tradeoffs may potentially be added in the future. For the time being, see instead the [Qunundrum](https://www.github.com/ekera/qunundrum) repository with its suite of MPI programs. Note furthermore that portions of [Quaspy](https://github.com/ekera/quaspy) are inherited from the [Factoritall](https://www.github.com/ekera/factoritall) repository.
 
@@ -31,14 +31,14 @@ Note that [Quaspy](https://github.com/ekera/quaspy) does not implement support f
 [Quaspy](https://github.com/ekera/quaspy) was developed for academic research purposes. It grew out of our research project in an organic manner as research questions were posed and answered. It is distributed "as is" without warranty of any kind, either expressed or implied. For further details, see the [license](LICENSE.md).
 
 ## Prerequisites
-To install [Python3](https://www.python.org) under [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04), along with required dependencies, execute:
+To install [Python](https://www.python.org) under [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04), along with required dependencies, execute:
 
 ```console
 $ sudo apt install python3 python3-pip python3-venv
 $ sudo apt install libgmp-dev libmpfr-dev libmpc-dev
 ```
 
-For other Linux and Unix distributions, or operating systems, you may need to [download Python3](https://www.python.org/download) and install it manually along with the required dependencies.
+For other Linux and Unix distributions, or operating systems, you may need to [download Python](https://www.python.org/download) and install it manually along with the required dependencies.
 
 ### Installing the library
 To install the [Quaspy](https://github.com/ekera/quaspy) library, execute:

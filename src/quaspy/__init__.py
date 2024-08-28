@@ -1,5 +1,5 @@
 """ @brief  The root module for the Quaspy (Quantum algorithm simulations in
-            Python) library for Python3.
+            Python) library for Python.
 
     Quaspy contains modules that implement:
 
@@ -29,7 +29,7 @@
       with very high probability of success.
 
     All modules, classes, methods and functions in Quaspy are documented using
-    Python3 docstrings (see https://github.com/ekera/quaspy/blob/main/docs).
+    Python docstrings (see https://github.com/ekera/quaspy/blob/main/docs).
 
     Note that Quaspy does not implement support for tradeoffs in the
     aforementioned algorithms. Support for tradeoffs may potentially be added in

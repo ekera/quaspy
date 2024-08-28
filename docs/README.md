@@ -1,5 +1,5 @@
 ## Module: <code>quaspy</code>
-The root module for the [Quaspy](https://github.com/ekera/quaspy) (Quantum algorithm simulations in Python) library for Python3.
+The root module for the [Quaspy](https://github.com/ekera/quaspy) (Quantum algorithm simulations in Python) library for Python.
 
 [Quaspy](https://github.com/ekera/quaspy) contains modules that implement:
 
@@ -13,7 +13,7 @@ The root module for the [Quaspy](https://github.com/ekera/quaspy) (Quantum algor
 
 - Simulators for factoring RSA integers via short discrete logarithms, by using the reduction in [[EH17]](https://doi.org/10.1007/978-3-319-59879-6_20), modified as in [[E20]](https://doi.org/10.1007/s10623-020-00783-2) and [[E23p]](https://doi.org/10.48550/arXiv.2309.01754), and the post-processing in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754) that factors random RSA integers in a single run with very high probability of success.
 
-All modules, classes, methods and functions in [Quaspy](https://github.com/ekera/quaspy) are documented using Python3 docstrings (see https://github.com/ekera/quaspy/blob/main/docs).
+All modules, classes, methods and functions in [Quaspy](https://github.com/ekera/quaspy) are documented using Python docstrings (see https://github.com/ekera/quaspy/blob/main/docs).
 
 Note that [Quaspy](https://github.com/ekera/quaspy) does not implement support for tradeoffs in the aforementioned algorithms. Support for tradeoffs may potentially be added in the future. For the time being, see instead the [Qunundrum repository](https://www.github.com/ekera/qunundrum) (see https://www.github.com/ekera/qunundrum) with its suite of MPI programs.
 

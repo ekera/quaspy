@@ -342,7 +342,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
 
   # Enforce default. Note: We cannot use CandidateCollection() or set() as
-  # defaults in the prototype because Python3 caches these collections/sets.
+  # defaults in the prototype because Python caches these collections/sets.
   if filtered_r_tilde_candidates == None:
     filtered_r_tilde_candidates = CandidateCollection();
 
