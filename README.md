@@ -1,6 +1,6 @@
 ![Quaspy](docs/quaspy.png)
 
-# Quaspy
+# The Quaspy library for Python3
 The [Quaspy](https://github.com/ekera/quaspy) (<i>Quantum algorithm simulations in Python</i>) library for [Python3](https://www.python.org) contains modules that implement:
 
 - Simulators for the quantum part of Shor's order-finding algorithm [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), modified as in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), and the classical post-processing in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791) that recovers the order in a single run with very high success probability.
