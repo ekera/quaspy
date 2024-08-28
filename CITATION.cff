@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you cite this software, please cite it as below."
+authors:
+- family-names: "Ekerå"
+  given-names: "Martin"
+  orcid: "https://orcid.org/0000-0002-7061-2374"
+title: "The Quaspy library for Python"
+version: 0.9.3
+date-released: 2024-02-20
+url: "https://github.com/ekera/quaspy"
