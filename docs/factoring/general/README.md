@@ -1,7 +1,7 @@
 ## Module: <code>general</code>
 A module for factoring general integers.
 
-This module uses Shor's order-finding algorithm to factor general integers, as described in [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), with improvements from [[E21b]](https://doi.org/10.1007/s11128-021-03069-1) and [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+This module uses Shor's order-finding algorithm to factor general integers, as described in [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), with improvements from [[E21b]](https://doi.org/10.1007/s11128-021-03069-1) and [[E24]](https://doi.org/10.1145/3655026).
 
 ## Import directive
 ```python

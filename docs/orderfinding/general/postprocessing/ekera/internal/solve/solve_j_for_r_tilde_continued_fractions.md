@@ -1,9 +1,9 @@
 ## Function: <code>solve\_j\_for\_r\_tilde\_continued\_fractions(j, m, l)</code>
-For j = j0(z) an optimal frequency, for m such that r < 2^m and l such that r^2 < 2^(m+l), and any z in [0, r), this function recovers r_tilde = r / d where d = gcd(r, z) by expanding the quotient j / 2^(m+l) in continued fractions and returning the last denominator < 2^((m+l)/2) as described in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+For j = j0(z) an optimal frequency, for m such that r < 2^m and l such that r^2 < 2^(m+l), and any z in [0, r), this function recovers r_tilde = r / d where d = gcd(r, z) by expanding the quotient j / 2^(m+l) in continued fractions and returning the last denominator < 2^((m+l)/2) as described in [[E24]](https://doi.org/10.1145/3655026).
 
-By Lemma 6 in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), this function is guaranteed to return r_tilde provided that the requirements on the input parameters are met.
+By Lemma 4.1 in [[E24]](https://doi.org/10.1145/3655026), this function is guaranteed to return r_tilde provided that the requirements on the input parameters are met.
 
-For further details, see Lemma 6, and Sect. 4 and App. B, of [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+For further details, see Lemma 4.1, and Sect. 4 and App. B, of [[E24]](https://doi.org/10.1145/3655026).
 
 ## Import directive
 ```python

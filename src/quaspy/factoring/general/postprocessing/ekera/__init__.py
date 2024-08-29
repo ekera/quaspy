@@ -6,15 +6,15 @@
     This module furthermore contains convenience functions for first solving
     the frequency j yielded by Shor's order-finding algorithm for a positive
     integer multiple r' of r, and for then solving r' for the complete
-    factorization of N. This by using the algorithms in [E22p] in the first
-    step, and the algorithm in [E21b] in the second step.
+    factorization of N. This by using the algorithms in [E24] in the first step,
+    and the algorithm in [E21b] in the second step.
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
                       Quantum Inf. Process. 20(6):205 (2021).
 
-    [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                      ArXiv 2201.07791 (2022). """
+    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
 from enum import Enum;
 
@@ -140,7 +140,7 @@ def solve_r_for_factors(
       @param c   A parameter c >= 1 that specifies the maximum size of the
                  missing cm-smooth component in lambda'(N) when solving r for
                  the complete factorization of N. In this context, m is the bit
-                 length of N, and cm-smoothness is defined as in [E21b, E22p].
+                 length of N, and cm-smoothness is defined as in [E21b, E24].
 
                  As is explained in [E21b], increasing c increases the success
                  probability, at the expense of increasing the runtime.
@@ -595,14 +595,14 @@ def solve_j_for_factors(
 
               This by using the algorithm in [E21b] to factor N given r, or a
               positive multiple of r, and the post-processing algorithm in
-              [E22p] to find r, or a positive multiple of r, given j.
+              [E24] to find r, or a positive multiple of r, given j.
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
                         Quantum Inf. Process. 20(6):205 (2021).
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022).
+      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       @remark   This convenience function simply calls solve_j_for_r(), and then
                 solve_r_for_factors(), passing along r. To access all options of
@@ -631,7 +631,7 @@ def solve_j_for_factors(
       @param c_solve  A parameter c_solve >= 1 that specifies the maximum size
                       of the missing smooth component d in r = d * r_tilde when
                       solving j for r, or a multiple of r. As is explained in
-                      [E22p], increasing c increases the success probability, at
+                      [E24], increasing c increases the success probability, at
                       the expense of increasing the runtime.
 
       @param c_factor   A parameter c_factor >= 1 that specifies the maximum
@@ -679,12 +679,12 @@ def solve_j_for_factors(
                       post-processing algorithm.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E22p] should be used instead of
+                              Algorithm 2 in [E24] should be used instead of
                               Algorithm 3 to find the missing cm-smooth
                               component of r. In most cases, Algorithm 2 is
                               faster than Algorithm 3, but in the worst case
                               Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E22p].
+                              further details, see [E24].
 
       @return   The set of all distinct prime factors that divide N, or None,
                 if a positive multiple of r could not be found given j. """
@@ -744,14 +744,14 @@ def solve_j_for_factors_mod_N(
 
               This by using the algorithm in [E21b] to factor N given r, or a
               positive multiple of r, and the post-processing algorithm in
-              [E22p] to find r, or a positive multiple of r, given j.
+              [E24] to find r, or a positive multiple of r, given j.
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
                         Quantum Inf. Process. 20(6):205 (2021).
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022).
+      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       @remark   This convenience function simply calls solve_j_for_factors()
                 with g setup by calling IntegerModRingMulSubgroupElement(g, N).
@@ -784,7 +784,7 @@ def solve_j_for_factors_mod_N(
       @param c_solve  A parameter c_solve >= 1 that specifies the maximum size
                       of the missing smooth component d in r = d * r_tilde when
                       solving j for r, or a multiple of r. As is explained in
-                      [E22p], increasing c increases the success probability, at
+                      [E24], increasing c increases the success probability, at
                       the expense of increasing the runtime.
 
       @param c_factor   A parameter c_factor >= 1 that specifies the maximum
@@ -831,12 +831,12 @@ def solve_j_for_factors_mod_N(
                       post-processing algorithm.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E22p] should be used instead of
+                              Algorithm 2 in [E24] should be used instead of
                               Algorithm 3 to find the missing cm-smooth
                               component of r. In most cases, Algorithm 2 is
                               faster than Algorithm 3, but in the worst case
                               Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E22p].
+                              further details, see [E24].
 
       @return   The set of all distinct prime factors that divide N, or None,
                 if a positive multiple of r could not be found given j. """

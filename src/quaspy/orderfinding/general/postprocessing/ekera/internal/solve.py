@@ -26,15 +26,15 @@ def solve_j_for_r_tilde_continued_fractions(j, m, l):
               such that r^2 < 2^(m+l), and any z in [0, r), this function
               recovers r_tilde = r / d where d = gcd(r, z) by expanding the
               quotient j / 2^(m+l) in continued fractions and returning the
-              last denominator < 2^((m+l)/2) as described in [E22p].
+              last denominator < 2^((m+l)/2) as described in [E24].
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022).
+      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      By Lemma 6 in [E22p], this function is guaranteed to return r_tilde
+      By Lemma 4.1 in [E24], this function is guaranteed to return r_tilde
       provided that the requirements on the input parameters are met.
 
-      For further details, see Lemma 6, and Sect. 4 and App. B, of [E22p].
+      For further details, see Lemma 4.1, and Sect. 4 and App. B, of [E24].
 
       @param j  An optimal frequency j0(z), for m and l as passed to this
                 function, and for any z in [0, r).
@@ -64,10 +64,10 @@ def solve_j_for_r_tilde_lattice_svp(j, m, l, multiples = None):
               such that r^2 < 2^(m+l), and any z in [0, r), this function
               recovers r_tilde = r / d where d = gcd(r, z) by finding the
               shortest non-zero vector in a two-dimensional lattice L as
-              described in [E22p].
+              described in [E24].
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022).
+      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       More specifically, this function uses Lagrange's lattice basis reduction
       algorithm to find the shortest non-zero vector
@@ -77,11 +77,11 @@ def solve_j_for_r_tilde_lattice_svp(j, m, l, multiples = None):
       in the lattice L spanned by (j, 1/2) and (2^(m+l), 0), and hence r_tilde,
       as the second component is r_tilde / 2. This function return r_tilde.
 
-      By Lemma 7 in [E22p], provided that r < 2^m and r^2 < 2^(m+l), the second
+      By Lemma 4.2 in [E24], provided that r < 2^m and r^2 < 2^(m+l), the second
       component of the shortest non-zero vector in L has r_tilde / 2 in its
       second component, up to sign of course.
 
-      For further details, see Lemma 7, and Sect. 4 and App. C, of [E22p].
+      For further details, see Lemma 4.2, and Sect. 4 and App. C, of [E24].
 
       @param j  An optimal frequency j0(z), for m and l as passed to this
                 function, and for any z in [0, r).
@@ -150,10 +150,10 @@ def solve_j_for_r_tilde_lattice_enumerate(
               l = m - Delta for some Delta in [0, m), and z in [0, r), this
               function recovers r_tilde = r / d where d = gcd(r, z), provided
               that d is cm-smooth, by enumerating at most 6 * sqrt(3) * 2^Delta)
-              vectors in a two-dimensional lattice L as described in [E22p].
+              vectors in a two-dimensional lattice L as described in [E24].
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       More specifically, this function uses Lagrange's lattice basis reduction
       algorithm to find a reduced basis for the lattice L spanned by (j, 1/2)
@@ -164,11 +164,11 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
       and hence r_tilde, as the second component is r_tilde / 2.
 
-      By Lemma 8 in [E22p], provided that r < 2^m and l = m - Delta, at most
+      By Lemma 4.3 in [E24], provided that r < 2^m and l = m - Delta, at most
       6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and hence
       r_tilde, so if Delta is small then this method is efficient.
 
-      In practice, as mentioned in [E22p], the leading constant in the above
+      In practice, as mentioned in [E24], the leading constant in the above
       bound is not tight, and the enumeration can be optimized. Some of these
       optimizations have been integrated into this implementation, so the
       enumeration typically considers fewer points than the bound indicates.
@@ -177,7 +177,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
                 solve_j_for_r_tilde_continued_fractions(), this function does
                 check that the candidates x for r_tilde returned fulfill the
                 requirement that e(x) * x is a positive multiple of r, where
-                e(x) is cm-smooth by the definition of cm-smooth in [E22p].
+                e(x) is cm-smooth by the definition of cm-smooth in [E24].
 
                 This is necessary as the enumeration may generate a
                 comparatively, and it can also be done efficiently.
@@ -201,7 +201,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
                 CandidateCollection() to the filtered_r_tilde_candidates
                 parameter to ensure all candidates for r_tilde are returned.
 
-      For further details, see Lemma 8, and Sect. 4 and App. C, of [E22p].
+      For further details, see Lemma 4.3, and Sect. 4 and App. C, of [E24].
 
       @param j  An optimal frequency j0(z), for m and l as passed to this
                 function, and for z in [0, r).
@@ -211,7 +211,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
       @param l  A positive integer l <= m, such that m+l is the length of the
                 control register in the quantum order-finding algorithm.
 
-                As is explained in [E22p], it is possible to select l = m-Delta,
+                As is explained in [E24], it is possible to select l = m-Delta,
                 for some Delta in [0, m), at the expense of enumerating at most
                 6 * sqrt(3) * 2^Delta lattice vectors.
 
@@ -223,7 +223,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
       @param c  A parameter c >= 1 that specifies the maximum size of the
                 missing cm-smooth component d in r = d * r_tilde. As is
-                explained in [E22p], increasing c increases the success
+                explained in [E24], increasing c increases the success
                 probability, at the expense of increasing the runtime.
 
       @param accept_multiple  A flag that may be set to True to indicate that
@@ -395,9 +395,9 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
     e = mpz(e);
 
-  # The radius of the circle to enumerate. In [E22p], the radius of the circle
-  # to enumerate is 2^(m - 1/2), which would imply radius2 = 2^(2m - 1). This
-  # bound stems from the fact that the target vector is
+  # The radius of the circle to enumerate. In [E24], the radius of the circle to
+  # enumerate is 2^(m - 1/2), which would imply radius2 = 2^(2m - 1). This bound
+  # stems from the fact that the target vector is
   #
   #   | [alpha_0(z) / d, (r / 2) / d] | <= | [r/2, r/2] | =
   #     sqrt((r/2)^2 + (r/2)^2) = sqrt(r^2 / 2) = r / sqrt(2) <
@@ -421,9 +421,9 @@ def solve_j_for_r_tilde_lattice_enumerate(
   mu = mpz(mu);
 
   if norm2(s2f_orthogonal) >= radius2:
-    # As is stated in [E22p], if | s2_orthogonal | >= radius^2, we have that
-    # the second component of the shortest non-zero vector must be r_tilde / 2
-    # (and we have scaled by factor of two, so the component is now r_tilde).
+    # As is stated in [E24], if | s2_orthogonal | >= radius^2, we have that the
+    # second component of the shortest non-zero vector must be r_tilde / 2 (and
+    # we have scaled by factor of two, so the component is now r_tilde).
 
     r_tilde_candidate = abs(s1[1]);
 

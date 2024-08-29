@@ -12,7 +12,7 @@ import quaspy.orderfinding.general.postprocessing.ekera.internal
 ## Submodules
 - [<code>algorithms</code>](algorithms/README.md)
 
-  A module for implementing Algorithms 1–4 from [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+  A module for implementing Algorithms 1–4 from [[E24]](https://doi.org/10.1145/3655026).
 
 - [<code>collection</code>](collection/README.md)
 

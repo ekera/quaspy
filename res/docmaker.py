@@ -74,6 +74,7 @@ def fixup(paragraph):
   citations["[E21b]"] = "https://doi.org/10.1007/s11128-021-03069-1";
   citations["[E22p]"] = "https://doi.org/10.48550/arXiv.2201.07791";
   citations["[E23p]"] = "https://doi.org/10.48550/arXiv.2309.01754";
+  citations["[E24]"] = "https://doi.org/10.1145/3655026";
 
   citations["[Shor94]"] = "https://doi.org/10.1109/SFCS.1994.365700";
   citations["[Shor97]"] = "https://doi.org/10.1137/S0097539795293172";

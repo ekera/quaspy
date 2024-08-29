@@ -120,12 +120,12 @@ def test_solve_j_for_r(
                       results and status updates when executing the test.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E22p] should be used instead of
+                              Algorithm 2 in [E24] should be used instead of
                               Algorithm 3 to find the missing cm-smooth
                               component of r. In most cases, Algorithm 2 is
                               faster than Algorithm 3, but in the worst case
                               Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E22p].
+                              further details, see [E24].
 
       @param opt_isolate_peak   A flag that may be set to True to indicate that
                                 all offsets in j up to B should not be tested
@@ -145,7 +145,7 @@ def test_solve_j_for_r(
 
                 The test succeeds if the solve_j_for_r() function behaves as
                 expected, i.e. if it succeeds in all cases where it is
-                guaranteed to succeed by the analysis in [E22p], and either
+                guaranteed to succeed by the analysis in [E24], and either
                 succeeds or fails otherwise.
 
                 If the solve_j_for_r() function fails in a case where it is

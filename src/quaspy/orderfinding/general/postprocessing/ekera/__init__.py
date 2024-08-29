@@ -1,10 +1,10 @@
 """ @brief  A module for solving a frequency j yielded by the quantum part of
             Shor's order-finding algorithm for the order r, or optionally for a
             positive integer multiple of r. This by using the post-processing
-            algorithms in [E22p].
+            algorithms in [E24].
 
-    [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                      ArXiv 2201.07791 (2022). """
+    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
 from enum import Enum;
 
@@ -32,7 +32,7 @@ class SolutionMethods(Enum):
 
   """ @brief  An enumeration of methods for solving j for r.
 
-      As is explained in [E22p], these methods are all designed to solve an
+      As is explained in [E24], these methods are all designed to solve an
       optimal frequency j = j0(z), where z in [0, r), for r_tilde = r / d,
       where d = gcd(r, z) and d is cm-smooth. In what follows below, it is
       assumed that these requirements are met.
@@ -43,24 +43,24 @@ class SolutionMethods(Enum):
 
          Expand j / 2^(m+l) in continued fractions to find z / r, and hence
          r_tilde = r / gcd(r, z), as originally proposed in [Shor94], but with
-         slightly smaller m+l, as decribed in [E22p].
+         slightly smaller m+l, as decribed in [E24].
 
-         By Lemma 6 in [E22p], the last convergent p / q with denominator
+         By Lemma 4.1 in [E24], the last convergent p / q with denominator
          q < 2^((m+l)/2) in the continued fractions expansion of j / 2^(m+l) is
          equal to z / r, provided that r < 2^m and r^2 < 2^(m+l).
 
-         For further details, see Lemma 6, and Sect. 4 and App. B, of [E22p].
+         For further details, see Lemma 4.1, and Sect. 4 and App. B, of [E24].
 
       2. LATTICE_BASED_SHORTEST_VECTOR
 
          Use Lagrange's lattice basis reduction algorithm to find the shortest
          non-zero vector in the lattice L spanned by (j, 1/2) and (2^(m+l), 0).
 
-         By Lemma 7 in [E22p], provided that r < 2^m and r^2 < 2^(m+l), the
+         By Lemma 4.2 in [E24], provided that r < 2^m and r^2 < 2^(m+l), the
          second component of the shortest non-zero vector in L has r_tilde / 2
          in its second component, up to sign of course.
 
-         For further details, see Lemma 7, and Sect. 4 and App. C, of [E22p].
+         For further details, see Lemma 4.2, and Sect. 4 and App. C, of [E24].
 
       3. LATTICE_BASED_ENUMERATE
 
@@ -70,23 +70,23 @@ class SolutionMethods(Enum):
          at the origin to find u = (rj - 2^(m+l) z, r / 2) / d, and hence
          r_tilde, as the second component is r_tilde / 2.
 
-         By Lemma 8 in [E22p], provided that r < 2^m and l = m - Delta, at most
+         By Lemma 4.3 in [E24], provided that r < 2^m and l = m - Delta, at most
          6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and
          hence r_tilde, so if Delta is small then this method is efficient.
 
-         In practice, as mentioned in [E22p], the leading constant in the above
+         In practice, as mentioned in [E24], the leading constant in the above
          bound is not tight, and the enumeration can be optimized. Some of these
          optimizations are implemented here so the enumeration typically
          considers fewer vectors than the bound indicates.
 
-         For further details, see Lemma 8, and Sect. 4 and App. C, of [E22p].
+         For further details, see Lemma 4.3, and Sect. 4 and App. C, of [E24].
 
       [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
                             Logarithms and Factoring".
                            In: Proceedings from FOCS '94, pp. 124–134 (1994).
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022). """
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
   CONTINUED_FRACTIONS_BASED = 1;
 
@@ -111,10 +111,10 @@ def solve_j_for_r(
   """ @brief  Attempts to compute the order r of g, or a positive integer
               multiple thereof, given a frequency j yielded by the quantum part
               of Shor's order-finding algorithm, by using the post-processing
-              algorithms described in detail in [E22p].
+              algorithms described in detail in [E24].
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022).
+      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       The idea is to try to solve not only j, but also j ± 1, .., j ± B, for r,
       with the aim of solving an optimal frequency j0(z) for r, for z the peak
@@ -123,7 +123,7 @@ def solve_j_for_r(
         - that j0(z) is solved for r,
 
         - that d = gcd(r, z) is cm-smooth
-          (for the definition of cm-smooth in [E22p]),
+          (for the definition of cm-smooth in [E24]),
 
         - that l is selected as required by the solution method
           (see the documentation for parameter l below), and
@@ -159,9 +159,9 @@ def solve_j_for_r(
 
       @param c  A parameter c >= 1 that specifies the maximum size of the
                 missing cm-smooth component d in r = d * r_tilde when solving j
-                for r, for cm-smooth as defined in [E22p].
+                for r, for cm-smooth as defined in [E24].
 
-                As is explained in [E22p], increasing c increases the success
+                As is explained in [E24], increasing c increases the success
                 probability, at the expense of increasing the runtime.
 
       @param B  A bound B >= 0 on the offset in j. If B > 0, this function tries
@@ -183,12 +183,12 @@ def solve_j_for_r(
                       post-processing algorithm.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E22p] should be used instead of
+                              Algorithm 2 in [E24] should be used instead of
                               Algorithm 3 to find the missing cm-smooth
                               component of r. In most cases, Algorithm 2 is
                               faster than Algorithm 3, but in the worst case
                               Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E22p].
+                              further details, see [E24].
 
       @param opt_isolate_peak   A flag that may be set to True to indicate that
                                 all offsets in j up to B should not be tested
@@ -205,7 +205,7 @@ def solve_j_for_r(
 
       @return   If the accept_multiple flag is set to False, the order r of g
                 is returned with probability >= P, for P as given by the lower
-                bound in [E22p] (provided that the opt_isolate_peak flag is set
+                bound in [E24] (provided that the opt_isolate_peak flag is set
                 to False). Otherwise, None, or exceptionally a positive integer
                 multiple of the order r, is returned. If the accept_multiple
                 flag is set to True, some positive integer multiple of r is
@@ -480,13 +480,13 @@ def solve_j_for_r_mod_N(
   """ @brief  Attempts to compute the order r of g mod N, or a positive integer
               multiple thereof, given a frequency j yielded by the quantum part
               of Shor's order-finding algorithm, by using the post-processing
-              algorithms described in detail in [E22p].
+              algorithms described in detail in [E24].
 
       @remark   This convenience function simply calls solve_j_for_r() with g
                 setup by calling IntegerModRingMulSubgroupElement(g, N).
 
-      [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791 (2022).
+      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       The idea is to try to solve not only j, but also j ± 1, .., j ± B, for r,
       with the aim of solving an optimal frequency j0(z) for r, for z the peak
@@ -495,7 +495,7 @@ def solve_j_for_r_mod_N(
         - that j0(z) is solved for r,
 
         - that d = gcd(r, z) is cm-smooth
-          (for the definition of cm-smooth in [E22p]),
+          (for the definition of cm-smooth in [E24]),
 
         - that l is selected as required by the solution method
           (see the documentation for parameter l below), and
@@ -533,9 +533,9 @@ def solve_j_for_r_mod_N(
 
       @param c  A parameter c >= 1 that specifies the maximum size of the
                 missing cm-smooth component d in r = d * r_tilde when solving j
-                for r, for cm-smooth as defined in [E22p].
+                for r, for cm-smooth as defined in [E24].
 
-                As is explained in [E22p], increasing c increases the success
+                As is explained in [E24], increasing c increases the success
                 probability, at the expense of increasing the runtime.
 
       @param B  A bound B >= 0 on the offset in j. If B > 0, this function tries
@@ -558,12 +558,12 @@ def solve_j_for_r_mod_N(
                       post-processing algorithm.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E22p] should be used instead of
+                              Algorithm 2 in [E24] should be used instead of
                               Algorithm 3 to find the missing cm-smooth
                               component of r. In most cases, Algorithm 2 is
                               faster than Algorithm 3, but in the worst case
                               Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E22p].
+                              further details, see [E24].
 
       @param opt_isolate_peak   A flag that may be set to True to indicate that
                                 all offsets in j up to B should not be tested
@@ -580,7 +580,7 @@ def solve_j_for_r_mod_N(
 
       @return   If the accept_multiple flag is set to False, the order r of g
                 is returned with probability >= P, for P as given by the lower
-                bound in [E22p] (provided that the opt_isolate_peak flag is set
+                bound in [E24] (provided that the opt_isolate_peak flag is set
                 to False). Otherwise, None, or exceptionally a positive integer
                 multiple of the order r, is returned. If the accept_multiple
                 flag is set to True, some positive integer multiple of r is

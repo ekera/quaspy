@@ -1,7 +1,7 @@
 ## Module: <code>ekera</code>
 A module for factoring N completely given the order r of an element g selected uniformly at random from the multiplicative group of the ring of integers modulo N, where g need not be explicitly specified. This by using the algorithm in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1).
 
-This module furthermore contains convenience functions for first solving the frequency j yielded by Shor's order-finding algorithm for a positive integer multiple r' of r, and for then solving r' for the complete factorization of N. This by using the algorithms in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791) in the first step, and the algorithm in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1) in the second step.
+This module furthermore contains convenience functions for first solving the frequency j yielded by Shor's order-finding algorithm for a positive integer multiple r' of r, and for then solving r' for the complete factorization of N. This by using the algorithms in [[E24]](https://doi.org/10.1145/3655026) in the first step, and the algorithm in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1) in the second step.
 
 ## Import directive
 ```python

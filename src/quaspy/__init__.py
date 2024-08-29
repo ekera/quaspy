@@ -4,13 +4,13 @@
     Quaspy contains modules that implement:
 
     - Simulators for the quantum part of Shor's order-finding algorithm
-      [Shor94], modified as in [E22p], and the classical post-processing in
-      [E22p] that recovers the order in a single run with very high success
+      [Shor94], modified as in [E24], and the classical post-processing in [E24]
+      that recovers the order in a single run with very high success
       probability.
 
     - Simulators for factoring general integers via order-finding, and the
-      post-processing in [E21b] and [E22p] that factors any integer completely
-      in a single order-finding run with very high success probability.
+      post-processing in [E21b] and [E24] that factors any integer completely in
+      a single order-finding run with very high success probability.
 
     - Simulators for the quantum part of Shor's algorithm for computing general
       discrete logarithms [Shor94], modified as in [E19p], and the
@@ -75,11 +75,11 @@
                        single run of an order-finding algorithm".
                        Quantum Inf. Process. 20(6):205 (2021).
 
-    [E22p] Ekerå, M.: "On the success probability of quantum order finding".
-                       ArXiv 2201.07791 (2022).
-
     [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                       the short DLP". ArXiv 2309.01754 (2023). """
+                       the short DLP". ArXiv 2309.01754 (2023).
+
+    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
 # Shor's algorithm for splitting N if r is even and g^(r/2) != -1 (mod N).
 from .factoring.general.postprocessing.shor import split_N_given_g_r;
@@ -87,7 +87,7 @@ from .factoring.general.postprocessing.shor import split_N_given_g_r;
 # The algorithm in [E21b] for completely factoring N given r.
 from .factoring.general.postprocessing.ekera import solve_r_for_factors;
 
-# Convenience functions implementing algorithms from [E21b] and [E22p] for first
+# Convenience functions implementing algorithms from [E21b] and [E24] for first
 # solving j for r, and then solving r and N for the complete factorization of N.
 from .factoring.general.postprocessing.ekera import solve_j_for_factors;
 from .factoring.general.postprocessing.ekera import solve_j_for_factors_mod_N;
@@ -109,7 +109,7 @@ from .factoring.rsa import setup_x_given_g_N;
 from .factoring.sampling import sample_g_r_given_N;
 from .factoring.sampling import sample_r_given_N;
 
-# The post-processing algorithms in [E22p] for solving j for r.
+# The post-processing algorithms in [E24] for solving j for r.
 from .orderfinding.general.postprocessing.ekera import solve_j_for_r;
 from .orderfinding.general.postprocessing.ekera import solve_j_for_r_mod_N;
 

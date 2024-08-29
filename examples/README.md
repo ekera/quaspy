@@ -4,12 +4,12 @@ This directory contains [Jupyter](https://jupyter.org) notebooks that exemplify 
 ## Order finding [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/orderfinding.ipynb)
 For examples that illustrate how to use the [Quaspy](https://github.com/ekera/quaspy) library to simulate quantum order finding, and to solve the frequency returned by the quantum part of the order-finding algorithm for the order, please see the [<code>orderfinding.ipynb</code>](orderfinding.ipynb) notebook.
 
-The examples in this notebook are based on the modified version of Shor's algorithm for the order-finding problem described in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), and on the post-processing described in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+The examples in this notebook are based on the modified version of Shor's algorithm for the order-finding problem described in [[E24]](https://doi.org/10.1145/3655026), and on the post-processing described in [[E24]](https://doi.org/10.1145/3655026).
 
 ### Factoring general integers via order finding [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/factoring.ipynb)
 For examples on how to use the [Quaspy](https://github.com/ekera/quaspy) library to simulate factoring general integers via quantum order finding, and to solve the frequency returned by the quantum part of the order-finding algorithm for the factors, please see the [<code>factoring.ipynb</code>](factoring.ipynb) notebook.
 
-The examples in this notebook are based on the modified version of Shor's algorithm for the order-finding problem described in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), and on the post-processing described in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791) and [[E21b]](https://doi.org/10.1007/s11128-021-03069-1).
+The examples in this notebook are based on the modified version of Shor's algorithm for the order-finding problem described in [[E24]](https://doi.org/10.1145/3655026), and on the post-processing described in [[E24]](https://doi.org/10.1145/3655026) and [[E21b]](https://doi.org/10.1007/s11128-021-03069-1).
 
 ## Computing discrete logarithms [<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>](https://colab.research.google.com/github/ekera/quaspy/blob/main/examples/logarithmfinding.ipynb)
 For examples on how to use the [Quaspy](https://github.com/ekera/quaspy) library to heuristically simulate computing discrete logarithms quantumly, and to solve the frequency pair returned by the quantum part of the algorithm for the logarithm, please see the [<code>logarithmfinding.ipynb</code>](logarithmfinding.ipynb) notebook.

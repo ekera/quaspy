@@ -1,9 +1,9 @@
 ## Function: <code>algorithm2(g, r_tilde, m, ..)</code>
 Recovers r, assuming r_tilde is such that r = d * r_tilde where d is cm-smooth.
 
-This function implements Algorithm 2 from [[E22p]](https://doi.org/10.48550/arXiv.2201.07791).
+This function implements Algorithm 2 from [[E24]](https://doi.org/10.1145/3655026).
 
-As in [[E22p]](https://doi.org/10.48550/arXiv.2201.07791), d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for q1, .., qk pairwise distinct primes, and e1, .., ek positive integer exponents, if it holds that qi^ei <= cm for all i in [1, k].
+As in [[E24]](https://doi.org/10.1145/3655026), d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for q1, .., qk pairwise distinct primes, and e1, .., ek positive integer exponents, if it holds that qi^ei <= cm for all i in [1, k].
 
 ## Import directive
 ```python
