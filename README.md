@@ -38,7 +38,7 @@ $ sudo apt install python3 python3-pip python3-venv
 $ sudo apt install libgmp-dev libmpfr-dev libmpc-dev
 ```
 
-For other Linux and Unix distributions, or operating systems, you may need to [download Python](https://www.python.org/download) and install it manually along with the required dependencies.
+For other Linux and Unix distributions, or operating systems, you may need to [download Python](https://www.python.org/downloads) and install it manually along with the required dependencies.
 
 ### Installing the library
 To install the [Quaspy](https://github.com/ekera/quaspy) library, execute:
