@@ -7,11 +7,11 @@ def gram_schmidt(A):
   """ @brief  Returns the Gram–Schmidt orthogonalization of a 2 x 2 matrix A.
 
       The basis matrix A is represented as a list [a1, a2], where
-      a = [a_11, a_22] and a2 = [a_21, a_22] are the two row vectors that form
+      a1 = [a_11, a_12] and a2 = [a_21, a_22] are the two row vectors that form
       the basis. It is required that A has integer entries.
 
       @param A  The 2 x 2 integer basis matrix A = [a1, a2], where
-                a1 = [a_11, a_22] and a2 = [a_21, a_22] are the two row vectors
+                a1 = [a_11, a_12] and a2 = [a_21, a_22] are the two row vectors
                 that form the basis.
 
       @return The Gram–Schmidt orthogonalization of A. """
