@@ -1,5 +1,5 @@
 ## Class: <code>CyclicGroupElement</code>
-An abstract class that represents a group element in a cyclic group that is finite, and that is written multiplicatively.
+An abstract class that represents a group element in a finite cyclic group, that is written multiplicatively.
 
 ## Import directive
 ```python

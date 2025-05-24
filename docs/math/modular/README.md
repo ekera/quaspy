@@ -12,5 +12,5 @@ import quaspy.math.modular
 ## Functions
 - [<code>truncmod(x, N)</code>](truncmod.md)
 
-  Returns x mod N, constrained to the interval [N/2, N/2).
+  Returns x mod N constrained to the interval [N/2, N/2).
 

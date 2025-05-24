@@ -18,7 +18,7 @@ def __mul__(self,
 ## Parameters
 | <b>Name</b> | <b>Description</b> |
 | ----------- | ------------------ |
-| x | The other group element x. |
+| x | The group element x. |
 
 ## Return value
 The group element g * x, for g this group element.

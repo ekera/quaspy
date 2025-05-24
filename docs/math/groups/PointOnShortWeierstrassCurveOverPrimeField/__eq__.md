@@ -18,7 +18,7 @@ def __eq__(self,
 ## Parameters
 | <b>Name</b> | <b>Description</b> |
 | ----------- | ------------------ |
-| Q | The point to which to compare this point, or one to compare this point to the identity element. |
+| Q | The point to which to compare this point, or one (1) to compare this point to the identity element. |
 
 ## Return value
 True if Q is equal to this point, False otherwise.

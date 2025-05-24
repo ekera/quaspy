@@ -18,7 +18,7 @@ def __mul__(self,
 ## Parameters
 | <b>Name</b> | <b>Description</b> |
 | ----------- | ------------------ |
-| Q | The other point Q. |
+| Q | The point Q. |
 
 ## Return value
 The point P * Q, for P this point.

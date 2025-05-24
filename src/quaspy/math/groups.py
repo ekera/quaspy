@@ -12,8 +12,8 @@ from gmpy2 import invert as mpz_inv;
 
 class CyclicGroupElement:
 
-  """ @brief  An abstract class that represents a group element in a cyclic
-              group that is finite, and that is written multiplicatively. """
+  """ @brief  An abstract class that represents a group element in a finite
+              cyclic group, that is written multiplicatively. """
 
   @abstractmethod
   def __pow__(self, e : int):
@@ -31,7 +31,7 @@ class CyclicGroupElement:
 
     """ @brief  Returns the group element g * x, for g this group element.
 
-        @param x  The other group element x.
+        @param x  The group element x.
 
         @return   The group element g * x, for g this group element. """
 
@@ -45,7 +45,7 @@ class CyclicGroupElement:
         The two elements must be in the same group.
 
         @param x  The group element to which to compare this group element, or
-                  one to compare this group element to the identity element.
+                  one (1) to compare this group element to the identity element.
 
         @return   True if x is equal to this group element, False otherwise. """
 
@@ -99,7 +99,7 @@ class IntegerModRingMulSubgroupElement(CyclicGroupElement):
 
     """ @brief  Returns the group element g * x, for g this group element.
 
-        @param x  The other group element x.
+        @param x  The group element x.
 
         @return   The group element g * x, for g this group element. """
 
@@ -110,7 +110,7 @@ class IntegerModRingMulSubgroupElement(CyclicGroupElement):
     """ @brief  Compares this group element to another group element.
 
         @param x  The group element to which to compare this group element, or
-                  one to compare this group element to the identity element.
+                  one (1) to compare this group element to the identity element.
 
         @return   True if x is equal to this group element, False otherwise. """
 
@@ -291,7 +291,7 @@ class PointOnShortWeierstrassCurveOverPrimeField(CyclicGroupElement):
 
     """ @brief  Returns the point P * Q, for P this point.
 
-        @param Q  The other point Q.
+        @param Q  The point Q.
 
         @return   The point P * Q, for P this point. """
 
@@ -326,8 +326,8 @@ class PointOnShortWeierstrassCurveOverPrimeField(CyclicGroupElement):
 
     """ @brief  Compares this point to another point Q.
 
-        @param Q  The point to which to compare this point, or one to compare
-                  this point to the identity element.
+        @param Q  The point to which to compare this point, or one (1) to
+                  compare this point to the identity element.
 
         @return   True if Q is equal to this point, False otherwise. """
 
@@ -404,7 +404,7 @@ class SimulatedCyclicGroupElement(CyclicGroupElement):
 
     """ @brief  Returns the group element g * x, for g this group element.
 
-        @param x  The other group element x.
+        @param x  The group element x.
 
         @return   The group element g * x, for g this group element. """
 

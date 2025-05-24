@@ -12,7 +12,7 @@ import quaspy.math.groups
 ## Classes
 - [<code>CyclicGroupElement</code>](CyclicGroupElement.md)
 
-  An abstract class that represents a group element in a cyclic group that is finite, and that is written multiplicatively.
+  An abstract class that represents a group element in a finite cyclic group, that is written multiplicatively.
 - [<code>IntegerModRingMulSubgroupElement</code>](IntegerModRingMulSubgroupElement.md)
 
   A class that represents the group element g in Z_N^*.

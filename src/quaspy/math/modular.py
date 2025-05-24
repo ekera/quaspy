@@ -2,7 +2,7 @@
 
 def truncmod(x, N):
 
-  """ @brief  Returns x mod N, constrained to the interval [N/2, N/2).
+  """ @brief  Returns x mod N constrained to the interval [N/2, N/2).
 
       @param x  The integer x.
 

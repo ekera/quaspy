@@ -1,5 +1,5 @@
 ## Function: <code>truncmod(x, N)</code>
-Returns x mod N, constrained to the interval [N/2, N/2).
+Returns x mod N constrained to the interval [N/2, N/2).
 
 ## Import directive
 ```python

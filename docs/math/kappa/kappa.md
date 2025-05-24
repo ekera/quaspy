@@ -1,5 +1,5 @@
 ## Function: <code>kappa(x)</code>
-Given an integer x, finds t such that x = 2^t * o, for o odd.
+Given an integer x, this function returns t such that x = 2^t * o, for o odd.
 
 ## Import directive
 ```python

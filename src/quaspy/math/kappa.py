@@ -3,7 +3,8 @@
 
 def kappa(x):
 
-  """ @brief  Given an integer x, finds t such that x = 2^t * o, for o odd.
+  """ @brief  Given an integer x, this function returns t such that x = 2^t * o,
+              for o odd.
 
       @param x  The integer x.
 
