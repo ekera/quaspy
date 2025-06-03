@@ -65,7 +65,7 @@
 
     [E19p] Ekerå, M.: "Revisiting Shor's quantum algorithm for computing
                        general discrete logarithms".
-                       ArXiv 1905.09084v3 (2023).
+                       ArXiv 1905.09084v4 (2024).
 
     [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
                        computing short discrete logarithms".

@@ -38,7 +38,7 @@ def solve_j_k_for_d_given_r(
 
       [E19p] Ekerå, M.: "Revisiting Shor's quantum algorithm for computing
                          general discrete logarithms".
-                        ArXiv 1905.09084v3 (2023).
+                        ArXiv 1905.09084v4 (2024).
 
       Note that this function does not implement meet-in-the-middle-techniques,
       although it is noted in [E23p] that it is possible to use such techniques

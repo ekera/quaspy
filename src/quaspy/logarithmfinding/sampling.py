@@ -53,7 +53,7 @@ def sample_j_k_given_d_r_heuristic(
 
       [E19p] Ekerå, M.: "Revisiting Shor's quantum algorithm for computing
                          general discrete logarithms".
-                        ArXiv 1905.09084v3 (2023).
+                        ArXiv 1905.09084v4 (2024).
 
       @param d  The discrete logarithm d in [1, r).
 
