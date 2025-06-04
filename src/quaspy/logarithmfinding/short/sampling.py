@@ -53,7 +53,7 @@ def sample_j_k_given_d_r_tau(
                        Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023).
+                         the short DLP". ArXiv 2309.01754v2 (2025).
 
       @param d  The discrete logarithm d in [1, r).
 
@@ -138,7 +138,7 @@ def sample_j_k_given_d_r(
                        Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023).
+                         the short DLP". ArXiv 2309.01754v2 (2025).
 
       @param d  The discrete logarithm d in [1, r).
 

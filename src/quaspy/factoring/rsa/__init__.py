@@ -13,7 +13,7 @@
                          Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023). """
+                         the short DLP". ArXiv 2309.01754v2 (2025). """
 
 from gmpy2 import mpz;
 

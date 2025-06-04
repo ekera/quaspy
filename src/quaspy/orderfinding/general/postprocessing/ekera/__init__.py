@@ -137,7 +137,7 @@ def solve_j_for_r(
       to speed up the post-processing also for order finding.
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023).
+                         the short DLP". ArXiv 2309.01754v2 (2025).
 
       @param j  The frequency j yielded by the quantum order-finding algorithm.
 
@@ -509,7 +509,7 @@ def solve_j_for_r_mod_N(
       to speed up the post-processing also for order finding.
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023).
+                         the short DLP". ArXiv 2309.01754v2 (2025).
 
       @param j  The frequency j yielded by the quantum order-finding algorithm.
 

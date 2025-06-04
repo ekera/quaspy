@@ -45,7 +45,7 @@ def solve_j_k_for_d_given_r(
       to speed up the post-processing also for general discrete logarithms.
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023).
+                         the short DLP". ArXiv 2309.01754v2 (2025).
 
       @param j  The frequency j.
 

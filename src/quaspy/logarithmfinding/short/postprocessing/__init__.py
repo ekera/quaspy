@@ -7,7 +7,7 @@
                      Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
     [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                       the short DLP". ArXiv 2309.01754 (2023).
+                       the short DLP". ArXiv 2309.01754v2 (2025).
 
     This implementation does not currently support tradeoffs, as it uses
     Lagrange's lattice basis reduction algorithm. """
@@ -19,9 +19,10 @@ from gmpy2 import mpq;
 from gmpy2 import floor as mpfr_floor;
 from gmpy2 import rint as mpfr_round;
 from gmpy2 import ceil as mpfr_ceil;
-from gmpy2 import div as mpfr_div;
 
 from gmpy2 import sqrt as mpfr_sqrt;
+
+from math import ceil;
 
 from ....math.lagrange import lagrange;
 
@@ -50,7 +51,7 @@ def expected_u_for_j_k_d(
                        Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023).
+                         the short DLP". ArXiv 2309.01754v2 (2025).
 
       Recall that the vector v = [truncmod(-2^m k, 2^(m+l)), 0], and that the
       vector u, which is in the lattice L^tau(j), is such that the difference
@@ -104,11 +105,11 @@ def solve_j_k_for_d(
               described in [E23p].
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                         the short DLP". ArXiv 2309.01754 (2023).
+                         the short DLP". ArXiv 2309.01754v2 (2025).
 
       This function implements the enumeration procedure in Alg. 1 in [E23p]. It
       is guaranteed to recover d if (j, k) is a tau-good pair, and if j is such
-      that the lattice L^tau(j) is t-balanced, see Def. 1–3 in [E23p].
+      that the lattice L^tau(j) is t-balanced, see Defs. 1–3 in [E23p].
 
       As shown in Thm. 1 in [E23p], the probability that (j, k) fulfills these
       conditions for t and tau is at least
@@ -122,7 +123,7 @@ def solve_j_k_for_d(
       operations must be performed during the enumeration provided that a few
       group elements are first pre-computed, and provided that there is space to
       store at most 2^3 sqrt(N) / c integers in a lookup table, for c a positive
-      integer constant, and for N = 2^(Delta + tau + 1) + 5 * 2^(tau + t) + 3.
+      integer constant, and for N = 2^(Delta + tau + 1) + 2^(tau + t + 2) + 2.
 
       @param j  The frequency j. An integer on [0, 2^(m + l)).
 
@@ -180,72 +181,50 @@ def solve_j_k_for_d(
   k = mpz(k);
 
   # Step 1:
-  def meet_in_the_middle(g, x, nu1, nu2, B1, B2, s1, s2, c = 1):
-
-    # Step 1.1:
-    if B1 < B2:
-
-      # Step 1.1.1:
-      return meet_in_the_middle(g, x, nu2, nu1, B2, B1, s2, s1, c);
+  def meet_in_the_middle(g, x, nu1, nu2, B1, B2, s1, s2, mu, c = 1):
 
     # Step 1.2:
     g1 = g ** s1;
     g2 = g ** s2;
     w = (g1 ** nu1) * (g2 ** nu2) * (x ** -1);
 
-    # Step 1.3:
-    if B1 == 0:
-
-      if verbose:
-        print("Note: Solving without enumerating.")
-
-      # Step 1.3.1:
-      if w == g ** 0:
-
-        # Step 1.3.1.1:
-        d = nu1 * s1 + nu2 * s2;
-        return d;
-
-    # Step 1.4:
+    # Step 1.2:
     n = c * mpz(mpfr_round(mpfr_sqrt(B1 / (B2 + 1))));
 
-    if verbose:
-      print("Computed n =", n);
-      print("");
-
-    # Step 1.5:
+    # Step 1.3:
     if verbose:
       print("The first stage begins:", \
-              2 * (ceil(B1 / n) - 1), "operation(s)");
+              2 * (int(ceil(B1 / n)) - 1), "operation(s)");
 
     T = dict();
     T[g ** 0] = 0;
 
-    # Step 1.6:
+    # Step 1.4:
     s = g1 ** n;
     z_plus = s;
     s_inv = s ** -1;
     z_minus = s_inv;
+
     i = 1;
 
-    # Step 1.7:
+    # Step 1.5:
     while True:
 
-      # Step 1.7.1:
+      # Step 1.5.1:
       T[z_plus] = i;
       T[z_minus] = -i;
 
-      # Step 1.7.2:
+      # Step 1.5.2:
       i = i + 1;
       if i > mpfr_ceil(B1 / n):
-        # Step 1.7.2.1:
+        # Step 1.5.2.1:
         break;
 
-      # Step 1.7.3:
+      # Step 1.5.3: Note: s and s^-1 were pre-computed above.
       z_plus = z_plus * s;
-      z_minus = z_minus * s_inv; # Note: s^-1 was pre-computed above.
+      z_minus = z_minus * s_inv;
 
-    # Step 1.8:
+    # Step 1.6:
     if verbose:
       print("The second stage begins:", \
               2 * B2 + 2 * (B2 + 1) * (n - 1), "operation(s)");
@@ -254,62 +233,90 @@ def solve_j_k_for_d(
     z_minus = w;
     j = 0;
 
+    # Pre-compute group elements.
+    g1_inv = g1 ** -1;
     g2_inv = g2 ** -1;
 
-    # Step 1.9:
+    g2_g1 = g2 * g1;
+    g2_g1_inv = g2 * g1_inv;
+    g2_inv_g1 = g2_inv * g1;
+    g2_inv_g1_inv = g2_inv * g1_inv;
+
+    # Step 1.7:
     while True:
 
-      # Step 1.9.1:
+      # Step 1.7.1:
       zp_plus = z_plus;
       zp_minus = z_minus;
       i = 0;
 
-      # Step 1.9.2:
+      # Step 1.7.2:
       while True:
 
-        # Step 1.9.2.1:
+        # Step 1.7.2.1:
         if zp_plus in T.keys():
           k = T[zp_plus];
 
-          # Step 1.9.2.1.1:
-          d = (nu1 + i - k * n) * s1 + (nu2 + j) * s2;
+          # Step 1.7.2.1.1:
+          d = (nu1 + i - round(j * mu) - k * n) * s1 + (nu2 + j) * s2;
           return d;
 
-        # Step 1.9.2.2:
+        # Step 1.7.2.2:
         if (j > 0) and (zp_minus in T.keys()):
           k = T[zp_minus];
 
-          # Step 1.9.2.2.1:
-          d = (nu1 + i - k * n) * s1 + (nu2 - j) * s2;
+          # Step 1.7.2.2.1:
+          d = (nu1 + i - round(-j * mu) - k * n) * s1 + (nu2 - j) * s2;
           return d;
 
-        # Step 1.9.2.3:
+        # Step 1.7.2.3:
         i = i + 1;
         if i >= n:
-          # Step 1.9.2.3.1:
+          # Step 1.7.2.3.1:
           break;
 
-        # Step 1.9.2.4:
+        # Step 1.7.2.4: Note: g1 was pre-computed above.
         zp_plus = zp_plus * g1;
         zp_minus = zp_minus * g1;
 
-      # Step 1.9.3:
+      # Step 1.7.3:
       j = j + 1;
       if j > B2:
-        # Step 1.9.3.1:
+        # Step 1.7.3.1:
         break;
 
-      # Step 1.9.4:
-      z_plus = z_plus * g2;
-      z_minus = z_minus * g2_inv; # Note: g2^-1 was pre-computed above.
+      # Step 1.7.4:
 
-    # Step 1.10:
+      # Step 1.7.4.1:
+      if round(j * mu) < round((j-1) * mu):
+
+        # Step 1.7.4.1.1: Note: g2 g1 and g2^-1 g1^-1 were pre-computed above.
+        z_plus = z_plus * g2_g1;
+        z_minus = z_minus * g2_inv_g1_inv;
+
+      # Step 1.7.4.2:
+      elif round(j * mu) > round((j-1) * mu):
+
+        # Step 1.7.4.2.1: Note: g2 g1^-1 and g2^-1 g1 were pre-computed above.
+        z_plus = z_plus * g2_g1_inv;
+        z_minus = z_minus * g2_inv_g1;
+
+      # Step 1.7.4.3:
+      else:
+
+        # Step 1.7.4.3.1: Note: g2 and g2^-1 were pre-computed above.
+        z_plus = z_plus * g2;
+        z_minus = z_minus * g2_inv;
+
+    # Step 1.8:
     return None;
+
 
   # Step 2: Setup the basis for the lattice.
   A = [[j, mpz(2 ** tau)], [mpz(2 ** (m + l)), mpz(0)]];
 
-  # Compute the reduced basis for the lattice and extract s1 and s2.
+
+  # Step 3: Compute the reduced basis for the lattice and extract s1 and s2.
   [B, _] = lagrange(A);
 
   s1 = B[0];
@@ -318,43 +325,38 @@ def solve_j_k_for_d(
   # Compute the norm lambda1 of s1.
   lambda1 = mpfr_sqrt((s1[0] ** 2) + (s1[1] ** 2));
 
-  # Verify the requirement on the norm.
+  # Extra step: Verify the requirement on the norm.
   if None != t:
     if lambda1 < mpz(2 ** (m - t)):
       return None;
 
-  # Computes the inner product between two vectors a and b.
-  def inner_product(a, b):
-    return a[0] * b[0] + a[1] * b[1];
+  # Step 4:
 
-  # Compute s2_parallel and then s2_perp given s2_parallel.
-  mu = mpfr(inner_product(s1, s2)) / mpfr((s1[0] ** 2) + (s1[1] ** 2));
+  # Compute mu, s2_parallel and then s2_perp given s2_parallel.
+  mu = mpq(s1[0] * s2[0] + s1[1] * s2[1], s1[0] ** 2 + s1[1] ** 2);
 
   s2_parallel = [mu * s1[0], mu * s1[1]];
   s2_perp = [s2[0] - s2_parallel[0], s2[1] - s2_parallel[1]];
 
   # Compute the norm lambda2_perp of s2_perp.
-  lambda2_perp = mpfr_sqrt((s2_perp[0] ** 2) + (s2_perp[1] ** 2));
+  lambda2_perp = mpfr_sqrt(s2_perp[0] ** 2 + s2_perp[1] ** 2);
 
-  # Step 4:
+
+  # Step 5:
 
   # Define the vector v.
   v = [truncmod(-(2 ** m) * k, 2 ** (m + l)), mpz(0)];
 
-  # Use Babai's algorithm to find the vector o in the lattice closest to v.
+  # Use Babai's nearest plane algorithm to find the vector o.
   o = babai(B, v);
 
   # Let nu1 and nu2 be integers such that o = nu1 * s1 + nu2 * s2.
   nu = solve_left(B, o);
 
-  # Sanity check.
-  if o != [nu[0] * B[0][0] + nu[1] * B[1][0],
-           nu[0] * B[0][1] + nu[1] * B[1][1]]:
-    raise Exception("Error: Failed to solve for nu.")
 
-  # Step 5:
+  # Step 6:
   B1 = mpz(mpfr_floor((2 ** (m + tau)) * mpfr_sqrt(mpfr(2)) /
-                        mpfr(lambda1) + 1/2));
+                        mpfr(lambda1) + 1));
   B2 = mpz(mpfr_floor((2 ** (m + tau)) * mpfr_sqrt(mpfr(2)) /
                         mpfr(lambda2_perp) + 1/2));
 
@@ -363,10 +365,12 @@ def solve_j_k_for_d(
     print("Computed B2 =", B2);
     print("");
 
-  # Step 6:
+
+  # Step 7:
   return meet_in_the_middle(g, x,
                             nu[0], nu[1],
                             B1, B2,
                             mpz(s1[1] // (2 ** tau)),
                             mpz(s2[1] // (2 ** tau)),
+                            mu,
                             c = c);

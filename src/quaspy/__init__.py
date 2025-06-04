@@ -76,7 +76,7 @@
                        Quantum Inf. Process. 20(6):205 (2021).
 
     [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
-                       the short DLP". ArXiv 2309.01754 (2023).
+                       the short DLP". ArXiv 2309.01754v2 (2025).
 
     [E24]  Ekerå, M.: "On the success probability of quantum order finding".
                        ACM Trans. Quantum Comput. 5(2):11 (2024). """
