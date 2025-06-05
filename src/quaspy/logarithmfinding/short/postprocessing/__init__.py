@@ -4,7 +4,7 @@
 
     [E20] Ekerå, M.: "On post-processing in the quantum algorithm for computing
                       short discrete logarithms".
-                     Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
+                     Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
     [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                        the short DLP". ArXiv 2309.01754v2 (2025).
@@ -48,7 +48,7 @@ def expected_u_for_j_k_d(
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
                         computing short discrete logarithms".
-                       Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
+                       Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                          the short DLP". ArXiv 2309.01754v2 (2025).

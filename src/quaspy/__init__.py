@@ -69,7 +69,7 @@
 
     [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
                        computing short discrete logarithms".
-                      Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
+                      Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".

@@ -40,7 +40,7 @@ def split_N_given_d(d, N):
 
       [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
                          computing short discrete logarithms".
-                        Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
+                        Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
       @param d  The logarithm d.
 
