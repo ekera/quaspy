@@ -47,7 +47,7 @@ def solve_j_for_factors(j : int,
 | accept_multiple | A flag that may be set to True to indicate that only a positive integer multiple of r is sought. If set to True, the solve_j_for_r() function called by this function returns as soon as it finds r such that g^r = 1. |
 | method | An enumeration entry from the SolutionMethods class that specifies the method to use to solve j for r. For further details, see the documentation for the SolutionMethods class. |
 | verbose | A flag that may be set to True to print intermediary results and status updates when executing the post-processing algorithm. |
-| opt_speculative | A flag that may be set to True to indicate that Algorithm 2 in [[E24]](https://doi.org/10.1145/3655026) should be used instead of Algorithm 3 to find the missing cm-smooth component of r. In most cases, Algorithm 2 is faster than Algorithm 3, but in the worst case Algorithm 2 is a lot slower than Algorithm 3. For further details, see [[E24]](https://doi.org/10.1145/3655026). |
+| opt_speculative | A flag that may be set to True to indicate that Alg. 2 in [[E24]](https://doi.org/10.1145/3655026) should be used instead of Alg. 3 to find the missing cm-smooth component of r. In most cases, Alg. 2 is faster than Alg. 3, but in the worst case Alg. 2 is a lot slower than Alg. 3. For further details, see [[E24]](https://doi.org/10.1145/3655026). |
 
 ## Return value
 The set of all distinct prime factors that divide N, or None, if a positive multiple of r could not be found given j.

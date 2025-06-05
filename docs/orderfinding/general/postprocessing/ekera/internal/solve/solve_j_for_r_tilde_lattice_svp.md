@@ -7,9 +7,9 @@ u = (rj - 2^(m+l) z, r / 2) / d
 
 in the lattice L spanned by (j, 1/2) and (2^(m+l), 0), and hence r_tilde, as the second component is r_tilde / 2. This function return r_tilde.
 
-By Lemma 4.2 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and r^2 < 2^(m+l), the second component of the shortest non-zero vector in L has r_tilde / 2 in its second component, up to sign of course.
+By Lem. 4.2 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and r^2 < 2^(m+l), the second component of the shortest non-zero vector in L has r_tilde / 2 in its second component, up to sign of course.
 
-For further details, see Lemma 4.2, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
+For further details, see Lem. 4.2, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
 
 ## Import directive
 ```python

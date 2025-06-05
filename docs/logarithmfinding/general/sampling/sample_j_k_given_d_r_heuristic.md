@@ -1,7 +1,7 @@
 ## Function: <code>sample\_j\_k\_given\_d\_r\_heuristic(d, r, m, sigma, l, ..)</code>
 Samples a frequency pair (j, k) heuristically from the distribution induced by Shor's quantum algorithm for finding a given discrete logarithm d in a group of known order r, or from the distribution induced by Ekerå's quantum algorithm, depending on how parameters are selected.
 
-The sampling procedure is described in Sect. 5 of [[E19p]](https://doi.org/10.48550/arXiv.1905.09084).
+The sampling procedure is described in Sect. 5 of [[E19p]](https://doi.org/10.48550/arXiv.1905.09084).
 
 ## Import directive
 ```python

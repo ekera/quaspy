@@ -5,7 +5,7 @@ Suppose that N = p1^e1 * .. * pn^en, for p1, .., pn pairwise distinct odd prime 
 
 For i in [1, n], this function then selects gi from the multiplicative group of the ring of integers modulo pi^ei.
 
-1. If the factorization of pi - 1 for i in [1, n] is *not* specified, this function then heuristically estimates the order ri of gi by using the method in App. A of [[E21b]](https://doi.org/10.1007/s11128-021-03069-1): Specificially, by using that
+1. If the factorization of pi - 1 for i in [1, n] is *not* specified, this function then heuristically estimates the order ri of gi by using the method in App. A of [[E21b]](https://doi.org/10.1007/s11128-021-03069-1): Specificially, by using that
 
 lambda(pi^ei) = (pi - 1) pi^(ei - 1),
 

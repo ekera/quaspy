@@ -9,27 +9,27 @@ There are three solution methods:
 
 Expand j / 2^(m+l) in continued fractions to find z / r, and hence r_tilde = r / gcd(r, z), as originally proposed in [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), but with slightly smaller m+l, as decribed in [[E24]](https://doi.org/10.1145/3655026).
 
-By Lemma 4.1 in [[E24]](https://doi.org/10.1145/3655026), the last convergent p / q with denominator q < 2^((m+l)/2) in the continued fractions expansion of j / 2^(m+l) is equal to z / r, provided that r < 2^m and r^2 < 2^(m+l).
+By Lem. 4.1 in [[E24]](https://doi.org/10.1145/3655026), the last convergent p / q with denominator q < 2^((m+l)/2) in the continued fractions expansion of j / 2^(m+l) is equal to z / r, provided that r < 2^m and r^2 < 2^(m+l).
 
-For further details, see Lemma 4.1, and Sect. 4 and App. B, of [[E24]](https://doi.org/10.1145/3655026).
+For further details, see Lem. 4.1, and Sect. 4 and App. B, of [[E24]](https://doi.org/10.1145/3655026).
 
 2. LATTICE_BASED_SHORTEST_VECTOR
 
 Use Lagrange's lattice basis reduction algorithm to find the shortest non-zero vector in the lattice L spanned by (j, 1/2) and (2^(m+l), 0).
 
-By Lemma 4.2 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and r^2 < 2^(m+l), the second component of the shortest non-zero vector in L has r_tilde / 2 in its second component, up to sign of course.
+By Lem. 4.2 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and r^2 < 2^(m+l), the second component of the shortest non-zero vector in L has r_tilde / 2 in its second component, up to sign of course.
 
-For further details, see Lemma 4.2, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
+For further details, see Lem. 4.2, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
 
 3. LATTICE_BASED_ENUMERATE
 
 Use Lagrange's lattice basis reduction algorithm to find a reduced basis for the lattice L spanned by (j, 1/2) and (2^(m+l), 0), and enumerate all vectors within a ball of radius 2^(m-1/2) in L centered at the origin to find u = (rj - 2^(m+l) z, r / 2) / d, and hence r_tilde, as the second component is r_tilde / 2.
 
-By Lemma 4.3 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and l = m - Delta, at most 6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and hence r_tilde, so if Delta is small then this method is efficient.
+By Lem. 4.3 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and l = m - Delta, at most 6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and hence r_tilde, so if Delta is small then this method is efficient.
 
 In practice, as mentioned in [[E24]](https://doi.org/10.1145/3655026), the leading constant in the above bound is not tight, and the enumeration can be optimized. Some of these optimizations are implemented here so the enumeration typically considers fewer vectors than the bound indicates.
 
-For further details, see Lemma 4.3, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
+For further details, see Lem. 4.3, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
 
 ## Import directive
 ```python

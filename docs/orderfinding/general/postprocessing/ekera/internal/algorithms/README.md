@@ -1,5 +1,5 @@
 ## Module: <code>algorithms</code>
-A module for implementing Algorithms 1–4 from [[E24]](https://doi.org/10.1145/3655026).
+A module for implementing Algs. 1–4 from [[E24]](https://doi.org/10.1145/3655026).
 
 ## Import directive
 ```python

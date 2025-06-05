@@ -1,7 +1,7 @@
 ## Function: <code>algorithm4(g, S, m, ..)</code>
 Returns a subset Sp of S consisting of all r_tilde in S that are such that d * r_tilde is a positive integer multiple of r, where d is cm-smooth.
 
-This function implements Algorithm 4 from [[E24]](https://doi.org/10.1145/3655026).
+This function implements Alg. 4 from [[E24]](https://doi.org/10.1145/3655026).
 
 As in [[E24]](https://doi.org/10.1145/3655026), d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for q1, .., qk pairwise distinct primes, and e1, .., ek positive integer exponents, if it holds that qi^ei <= cm for all i in [1, k].
 

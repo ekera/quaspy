@@ -7,7 +7,7 @@ u = (rj - 2^(m+l) z, r / 2) / d,
 
 and hence r_tilde, as the second component is r_tilde / 2.
 
-By Lemma 4.3 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and l = m - Delta, at most 6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and hence r_tilde, so if Delta is small then this method is efficient.
+By Lem. 4.3 in [[E24]](https://doi.org/10.1145/3655026), provided that r < 2^m and l = m - Delta, at most 6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and hence r_tilde, so if Delta is small then this method is efficient.
 
 In practice, as mentioned in [[E24]](https://doi.org/10.1145/3655026), the leading constant in the above bound is not tight, and the enumeration can be optimized. Some of these optimizations have been integrated into this implementation, so the enumeration typically considers fewer points than the bound indicates.
 
@@ -23,7 +23,7 @@ As is explained in the documentation for the CandidateCollection class, this cla
 
 As is also explained below, you may input set() instead of CandidateCollection() to the filtered_r_tilde_candidates parameter to ensure all candidates for r_tilde are returned.
 
-For further details, see Lemma 4.3, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
+For further details, see Lem. 4.3, and Sect. 4 and App. C, of [[E24]](https://doi.org/10.1145/3655026).
 
 ## Import directive
 ```python

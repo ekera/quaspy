@@ -1,7 +1,7 @@
 ## Function: <code>solve\_j\_k\_for\_d(j, k, m, l, g, x, tau, ..)</code>
 Attempts to compute the short discrete logarithm d given a frequency pair (j, k) yielded by the quantum part of Ekerå–Håstad's algorithm, by using the post-processing algorithms described in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754).
 
-This function implements the enumeration procedure in Alg. 1 in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754). It is guaranteed to recover d if (j, k) is a tau-good pair, and if j is such that the lattice L^tau(j) is t-balanced, see Defs. 1–3 in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754).
+This function implements the enumeration procedure in Alg. 1 in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754). It is guaranteed to recover d if (j, k) is a tau-good pair, and if j is such that the lattice L^tau(j) is t-balanced, see Defs. 1–3 in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754).
 
 As shown in Thm. 1 in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754), the probability that (j, k) fulfills these conditions for t and tau is at least
 

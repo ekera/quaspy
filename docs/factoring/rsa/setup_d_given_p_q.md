@@ -3,7 +3,7 @@ Sets up d = (p - 1) / 2 + (q - 1) / 2 - 2^(l - 1) given p and q.
 
 This is a convenience function for Ekerå–Håstad's algorithm [[EH17]](https://doi.org/10.1007/978-3-319-59879-6_20) that factors a large random RSA integer N = pq into p and q.
 
-More specifically, as is explained in App. A.2 of [[E20]](https://doi.org/10.1007/s10623-020-00783-2), it holds that
+More specifically, as is explained in App. A.2 of [[E20]](https://doi.org/10.1007/s10623-020-00783-2), it holds that
 
 x = g^d' = g^((N - 1) / 2 - 2^(l - 1)) = g^((p - 1) / 2 + (q - 1) / 2 - 2^(l - 1)) = g^d
 

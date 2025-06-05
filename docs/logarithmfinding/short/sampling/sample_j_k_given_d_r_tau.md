@@ -3,7 +3,7 @@ Samples a frequency pair (j, k) from the distribution induced by Ekerå–Håsta
 
 To sample the distribution, j is first picked uniformly at random from [0, 2^(m + l)). A pivot is then selected uniformly at random from [0, 1), and the optimal frequency k0(j) for k computed.
 
-For offsets 0, ±1, ±2, .., ±(B - 1) from k0(j) the probabilities 2^(m+l) * P(j, k = (k0(j) + offset) mod 2^l) of observing (j, k) are then subtracted from the pivot, and (j, k) returned as soon as pivot <= 0 provided that (j, k) is tau-good by Def. 1 in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754). Otherwise, None is returned. The bound B is setup as a function of tau so that all tau-good pairs (j, k) are included in the search.
+For offsets 0, ±1, ±2, .., ±(B - 1) from k0(j) the probabilities 2^(m+l) * P(j, k = (k0(j) + offset) mod 2^l) of observing (j, k) are then subtracted from the pivot, and (j, k) returned as soon as pivot <= 0 provided that (j, k) is tau-good by Def. 1 in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754). Otherwise, None is returned. The bound B is setup as a function of tau so that all tau-good pairs (j, k) are included in the search.
 
 Note that it follows from the analysis in [[E20]](https://doi.org/10.1007/s10623-020-00783-2) and [[E23p]](https://doi.org/10.48550/arXiv.2309.01754) that j is distributed uniformly at random when r >= 2^(m + l) + (2^l - 1) * d. This function checks that this requirement is respected.
 
