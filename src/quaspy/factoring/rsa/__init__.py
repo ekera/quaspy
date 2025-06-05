@@ -8,9 +8,9 @@
                                         Integers.". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
-      [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
-                         computing short discrete logarithms".
-                        Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
+      [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
+                        computing short discrete logarithms".
+                       Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                          the short DLP". ArXiv 2309.01754v2 (2025). """
@@ -51,9 +51,9 @@ def setup_x_given_g_N(g, N):
                                         Integers.". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
-      [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
-                         computing short discrete logarithms".
-                        Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
+      [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
+                        computing short discrete logarithms".
+                       Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
       @param g  The generator g selected uniformly at random from the
                 multiplicative group of the ring of integers modulo N.
@@ -121,9 +121,9 @@ def setup_d_given_p_q(p, q):
                                         Integers.". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
-      [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
-                         computing short discrete logarithms".
-                        Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
+      [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
+                        computing short discrete logarithms".
+                       Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
       @param p  A large random l-bit prime.
       @param q  A large random l-bit prime not equal to p.

@@ -13,8 +13,8 @@
                        single run of an order-finding algorithm".
                       Quantum Inf. Process. 20(6):205 (2021).
 
-    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
+    [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                     ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
 from enum import Enum;
 
@@ -133,8 +133,8 @@ def solve_r_for_factors(
                          single run of an order-finding algorithm".
                         Quantum Inf. Process. 20(6):205 (2021).
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       @param r   The order r of g, or a positive integer multiple of r.
 
@@ -605,8 +605,8 @@ def solve_j_for_factors(
                          single run of an order-finding algorithm".
                         Quantum Inf. Process. 20(6):205 (2021).
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       @remark   This convenience function simply calls solve_j_for_r(), and then
                 solve_r_for_factors(), passing along r. To access all options of
@@ -752,8 +752,8 @@ def solve_j_for_factors_mod_N(
                          single run of an order-finding algorithm".
                         Quantum Inf. Process. 20(6):205 (2021).
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       @remark   This convenience function simply calls solve_j_for_factors()
                 with g setup by calling IntegerModRingMulSubgroupElement(g, N).

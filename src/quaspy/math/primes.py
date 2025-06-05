@@ -68,8 +68,8 @@ def is_B_smooth(d, B):
       q1, .., qk pairwise distinct primes, and e1, .., ek positive integer
       exponents, if it holds that qi^ei <= B for all i in [1, k].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       @param d  The integer d.
 

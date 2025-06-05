@@ -11,5 +11,5 @@
                        single run of an order-finding algorithm".
                       Quantum Inf. Process. 20(6):205 (2021).
 
-    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
+    [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                     ACM Trans. Quantum Comput. 5(2):11 (2024). """

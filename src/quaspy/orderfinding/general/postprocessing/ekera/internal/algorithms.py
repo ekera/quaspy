@@ -1,7 +1,7 @@
 """ @brief  A module for implementing Algs. 1–4 from [E24].
 
-    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
+    [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                     ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
 from gmpy2 import mpz;
 
@@ -34,8 +34,8 @@ def algorithm1(g, r_tilde, m, c = 1):
 
       This function implements Alg. 1 from [E24].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
       q1, .., qk pairwise distinct primes, and e1, .., ek positive integer
@@ -92,8 +92,8 @@ def algorithm2(g, r_tilde, m, c = 1):
 
       This function implements Alg. 2 from [E24].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
       q1, .., qk pairwise distinct primes, and e1, .., ek positive integer
@@ -181,8 +181,8 @@ def algorithm3(g, r_tilde, m, c = 1):
 
       This function implements Alg. 3 from [E24].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
       q1, .., qk pairwise distinct primes, and e1, .., ek positive integer
@@ -265,8 +265,8 @@ def algorithm4(g, S, m, c = 1):
 
       This function implements Alg. 4 from [E24].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ArXiv 2201.07791v2 (2022).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ArXiv 2201.07791v2 (2022).
 
       As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
       q1, .., qk pairwise distinct primes, and e1, .., ek positive integer

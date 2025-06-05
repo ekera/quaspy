@@ -67,9 +67,9 @@
                        general discrete logarithms".
                       ArXiv 1905.09084v4 (2024).
 
-    [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
-                       computing short discrete logarithms".
-                      Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
+    [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
+                      computing short discrete logarithms".
+                     Des. Codes Cryptogr. 88, pp. 2313–2335 (2020).
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
@@ -78,8 +78,8 @@
     [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                        the short DLP". ArXiv 2309.01754v2 (2025).
 
-    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                      ACM Trans. Quantum Comput. 5(2):11 (2024).
+    [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                     ACM Trans. Quantum Comput. 5(2):11 (2024).
 
     [E24t] Ekerå, M.: "On factoring integers, and computing discrete logarithms
                        and orders, quantumly". PhD thesis, KTH Royal Institute

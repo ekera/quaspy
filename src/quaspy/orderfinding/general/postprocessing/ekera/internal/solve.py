@@ -28,8 +28,8 @@ def solve_j_for_r_tilde_continued_fractions(j, m, l):
               quotient j / 2^(m+l) in continued fractions and returning the
               last denominator < 2^((m+l)/2) as described in [E24].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       By Lem. 4.1 in [E24], this function is guaranteed to return r_tilde
       provided that the requirements on the input parameters are met.
@@ -66,8 +66,8 @@ def solve_j_for_r_tilde_lattice_svp(j, m, l, multiples = None):
               shortest non-zero vector in a two-dimensional lattice L as
               described in [E24].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       More specifically, this function uses Lagrange's lattice basis reduction
       algorithm to find the shortest non-zero vector

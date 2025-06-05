@@ -3,8 +3,8 @@
             positive integer multiple of r. This by using the post-processing
             algorithms in [E24].
 
-    [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
+    [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                     ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
 from enum import Enum;
 
@@ -113,8 +113,8 @@ def solve_j_for_r(
               of Shor's order-finding algorithm, by using the post-processing
               algorithms described in detail in [E24].
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       The idea is to try to solve not only j, but also j ± 1, .., j ± B, for r,
       with the aim of solving an optimal frequency j0(z) for r, for z the peak
@@ -484,8 +484,8 @@ def solve_j_for_r_mod_N(
       @remark   This convenience function simply calls solve_j_for_r() with g
                 setup by calling IntegerModRingMulSubgroupElement(g, N).
 
-      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       The idea is to try to solve not only j, but also j ± 1, .., j ± B, for r,
       with the aim of solving an optimal frequency j0(z) for r, for z the peak
