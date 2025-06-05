@@ -534,7 +534,7 @@ def test_solve_j_for_factors_of_random_N(
 
 def test_all(verbose = True):
 
-  """ @brief Executes the test suite described in Appendix A.3 of [E21b].
+  """ @brief  Executes the test suite described in Appendix A.3 of [E21b].
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".

@@ -98,7 +98,7 @@ class IncompleteFactorizationException(Exception):
 
   def __init__(self, message, factors):
 
-    """ @brief Initializes the exception.
+    """ @brief  Initializes the exception.
 
         @param message  A message explaining why the exception is raised.
         @param factors  The factors found. """
@@ -639,7 +639,6 @@ def solve_j_for_factors(
                         solving r for the complete factorization of N. As is
                         explained in [E21b], increasing c increases the success
                         probability, at the expense of increasing the runtime.
-
 
       @param B  A bound B >= 0 on the offset in j. If B > 0, the solve_j_for_r()
                 function called by this function tries to solve not only j, but

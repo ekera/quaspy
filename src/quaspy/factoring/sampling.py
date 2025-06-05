@@ -198,10 +198,10 @@ def sample_g_r_given_N(
                 trial division. Has no effect if pi_minus_one_factors is
                 explicitly specified, as trial division is then not performed.
 
-      @return The pair [g, r], for g an element selected uniformly at random
-              from the multiplicative group of the ring of integers modulo N,
-              and r a heuristic estimate of the order of g, or the exact order
-              of g, depending on if optional parameters are specified. """
+      @return   The pair [g, r], for g an element selected uniformly at random
+                from the multiplicative group of the ring of integers modulo N,
+                and r a heuristic estimate of the order of g, or the exact order
+                of g, depending on if optional parameters are specified. """
 
   # Process the factors [pi, ei] of N:
 
