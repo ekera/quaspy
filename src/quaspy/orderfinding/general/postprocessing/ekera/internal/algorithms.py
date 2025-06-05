@@ -173,7 +173,7 @@ def algorithm2(g, r_tilde, m, c = 1):
   # Step 9:
   return d * r_tilde;
 
-# Algorithm 3, implemented as described in the paper:
+
 def algorithm3(g, r_tilde, m, c = 1):
 
   """ @brief  Recovers r, assuming r_tilde is such that r = d * r_tilde where d
@@ -256,7 +256,7 @@ def algorithm3(g, r_tilde, m, c = 1):
   # Step 6:
   return d * r_tilde;
 
-# Algorithm 4, implemented as described in the paper:
+
 def algorithm4(g, S, m, c = 1):
 
   """ @brief  Returns a subset Sp of S consisting of all r_tilde in S that
