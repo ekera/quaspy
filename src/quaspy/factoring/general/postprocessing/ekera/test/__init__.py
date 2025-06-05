@@ -8,7 +8,7 @@
                       Quantum Inf. Process. 20(6):205 (2021).
 
     @remark This module is modelled upon the corresponding Sage script in the
-            factoritall repository, see https://github.com/ekera/factoritall.
+            Factoritall repository, see https://github.com/ekera/factoritall.
 
     To run all unit tests in this module by calling test_all(), execute:
 

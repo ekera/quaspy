@@ -79,7 +79,11 @@
                        the short DLP". ArXiv 2309.01754v2 (2025).
 
     [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
+                      ACM Trans. Quantum Comput. 5(2):11 (2024).
+
+    [E24t] Ekerå, M.: "On factoring integers, and computing discrete logarithms
+                       and orders, quantumly". PhD thesis, KTH Royal Institute
+                      of Technology (2024). """
 
 # Shor's algorithm for splitting N if r is even and g^(r/2) != -1 (mod N).
 from .factoring.general.postprocessing.shor import split_N_given_g_r;
@@ -102,10 +106,11 @@ from .factoring.rsa.postprocessing import split_N_given_d;
 from .factoring.rsa import setup_d_given_p_q;
 from .factoring.rsa import setup_x_given_g_N;
 
-# The algorithm in [E21b], and algorithms from the factoritall repository, and
-# from a note that is to appear, for sampling g uniformly at random from the
-# multiplicative group of the ring of integers modulo N, and for returning
-# [g, r] or r, for r the (heuristically computed) order of g.
+# The algorithms in [E21b], [E24t] (see in particular Sect. 5.2.3) and the
+# Factoritall repository (available at https://www.github.com/ekera/factoritall)
+# for sampling g uniformly at random from the multiplicative group of the ring
+# of integers modulo N, and for returning [g, r] or r, for r the (in some cases
+# heuristically computed) order of g.
 from .factoring.sampling import sample_g_r_given_N;
 from .factoring.sampling import sample_r_given_N;
 

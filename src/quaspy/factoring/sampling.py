@@ -4,7 +4,7 @@
             complete factorization of N is known.
 
     The procedures in this module are described in [E21b], in [E24t] (see in
-    particular Sect. 5.2.3) and in the factoritall repository (available at
+    particular Sect. 5.2.3) and in the Factoritall repository (available at
     https://www.github.com/ekera/factoritall).
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
@@ -69,7 +69,7 @@ def sample_r_given_N(N, factors):
       compute g. This explains why this function only returns r.
 
       The above procedure is not described in [E21b], but in [E24t] (see in
-      particular Sect. 5.2.3) and in the factoritall repository (available at
+      particular Sect. 5.2.3) and in the Factoritall repository (available at
       https://www.github.com/ekera/factoritall).
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
