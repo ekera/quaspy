@@ -34,7 +34,7 @@ def solve_j_k_for_d_given_r(
               Shor's algorithm as modified in [E19p], and the order r, by using
               the modified post-processing algorithm described in [E19p].
 
-      The modified post-processing algorithm is described in Sect. 6 of [E19p]:
+      The modified post-processing algorithm is described in Sect. 6 of [E19p]:
 
       [E19p] Ekerå, M.: "Revisiting Shor's quantum algorithm for computing
                          general discrete logarithms".
