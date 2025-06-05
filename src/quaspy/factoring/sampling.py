@@ -10,7 +10,7 @@
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
                       Quantum Inf. Process. 20(6):205 (2021).
-    
+
     [E24t] Ekerå, M.: "On factoring integers, and computing discrete logarithms
                        and orders, quantumly". PhD thesis, KTH Royal Institute
                       of Technology (2024). """
