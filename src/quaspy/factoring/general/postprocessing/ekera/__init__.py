@@ -50,7 +50,7 @@ class OptProcessCompositeFactors(Enum):
          Select x uniformly at random from Z_N^*, for N the number to be
          factored, and exponentiate x modulo N to 2^t o.
 
-         This is as described in the algorithm in Sect. 3.2 of [E21b].
+         This is as described in the algorithm in Sect. 3.2 of [E21b].
 
       2. JOINTLY_MOD_Np
 
@@ -58,7 +58,7 @@ class OptProcessCompositeFactors(Enum):
          pairwise coprime composite factors of N currently stored in the
          collection, and exponentiate x modulo N' to 2^t o.
 
-         This is as above, but with optimizations from Sect. 3.2.1 of [E21b].
+         This is as above, but with optimizations from Sect. 3.2.1 of [E21b].
 
       3. SEPARATELY_MOD_Np
 
@@ -68,7 +68,7 @@ class OptProcessCompositeFactors(Enum):
          pairwise coprime composite factors of N currently stored in the
          collection.
 
-         This is as above, with more optimizations from Sect. 3.2.1 of [E21b].
+         This is as above, with more optimizations from Sect. 3.2.1 of [E21b].
 
       Note that all three options are equivalent with respect to their ability
       to find non-trivial factors of N. The options differ only in terms of
@@ -77,7 +77,7 @@ class OptProcessCompositeFactors(Enum):
       than compensated for by the fact that the moduli are smaller, leading the
       default option to outperform the other two options.
 
-      For further details, see Sect. 3.2.1 of [E21b].
+      For further details, see Sect. 3.2.1 of [E21b].
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
@@ -263,7 +263,7 @@ def solve_r_for_factors(
         then takes consecutive squares to form x^(2^i o) for each i. When set to
         False, the solver naïvely computes x^(2^i o) from scratch for each i.
 
-        This optimization is described in Sect. 3.2.1 of [E21b].
+        This optimization is described in Sect. 3.2.1 of [E21b].
 
 
       @param opt_exclude_one  A flag that may be set either to True (default
@@ -279,7 +279,7 @@ def solve_r_for_factors(
         selecting g and x uniformly at random from Z_N^* \ {1} and
         Z_{N'}^* \ {1}, respectively.
 
-        This optimization is described in Sect. 3.2.1 of [E21b].
+        This optimization is described in Sect. 3.2.1 of [E21b].
 
 
       @param opt_process_composite_factors  An enumeration entry from the
@@ -294,7 +294,7 @@ def solve_r_for_factors(
 
           The solver selects x (denoted x_j in [E21b]) uniformly at random from
           Z_N^*. It then exponentiates x modulo N. This is how the unoptimized
-          algorithm is described in Sect. 3.2 of [E21b].
+          algorithm is described in Sect. 3.2 of [E21b].
 
         2. OptProcessCompositeFactors.JOINTLY_MOD_Np
 
@@ -321,7 +321,7 @@ def solve_r_for_factors(
         than compensated for by the fact that the moduli are smaller, leading
         the default option to outperform the other two options.
 
-        This optimization is described in Sect. 3.2.1 of [E21b].
+        This optimization is described in Sect. 3.2.1 of [E21b].
 
 
       @return   A set of all distinct prime factors that divide N. """

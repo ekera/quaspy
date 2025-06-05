@@ -109,7 +109,7 @@ def solve_j_k_for_d(
 
       This function implements the enumeration procedure in Alg. 1 in [E23p]. It
       is guaranteed to recover d if (j, k) is a tau-good pair, and if j is such
-      that the lattice L^tau(j) is t-balanced, see Defs. 1–3 in [E23p].
+      that the lattice L^tau(j) is t-balanced, see Defs. 1–3 in [E23p].
 
       As shown in Thm. 1 in [E23p], the probability that (j, k) fulfills these
       conditions for t and tau is at least

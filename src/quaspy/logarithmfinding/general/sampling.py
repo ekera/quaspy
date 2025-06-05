@@ -29,7 +29,7 @@ def sample_j_k_given_d_r_heuristic(
               from the distribution induced by Ekerå's quantum algorithm,
               depending on how parameters are selected.
 
-      The sampling procedure is described in Sect. 5 of [E19p].
+      The sampling procedure is described in Sect. 5 of [E19p].
 
       [E19p] Ekerå, M.: "Revisiting Shor's quantum algorithm for computing
                          general discrete logarithms".

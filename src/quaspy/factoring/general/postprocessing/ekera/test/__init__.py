@@ -1,7 +1,7 @@
 """ @brief  A module for testing the functions in the parent module for
             factoring N completely.
 
-    This module implements the test procedure described in App. A to [E21b].
+    This module implements the test procedure described in App. A to [E21b].
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".

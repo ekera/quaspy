@@ -27,7 +27,7 @@ def setup_x_given_g_N(g, N):
       This is a convenience function for Ekerå–Håstad's algorithm [EH17] that
       factors a large random RSA integer N = pq into p and q.
 
-      More specifically, as is explained in App. A.2 of [E20], it holds that
+      More specifically, as is explained in App. A.2 of [E20], it holds that
 
         x = g^d' = g^((N - 1) / 2 - 2^(l - 1))
                  = g^((p - 1) / 2 + (q - 1) / 2 - 2^(l - 1)) = g^d.
@@ -97,7 +97,7 @@ def setup_d_given_p_q(p, q):
       This is a convenience function for Ekerå–Håstad's algorithm [EH17] that
       factors a large random RSA integer N = pq into p and q.
 
-      More specifically, as is explained in App. A.2 of [E20], it holds that
+      More specifically, as is explained in App. A.2 of [E20], it holds that
 
         x = g^d' = g^((N - 1) / 2 - 2^(l - 1))
                  = g^((p - 1) / 2 + (q - 1) / 2 - 2^(l - 1)) = g^d

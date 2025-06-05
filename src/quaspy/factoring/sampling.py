@@ -154,7 +154,7 @@ def sample_g_r_given_N(
 
       1. If the factorization of pi - 1 for i in [1, n] is *not* specified, this
       function then heuristically estimates the order ri of gi by using the
-      method in App. A of [E21b]: Specificially, by using that
+      method in App. A of [E21b]: Specificially, by using that
 
          lambda(pi^ei) = (pi - 1) pi^(ei - 1),
 

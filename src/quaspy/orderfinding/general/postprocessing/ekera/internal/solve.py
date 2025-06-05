@@ -31,10 +31,10 @@ def solve_j_for_r_tilde_continued_fractions(j, m, l):
       [E24]  Ekerå, M.: "On the success probability of quantum order finding".
                         ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      By Lemma 4.1 in [E24], this function is guaranteed to return r_tilde
+      By Lem. 4.1 in [E24], this function is guaranteed to return r_tilde
       provided that the requirements on the input parameters are met.
 
-      For further details, see Lemma 4.1, and Sect. 4 and App. B, of [E24].
+      For further details, see Lem. 4.1, and Sect. 4 and App. B, of [E24].
 
       @param j  An optimal frequency j0(z), for m and l as passed to this
                 function, and for any z in [0, r).
@@ -77,11 +77,11 @@ def solve_j_for_r_tilde_lattice_svp(j, m, l, multiples = None):
       in the lattice L spanned by (j, 1/2) and (2^(m+l), 0), and hence r_tilde,
       as the second component is r_tilde / 2. This function return r_tilde.
 
-      By Lemma 4.2 in [E24], provided that r < 2^m and r^2 < 2^(m+l), the second
+      By Lem. 4.2 in [E24], provided that r < 2^m and r^2 < 2^(m+l), the second
       component of the shortest non-zero vector in L has r_tilde / 2 in its
       second component, up to sign of course.
 
-      For further details, see Lemma 4.2, and Sect. 4 and App. C, of [E24].
+      For further details, see Lem. 4.2, and Sect. 4 and App. C, of [E24].
 
       @param j  An optimal frequency j0(z), for m and l as passed to this
                 function, and for any z in [0, r).
@@ -164,7 +164,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
       and hence r_tilde, as the second component is r_tilde / 2.
 
-      By Lemma 4.3 in [E24], provided that r < 2^m and l = m - Delta, at most
+      By Lem. 4.3 in [E24], provided that r < 2^m and l = m - Delta, at most
       6 * sqrt(3) * 2^Delta vectors must be enumerated in L to find u and hence
       r_tilde, so if Delta is small then this method is efficient.
 
@@ -201,7 +201,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
                 CandidateCollection() to the filtered_r_tilde_candidates
                 parameter to ensure all candidates for r_tilde are returned.
 
-      For further details, see Lemma 4.3, and Sect. 4 and App. C, of [E24].
+      For further details, see Lem. 4.3, and Sect. 4 and App. C, of [E24].
 
       @param j  An optimal frequency j0(z), for m and l as passed to this
                 function, and for z in [0, r).

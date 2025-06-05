@@ -40,7 +40,7 @@ def sample_j_k_given_d_r_tau(
       For offsets 0, ±1, ±2, .., ±(B - 1) from k0(j) the probabilities
       2^(m+l) * P(j, k = (k0(j) + offset) mod 2^l) of observing (j, k) are then
       subtracted from the pivot, and (j, k) returned as soon as pivot <= 0
-      provided that (j, k) is tau-good by Def. 1 in [E23p]. Otherwise, None
+      provided that (j, k) is tau-good by Def. 1 in [E23p]. Otherwise, None
       is returned. The bound B is setup as a function of tau so that all
       tau-good pairs (j, k) are included in the search.
 
