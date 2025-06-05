@@ -195,12 +195,12 @@ def solve_r_for_factors(
         would typically first be removed, e.g. by trial division, before calling
         upon these more elaborate factoring techniques.
 
-        Note that for N as in the problem instances setup in Appendix A.3 of
-        [E21b], prime factors are intentionally forced to occur with
-        multiplicity with high probability (when e_max > 1). This so as to test
-        that such special cases are handled correctly by the solver. For such N,
-        this optimization is likely to report non-trivial factors. This served
-        as our rationale for including it as an option.
+        Note that for N as in the problem instances setup in App. A.3 of [E21b],
+        prime factors are intentionally forced to occur with multiplicity with
+        high probability (when e_max > 1). This so as to test that such special
+        cases are handled correctly by the solver. For such N, this optimization
+        is likely to report non-trivial factors. This served as our rationale
+        for including it as an option.
 
         This optimization is described in earlier works in the literature, see
         for instance [GLMS15] for one such description.
@@ -598,8 +598,8 @@ def solve_j_for_factors(
               multiplicative group of the ring of integers modulo N.
 
               This by using the algorithm in [E21b] to factor N given r, or a
-              positive multiple of r, and the post-processing algorithm in
-              [E24] to find r, or a positive multiple of r, given j.
+              positive multiple of r, and the post-processing algorithm in [E24]
+              to find r, or a positive multiple of r, given j.
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
@@ -682,12 +682,11 @@ def solve_j_for_factors(
                       post-processing algorithm.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E24] should be used instead of
-                              Algorithm 3 to find the missing cm-smooth
-                              component of r. In most cases, Algorithm 2 is
-                              faster than Algorithm 3, but in the worst case
-                              Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E24].
+                              Alg. 2 in [E24] should be used instead of Alg. 3
+                              to find the missing cm-smooth component of r. In
+                              most cases, Alg. 2 is faster than Alg. 3, but in
+                              the worst case Alg. 2 is a lot slower than Alg. 3.
+                              For further details, see [E24].
 
       @return   The set of all distinct prime factors that divide N, or None,
                 if a positive multiple of r could not be found given j. """
@@ -746,8 +745,8 @@ def solve_j_for_factors_mod_N(
               multiplicative group of the ring of integers modulo N.
 
               This by using the algorithm in [E21b] to factor N given r, or a
-              positive multiple of r, and the post-processing algorithm in
-              [E24] to find r, or a positive multiple of r, given j.
+              positive multiple of r, and the post-processing algorithm in [E24]
+              to find r, or a positive multiple of r, given j.
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
@@ -834,12 +833,11 @@ def solve_j_for_factors_mod_N(
                       post-processing algorithm.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E24] should be used instead of
-                              Algorithm 3 to find the missing cm-smooth
-                              component of r. In most cases, Algorithm 2 is
-                              faster than Algorithm 3, but in the worst case
-                              Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E24].
+                              Alg. 2 in [E24] should be used instead of Alg. 3
+                              to find the missing cm-smooth component of r. In
+                              most cases, Alg. 2 is faster than Alg. 3, but in
+                              the worst case Alg. 2 is a lot slower than Alg. 3.
+                              For further details, see [E24].
 
       @return   The set of all distinct prime factors that divide N, or None,
                 if a positive multiple of r could not be found given j. """
