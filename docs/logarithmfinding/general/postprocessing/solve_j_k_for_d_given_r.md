@@ -1,7 +1,7 @@
 ## Function: <code>solve\_j\_k\_for\_d\_given\_r(j, k, m, sigma, l, g, x, r, ..)</code>
 Attempts to compute the general discrete logarithm d given a frequency pair (j, k) yielded by the quantum part of Shor's algorithm as modified in [[E19p]](https://doi.org/10.48550/arXiv.1905.09084), and the order r, by using the modified post-processing algorithm described in [[E19p]](https://doi.org/10.48550/arXiv.1905.09084).
 
-The modified post-processing algorithm is described in Sect. 6 of [[E19p]](https://doi.org/10.48550/arXiv.1905.09084):
+The modified post-processing algorithm is described in Sect. 6 of [[E19p]](https://doi.org/10.48550/arXiv.1905.09084):
 
 Note that this function does not implement meet-in-the-middle-techniques, although it is noted in [[E23p]](https://doi.org/10.48550/arXiv.2309.01754) that it is possible to use such techniques to speed up the post-processing also for general discrete logarithms.
 
