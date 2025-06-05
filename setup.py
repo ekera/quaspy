@@ -25,7 +25,7 @@ long_description += "Funding and support was provided by the Swedish NCSA that i
 
 setuptools.setup(
   name="quaspy",
-  version="0.9.3",
+  version="0.9.4",
   author="Martin Ekerå",
   author_email="ekera@kth.se",
   description="The Quaspy library for Python for simulating and post-processing various quantum algorithms, including Shor's algorithms and Ekerå–Håstad's variations of Shor's algorithms.",

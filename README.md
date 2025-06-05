@@ -50,7 +50,7 @@ $ pip3 install quaspy
 You may also install [Quaspy](https://github.com/ekera/quaspy) directly from this repository, by executing:
 
 ```console
-$ pip3 install dist/quaspy-0.9.3-py3-none-any.whl
+$ pip3 install dist/quaspy-0.9.4-py3-none-any.whl
 ```
 
 ## Examples
