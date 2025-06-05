@@ -10,7 +10,7 @@
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
-                       Quantum Inf. Process. 20(6):205 (2021). """
+                      Quantum Inf. Process. 20(6):205 (2021). """
 
 from gmpy2 import mpz;
 from gmpy2 import powmod;
@@ -71,9 +71,8 @@ def sample_r_given_N(N, factors):
       order from $Z^*_N$ when the factors of $N$ are known" which is to appear.
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
-                    single run of an order-finding algorithm".
-                    Quantum Inf. Process. 20(6):205 (2021).
-
+                         single run of an order-finding algorithm".
+                        Quantum Inf. Process. 20(6):205 (2021).
 
       @param N  The integer N.
 

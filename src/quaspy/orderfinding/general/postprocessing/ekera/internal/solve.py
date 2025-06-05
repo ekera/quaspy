@@ -153,7 +153,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
               vectors in a two-dimensional lattice L as described in [E24].
 
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
-                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
       More specifically, this function uses Lagrange's lattice basis reduction
       algorithm to find a reduced basis for the lattice L spanned by (j, 1/2)

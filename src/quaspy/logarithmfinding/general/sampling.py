@@ -32,7 +32,7 @@ def sample_j_k_given_d_r_heuristic(
       The sampling procedure is described in Sect. 5 of [E19p].
 
       [E19p] Ekerå, M.: "Revisiting Shor's quantum algorithm for computing
-                        general discrete logarithms".
+                         general discrete logarithms".
                         ArXiv 1905.09084v4 (2024).
 
       @param d  The discrete logarithm d in [1, r).

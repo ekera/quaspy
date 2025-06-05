@@ -36,11 +36,11 @@ def split_N_given_d(d, N):
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
                                         Integers.". In: PQCrypto 2017.
-                                        Springer LNCS 10346, pp. 347–363 (2017).
+                                       Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
                          computing short discrete logarithms".
-                         Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
+                        Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
       @param d  The logarithm d.
 

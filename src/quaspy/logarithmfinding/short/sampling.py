@@ -49,7 +49,7 @@ def sample_j_k_given_d_r_tau(
       This function checks that this requirement is respected.
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
-                       computing short discrete logarithms".
+                        computing short discrete logarithms".
                        Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
@@ -134,7 +134,7 @@ def sample_j_k_given_d_r(
       function checks that this requirement is respected.
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
-                       computing short discrete logarithms".
+                        computing short discrete logarithms".
                        Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for

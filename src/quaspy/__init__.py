@@ -56,30 +56,30 @@
 
     [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
                           Logarithms and Factoring".
-                          In: Proceedings from FOCS '94, pp. 124–134 (1994).
+                         In: Proceedings from FOCS '94, pp. 124–134 (1994).
 
     [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                       Discrete Logarithms and Factoring RSA
                                       Integers.". In: PQCrypto 2017.
-                                      Springer LNCS 10346, pp. 347–363 (2017).
+                                     Springer LNCS 10346, pp. 347–363 (2017).
 
     [E19p] Ekerå, M.: "Revisiting Shor's quantum algorithm for computing
                        general discrete logarithms".
-                       ArXiv 1905.09084v4 (2024).
+                      ArXiv 1905.09084v4 (2024).
 
     [E20]  Ekerå, M.: "On post-processing in the quantum algorithm for
                        computing short discrete logarithms".
-                       Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
+                      Des., Codes and Cryptogr. 88, pp. 2313–2335 (2020).
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
-                       Quantum Inf. Process. 20(6):205 (2021).
+                      Quantum Inf. Process. 20(6):205 (2021).
 
     [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                        the short DLP". ArXiv 2309.01754v2 (2025).
 
     [E24]  Ekerå, M.: "On the success probability of quantum order finding".
-                       ACM Trans. Quantum Comput. 5(2):11 (2024). """
+                      ACM Trans. Quantum Comput. 5(2):11 (2024). """
 
 # Shor's algorithm for splitting N if r is even and g^(r/2) != -1 (mod N).
 from .factoring.general.postprocessing.shor import split_N_given_g_r;
