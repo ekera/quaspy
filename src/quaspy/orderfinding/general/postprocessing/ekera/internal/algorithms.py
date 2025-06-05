@@ -1,4 +1,4 @@
-""" @brief  A module for implementing Algorithms 1–4 from [E24].
+""" @brief  A module for implementing Algs. 1–4 from [E24].
 
     [E24]  Ekerå, M.: "On the success probability of quantum order finding".
                       ACM Trans. Quantum Comput. 5(2):11 (2024). """
@@ -32,7 +32,7 @@ def algorithm1(g, r_tilde, m, c = 1):
   """ @brief  Recovers a multiple rp of r, assuming r_tilde is such that
               r = d * r_tilde where d is cm-smooth.
 
-      This function implements Algorithm 1 from [E24].
+      This function implements Alg. 1 from [E24].
 
       [E24]  Ekerå, M.: "On the success probability of quantum order finding".
                         ACM Trans. Quantum Comput. 5(2):11 (2024).
@@ -90,7 +90,7 @@ def algorithm2(g, r_tilde, m, c = 1):
   """ @brief  Recovers r, assuming r_tilde is such that r = d * r_tilde where d
               is cm-smooth.
 
-      This function implements Algorithm 2 from [E24].
+      This function implements Alg. 2 from [E24].
 
       [E24]  Ekerå, M.: "On the success probability of quantum order finding".
                         ACM Trans. Quantum Comput. 5(2):11 (2024).
@@ -179,7 +179,7 @@ def algorithm3(g, r_tilde, m, c = 1):
   """ @brief  Recovers r, assuming r_tilde is such that r = d * r_tilde where d
               is cm-smooth.
 
-      This function implements Algorithm 3 from [E24].
+      This function implements Alg. 3 from [E24].
 
       [E24]  Ekerå, M.: "On the success probability of quantum order finding".
                         ACM Trans. Quantum Comput. 5(2):11 (2024).
@@ -188,11 +188,11 @@ def algorithm3(g, r_tilde, m, c = 1):
       q1, .., qk pairwise distinct primes, and e1, .., ek positive integer
       exponents, if it holds that qi^ei <= cm for all i in [1, k].
 
-      @remark   As is explained in [E24], this algorithm is equivalent to
-                Algorithm 2 in that it computes the same result. It has a
-                better worst-case time complexity than Algorithm 2, but it has
-                a much higher time complexity in practice for many problem
-                instances. This explains why both algorithms are included.
+      @remark   As is explained in [E24], this algorithm is equivalent to Alg. 2
+                in that it computes the same result. It has a better worst-case
+                time complexity than Alg. 2, but it has a much higher time
+                complexity in practice for many problem instances. This explains
+                why both algorithms are included.
 
       @param g  The element g of order r.
 
@@ -263,7 +263,7 @@ def algorithm4(g, S, m, c = 1):
               are such that d * r_tilde is a positive integer multiple of r,
               where d is cm-smooth.
 
-      This function implements Algorithm 4 from [E24].
+      This function implements Alg. 4 from [E24].
 
       [E24]  Ekerå, M.: "On the success probability of quantum order finding".
                         ArXiv 2201.07791v2 (2022).

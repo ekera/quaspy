@@ -107,7 +107,7 @@ def solve_j_k_for_d(
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                          the short DLP". ArXiv 2309.01754v2 (2025).
 
-      This function implements the enumeration procedure in Alg. 1 in [E23p]. It
+      This function implements the enumeration procedure in Alg. 1 in [E23p]. It
       is guaranteed to recover d if (j, k) is a tau-good pair, and if j is such
       that the lattice L^tau(j) is t-balanced, see Defs. 1–3 in [E23p].
 

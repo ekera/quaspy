@@ -120,12 +120,11 @@ def test_solve_j_for_r(
                       results and status updates when executing the test.
 
       @param opt_speculative  A flag that may be set to True to indicate that
-                              Algorithm 2 in [E24] should be used instead of
-                              Algorithm 3 to find the missing cm-smooth
-                              component of r. In most cases, Algorithm 2 is
-                              faster than Algorithm 3, but in the worst case
-                              Algorithm 2 is a lot slower than Algorithm 3. For
-                              further details, see [E24].
+                              Alg. 2 in [E24] should be used instead of Alg. 3
+                              to find the missing cm-smooth component of r. In
+                              most cases, Alg. 2 is faster than Alg. 3, but in
+                              the worst case Alg. 2 is a lot slower than Alg. 3.
+                              For further details, see [E24].
 
       @param opt_isolate_peak   A flag that may be set to True to indicate that
                                 all offsets in j up to B should not be tested
