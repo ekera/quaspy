@@ -133,6 +133,9 @@ def solve_r_for_factors(
                          single run of an order-finding algorithm".
                         Quantum Inf. Process. 20(6):205 (2021).
 
+      [E24]  Ekerå, M.: "On the success probability of quantum order finding".
+                        ACM Trans. Quantum Comput. 5(2):11 (2024).
+
       @param r   The order r of g, or a positive integer multiple of r.
 
       @param N   The integer N.
@@ -140,7 +143,8 @@ def solve_r_for_factors(
       @param c   A parameter c >= 1 that specifies the maximum size of the
                  missing cm-smooth component in lambda'(N) when solving r for
                  the complete factorization of N. In this context, m is the bit
-                 length of N, and cm-smoothness is defined as in [E21b, E24].
+                 length of N, and cm-smoothness is defined as in [E21b] (and in
+                 [E24], see in particular Sect. 4.1.1 in [E24]).
 
                  As is explained in [E21b], increasing c increases the success
                  probability, at the expense of increasing the runtime.
