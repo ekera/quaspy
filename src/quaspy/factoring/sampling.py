@@ -3,14 +3,17 @@
             integers modulo N and returning the order r of g. This when the
             complete factorization of N is known.
 
-    The procedures in this module are described in [E21b], in the factoritall
-    repository (available at https://www.github.com/ekera/factoritall), and in
-    the short note M. Ekerå: "A note on sampling random elements of known order
-    from $Z^*_N$ when the factors of $N$ are known" which is to appear.
+    The procedures in this module are described in [E21b], in [E24t] (see in
+    particular Sect. 5.2.3) and in the factoritall repository (available at
+    https://www.github.com/ekera/factoritall).
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
-                      Quantum Inf. Process. 20(6):205 (2021). """
+                      Quantum Inf. Process. 20(6):205 (2021).
+    
+    [E24t] Ekerå, M.: "On factoring integers, and computing discrete logarithms
+                       and orders, quantumly". PhD thesis, KTH Royal Institute
+                      of Technology (2024). """
 
 from gmpy2 import mpz;
 from gmpy2 import powmod;
@@ -65,14 +68,17 @@ def sample_r_given_N(N, factors):
       hard to prove that an element Gi is a generator, and hence to explicitly
       compute g. This explains why this function only returns r.
 
-      The above procedure is not described in [E21b], but in the factoritall
-      repository (available at https://www.github.com/ekera/factoritall), and in
-      the short note M. Ekerå: "A note on sampling random elements of known
-      order from $Z^*_N$ when the factors of $N$ are known" which is to appear.
+      The above procedure is not described in [E21b], but in [E24t] (see in
+      particular Sect. 5.2.3) and in the factoritall repository (available at
+      https://www.github.com/ekera/factoritall).
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
                         Quantum Inf. Process. 20(6):205 (2021).
+
+      [E24t] Ekerå, M.: "On factoring integers, and computing discrete
+                         logarithms and orders, quantumly". PhD thesis, KTH
+                        Royal Institute of Technology (2024).
 
       @param N  The integer N.
 
