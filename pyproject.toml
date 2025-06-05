@@ -1,3 +1,38 @@
 [build-system]
-requires = ["setuptools>=42"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "quaspy"
+version = "0.9.4"
+description = "The Quaspy library for Python for simulating and post-processing various quantum algorithms, including Shor's algorithms and Ekerå–Håstad's variations of Shor's algorithms."
+readme = "res/pip/README.md"
+requires-python = ">=3.6"
+
+authors = [
+  { name = "Martin Ekerå", email = "ekera@kth.se" }
+]
+
+license = "MIT"
+license-files = ["LICENSE.md"]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+
+dependencies = [
+  "gmpy2",
+  "secret"
+]
+
+[project.urls]
+Homepage = "https://github.com/ekera/quaspy"
+Repository = "https://github.com/ekera/quaspy"
+"Bug Tracker" = "https://github.com/ekera/quaspy/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]

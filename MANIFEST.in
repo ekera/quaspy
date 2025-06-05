@@ -1,0 +1,3 @@
+exclude README.md
+include res/pip/README.md
+include LICENSE.md

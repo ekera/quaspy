@@ -12,11 +12,14 @@ reinstall:
 	pip3 uninstall -y quaspy
 	pip3 install dist/quaspy-*.whl
 
+pre-publish-check:
+	python3 -m twine check dist/*
+
 publish:
-	twine upload dist/*
+	python3 -m twine upload dist/*
 
 publish-test:
-	twine upload -r testpypi dist/*
+	python3 -m twine upload -r testpypi dist/*
 
 clean:
 	rm -rf dist
