@@ -1,5 +1,5 @@
 ## Function: <code>crt(values, moduli)</code>
-Given values = [v1, .., vn] and moduli = [N1, .., Nn], this function returns an integer v in [0, N) such that v = vi (mod Ni) for all i in [1, n], where N = N1 * .. * Nn.
+Given values = [v1, ..., vn] and moduli = [N1, ..., Nn], this function returns an integer v in [0, N) such that v = vi (mod Ni) for all i in [1, n], where N = N1 * ... * Nn.
 
 > It is required that all Ni >= 2, and pairwise coprime.
 
@@ -13,16 +13,16 @@ from quaspy.math.crt import crt
 
 ## Prototype
 ```python
-def crt(values,
-        moduli)
+def crt(values : list,
+        moduli : list)
 ```
 
 ## Parameters
 | <b>Name</b> | <b>Description</b> |
 | ----------- | ------------------ |
-| values | The values = [v1, .., vn]. |
-| moduli | The moduli = [N1, .., Nn]. |
+| values | The values = [v1, ..., vn]. |
+| moduli | The moduli = [N1, ..., Nn]. |
 
 ## Return value
-An integer v in [0, N) such that v = vi (mod Ni) for all i in [1, n], where N = N1 * .. * Nn.
+An integer v in [0, N) such that v = vi (mod Ni) for all i in [1, n], where N = N1 * ... * Nn.
 

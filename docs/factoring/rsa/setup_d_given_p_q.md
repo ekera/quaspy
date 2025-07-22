@@ -29,8 +29,8 @@ from quaspy.factoring.rsa import setup_d_given_p_q
 
 ## Prototype
 ```python
-def setup_d_given_p_q(p,
-                      q)
+def setup_d_given_p_q(p : int | gmpy2.mpz,
+                      q : int | gmpy2.mpz)
 ```
 
 ## Parameters

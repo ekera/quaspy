@@ -26,6 +26,10 @@ from quaspy.utils.timer import Timer
 
   Returns a string representation of the timer.
 
+- [<code>format(delta_t)</code>](Timer/format.md)
+
+  Formats a time delta in seconds as a string.
+
 - [<code>peek(self)</code>](Timer/peek.md)
 
   Peeks at the timer, returning the number of seconds elapsed.

@@ -1,20 +1,50 @@
 """ @brief  A module for factoring N completely given the order r of an element
             g selected uniformly at random from the multiplicative group of the
             ring of integers modulo N, where g need not be explicitly
-            specified. This by using the algorithm in [E21b].
+            specified. This by using the algorithm from [E21b].
 
     This module furthermore contains convenience functions for first solving
-    the frequency j yielded by Shor's order-finding algorithm for a positive
-    integer multiple r' of r, and for then solving r' for the complete
-    factorization of N. This by using the algorithms in [E24] in the first step,
-    and the algorithm in [E21b] in the second step.
+    the frequency j yielded by the quantum part of Shor's order-finding
+    algorithm [Shor94] for a positive integer multiple r' of r, and for then
+    solving r' for the complete factorization of N. This by using the classical
+    post-processing algorithms from [E24] in the first step, and the algorithm
+    from [E21b] in the second step.
+
+    Finally, this module contains convenience functions for first solving a list
+    of n frequencies [j_1, ..., j_n] yielded by n runs of the quantum part of
+    Seifert's variation [Seifert01] of Shor's order-finding algorithm [Shor94]
+    for a positive integer multiple r' of r, and for then solving r' for the
+    complete factorization of N. This by using the classical post-processing
+    algorithms from [E24t] (see Sect. 5.4) and [E21], with supporting functions
+    from [E24], in the first step, and by using the algorithm from [E21b] in the
+    second step.
+
+    Throughout this module, the algorithms are as described in [E24t], [E24],
+    [E21] and [E21b]. The notation is also inherited from said works.
+
+    [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                          Logarithms and Factoring".
+                         In: Proceedings from FOCS '94, pp. 124–134 (1994).
+
+    [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
+                                 algorithm via simultaneous Diophantine
+                                 approximation". In: CT-RSA 2001.
+                                Springer LNCS 2020, pp. 319–227 (2001).
+
+    [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
+                      logarithms and orders with tradeoffs".
+                     J. Math. Cryptol. 15(1), pp. 359–407 (2021).
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
                       Quantum Inf. Process. 20(6):205 (2021).
 
     [E24] Ekerå, M.: "On the success probability of quantum order finding".
-                     ACM Trans. Quantum Comput. 5(2):11 (2024). """
+                     ACM Trans. Quantum Comput. 5(2):11 (2024).
+
+    [E24t] Ekerå, M.: "On factoring integers, and computing discrete logarithms
+                       and orders, quantumly".
+                      PhD thesis, KTH Royal Institute of Technology (2024). """
 
 from enum import Enum;
 
@@ -23,6 +53,7 @@ from gmpy2 import gcd;
 from gmpy2 import powmod;
 
 from .....utils.timer import Timer;
+from .....utils.timeout import Timeout;
 
 from .....math.groups import CyclicGroupElement;
 from .....math.groups import IntegerModRingMulSubgroupElement;
@@ -34,7 +65,13 @@ from .....math.kappa import kappa;
 from .....orderfinding.general.postprocessing.ekera import solve_j_for_r;
 from .....orderfinding.general.postprocessing.ekera import SolutionMethods;
 
-from .....orderfinding.general.postprocessing import B_DEFAULT_SOLVE;
+from .....orderfinding.general.postprocessing.ekera import \
+  solve_multiple_j_for_r;
+from .....orderfinding.general.postprocessing.ekera import EnumerationOptions;
+
+from .....orderfinding.general.postprocessing.ekera import B_DEFAULT_SOLVE;
+
+from .....math.lattices.lll import LLL_DEFAULT_DELTA;
 
 from .internal.collection import FactorCollection;
 
@@ -96,7 +133,10 @@ class IncompleteFactorizationException(Exception):
 
       This occurs only if an iteration or timeout limit has been specified. """
 
-  def __init__(self, message, factors):
+  def __init__(
+      self,
+      message : str,
+      factors : set[int | mpz]):
 
     """ @brief  Initializes the exception.
 
@@ -108,26 +148,27 @@ class IncompleteFactorizationException(Exception):
 
 
 def solve_r_for_factors(
-  r,
-  N,
-  c = 1,
-  k = None,
-  timeout = None,
-  verbose = False,
-  opt_split_factors_with_multiplicity = True,
-  opt_report_accidental_factors = True,
-  opt_abort_early = True,
-  opt_square = True,
-  opt_exclude_one = True,
-  opt_process_composite_factors =
-    OptProcessCompositeFactors.SEPARATELY_MOD_Np):
+  r : int | mpz,
+  N : int | mpz,
+  c : int = 1,
+  k : int | None = None,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_split_factors_with_multiplicity : bool = True,
+  opt_report_accidental_factors : bool = True,
+  opt_abort_early : bool = True,
+  opt_square : bool = True,
+  opt_exclude_one : bool = True,
+  opt_process_composite_factors : OptProcessCompositeFactors =
+    OptProcessCompositeFactors.SEPARATELY_MOD_Np) -> set[int]:
 
   """ @brief  Attempts to factor N completely given the order r of an element g
               selected uniformly at random from the multiplicative group of the
               ring of integers modulo N, where g need not be explicitly
-              specified.
+              specified. This by using the algorithm from [E21b].
 
-              This by using the algorithm in [E21b].
+      Throughout this function, the algorithms are as described in [E21b]
+      and [E24]. The notation is also inherited from said works.
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
@@ -150,18 +191,20 @@ def solve_r_for_factors(
                  probability, at the expense of increasing the runtime.
 
       @param k   The maximum number of iterations to perform. Defaults to None.
+
                  If k is set to None, as many iterations as are necessary to
                  completely factor N will be performed. If k is explicitly
                  specified, and the complete factorization of N has not been
                  found after k iterations, an exception of type
                  IncompleteFactorizationException will be raised.
 
-      @param timeout  A timeout in seconds. Defaults to None. If the timeout is
-                      set to None, as much time as is necessary to completely
-                      factor N will be used. If a timeout is explicitly
-                      specified, and the complete factorization of N has not
-                      been found when the timeout elapses, an exception of type
-                      IncompleteFactorizationException will be raised.
+      @param timeout  A timeout after which an IncompleteFactorizationException
+                      will be raised and the computation aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
 
       @param verbose  A flag that may be set to True to print intermediary
                       results. Defaults to False.
@@ -244,9 +287,9 @@ def solve_r_for_factors(
                               option) or to False.
 
         When set to True, as is the default, the solver computes x^(2^i o) for
-        0, 1, .., min(s, t), for t as in [E21b] and s the least non-negative
+        0, 1, ..., min(s, t), for t as in [E21b] and s the least non-negative
         integer such that x^(2^s o) = 1. When set to False, the solver instead
-        computes x^(2^i o) for i = 0, 1, .., t.
+        computes x^(2^i o) for i = 0, 1, ..., t.
 
         Note that when opt_square (see below) is set to True, the solver first
         computes x^o. It then takes consecutive squares to form x^(2^i o) for
@@ -330,6 +373,9 @@ def solve_r_for_factors(
   if (r < 1) or (N < 2) or (c < 1):
     raise Exception("Error: Incorrect parameters.");
 
+  # Initial setup.
+  timeout = Timeout.parse(timeout);
+
   # Note: Step 1 is already completed.
   r = mpz(r);
   N = mpz(N);
@@ -392,11 +438,11 @@ def solve_r_for_factors(
       raise IncompleteFactorizationException(
         "Error: The iteration limit has been exceeded.", F.found_factors);
 
-    # Check if the timeout is exceeded, if specified, and if so raise an
+    # Check if the timeout has elapsed, if specified, and if so raise an
     # exception passing along the factors that have been found thus far.
-    if (timeout != None) and (timer.peek() > timeout):
+    if timeout.is_elapsed():
       raise IncompleteFactorizationException(\
-        "Error: The timeout limit has been exceeded.", F.found_factors);
+        "Error: The timeout has elapsed.", F.found_factors);
 
     # Step 4.1: Select x uniformly at random from Z_N^*.
 
@@ -505,7 +551,7 @@ def solve_r_for_factors(
       # xp = Rp(x); # Coerce x to Z_N'^*.
       xp = x % Np;
 
-      # Step 4.2: For i = 0, 1, .., t do:
+      # Step 4.2: For i = 0, 1, ..., t do:
       timer_exponentiation.start();
       # tmp = xp^o;
       tmp = powmod(xp, o, Np);
@@ -543,7 +589,7 @@ def solve_r_for_factors(
         if (tmp == 1) and opt_abort_early:
           break; # No point in continuing to iterate, see above.
 
-        # Step 4.2.1 for i = 1, .., t.
+        # Step 4.2.1 for i = 1, ..., t.
         d = gcd(tmp - 1, Np);
         if 1 < d < Np:
           F.add(d);
@@ -577,29 +623,37 @@ def solve_r_for_factors(
 
 
 def solve_j_for_factors(
-  j : int,
+  j : int | mpz,
   m : int,
   l : int,
-  g: CyclicGroupElement,
-  N: int,
+  g : CyclicGroupElement,
+  N : int | mpz,
   c_solve : int = 1,
   c_factor : int = 1,
   B : int = B_DEFAULT_SOLVE,
-  k = None,
-  timeout = None,
-  accept_multiple = True,
-  method = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
-  verbose = False,
-  opt_speculative = True):
+  k : int | None = None,
+  accept_multiple : bool = True,
+  method : SolutionMethods = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_speculative : bool = True) -> set[int] | None:
 
   """ @brief  Attempts to factor N completely, given the frequency j yielded by
-              the quantum order-finding algorithm when computing the order r of
-              g modulo N, for g an element selected uniformly at random from the
-              multiplicative group of the ring of integers modulo N.
+              a run of the quantum part of Shor's order-finding algorithm
+              [Shor94] when computing the order r of g modulo N, for g an
+              element selected uniformly at random from the multiplicative group
+              of the ring of integers modulo N.
 
-              This by using the algorithm in [E21b] to factor N given r, or a
-              positive multiple of r, and the post-processing algorithm in [E24]
-              to find r, or a positive multiple of r, given j.
+              This by using the algorithm from [E21b] to factor N given r, or a
+              positive multiple of r, and the post-processing algorithm from
+              [E24] to find r, or a positive multiple of r, given j.
+
+      Throughout this function, the algorithms are as described in [E24] and
+      [E21b]. The notation is also inherited from said works.
+
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
@@ -612,16 +666,18 @@ def solve_j_for_factors(
                 solve_r_for_factors(), passing along r. To access all options of
                 these functions, call them manually in sequence instead.
 
-      @param j  The frequency j yielded by the quantum order-finding algorithm.
+      @param j  The frequency j yielded by the quantum part of the
+                order-finding algorithm.
 
       @param m  A positive integer m such that r < 2^m.
 
-      @param l  A positive integer l <= m, such that m+l is the length of the
-                control register in the quantum order-finding algorithm.
+      @param l  A positive integer l <= m such that m + l is the length of the
+                control register in the quantum part of the order-finding
+                algorithm.
 
                 If method is set to SolutionMethods.CONTINUED_FRACTIONS_BASED or
                 SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR, it is required
-                that r^2 < 2^(m+l) or else r may not be found.
+                that r^2 < 2^(m + l) or else r may not be found.
 
                 If method is set to SolutionMethods.LATTICE_BASED_ENUMERATE, it
                 is possible to select l = m - Delta for some Delta in [0, m), at
@@ -646,8 +702,8 @@ def solve_j_for_factors(
 
       @param B  A bound B >= 0 on the offset in j. If B > 0, the solve_j_for_r()
                 function called by this function tries to solve not only j, but
-                also j ± 1, .., j ± B, for r, or for a positive integer multiple
-                of r.
+                also j ± 1, ..., j ± B, for r, or for a positive integer
+                multiple of r.
 
       @param k  The maximum number of iterations to perform when factoring N
                 given the order r, or a multiple of r. Defaults to None.
@@ -657,14 +713,6 @@ def solve_j_for_factors(
                 specified, and the complete factorization of N has not been
                 found after k iterations, an exception of type
                 IncompleteFactorizationException will be raised.
-
-      @param timeout  A timeout in seconds. Defaults to None. If the timeout is
-                      set to None, as much time as is necessary to completely
-                      factor N given the order r, or a multiple of r, will be
-                      used. If a timeout is explicitly specified, and the
-                      complete factorization of N has not been found when the
-                      timeout elapses, an exception of type
-                      IncompleteFactorizationException will be raised.
 
       @param accept_multiple  A flag that may be set to True to indicate that
                               only a positive integer multiple of r is sought.
@@ -676,6 +724,18 @@ def solve_j_for_factors(
                       specifies the method to use to solve j for r. For further
                       details, see the documentation for the SolutionMethods
                       class.
+
+      @param timeout  A timeout after which an IncompleteFactorizationException
+                      or TimeoutError will be raised and the computation
+                      aborted. More specifically, if the process of factoring N
+                      given r, or a multiple of r, has been initiated, an
+                      IncompleteFactorizationException will be raised, otherwise
+                      a TimeoutError will be raised, when the timeout elapses.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
 
       @param verbose  A flag that may be set to True to print intermediary
                       results and status updates when executing the
@@ -691,6 +751,10 @@ def solve_j_for_factors(
       @return   The set of all distinct prime factors that divide N, or None,
                 if a positive multiple of r could not be found given j. """
 
+  # Initial setup.
+  timeout = Timeout.parse(timeout);
+  timeout.check();
+
   if verbose:
     print("*** Computing a multiple of the order...\n");
 
@@ -703,6 +767,7 @@ def solve_j_for_factors(
         B = B,
         accept_multiple = accept_multiple,
         method = method,
+        timeout = timeout,
         verbose = verbose,
         opt_speculative = opt_speculative);
 
@@ -724,29 +789,37 @@ def solve_j_for_factors(
 
 
 def solve_j_for_factors_mod_N(
-  j : int,
+  j : int | mpz,
   m : int,
   l : int,
-  g: int,
-  N: int,
+  g : int | mpz,
+  N : int | mpz,
   c_solve : int = 1,
   c_factor : int = 1,
   B : int = B_DEFAULT_SOLVE,
-  k = None,
-  timeout = None,
-  accept_multiple = True,
-  method = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
-  verbose = False,
-  opt_speculative = True):
+  k : int | None = None,
+  accept_multiple : bool = True,
+  method : SolutionMethods = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_speculative : bool = True) -> set[int] | None:
 
   """ @brief  Attempts to factor N completely, given the frequency j yielded by
-              the quantum order-finding algorithm when computing the order r of
-              g modulo N, for g an element selected uniformly at random from the
-              multiplicative group of the ring of integers modulo N.
+              a run of the quantum part of Shor's order-finding algorithm
+              [Shor94] when computing the order r of g modulo N, for g an
+              element selected uniformly at random from the multiplicative group
+              of the ring of integers modulo N.
 
-              This by using the algorithm in [E21b] to factor N given r, or a
-              positive multiple of r, and the post-processing algorithm in [E24]
-              to find r, or a positive multiple of r, given j.
+              This by using the algorithm from [E21b] to factor N given r, or a
+              positive multiple of r, and the post-processing algorithm from
+              [E24] to find r, or a positive multiple of r, given j.
+
+      Throughout this function, the algorithms are as described in [E24] and
+      [E21b]. The notation is also inherited from said works.
+
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
@@ -763,16 +836,18 @@ def solve_j_for_factors_mod_N(
                 along r. To access all options of these functions, call them
                 manually in sequence instead.
 
-      @param j  The frequency j yielded by the quantum order-finding algorithm.
+      @param j  The frequency j yielded by the quantum part of the
+                order-finding algorithm.
 
       @param m  A positive integer m such that r < 2^m.
 
-      @param l  A positive integer l <= m, such that m+l is the length of the
-                control register in the quantum order-finding algorithm.
+      @param l  A positive integer l <= m such that m + l is the length of the
+                control register in the quantum part of the order-finding
+                algorithm.
 
                 If method is set to SolutionMethods.CONTINUED_FRACTIONS_BASED or
                 SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR, it is required
-                that r^2 < 2^(m+l) or else r may not be found.
+                that r^2 < 2^(m + l) or else r may not be found.
 
                 If method is set to SolutionMethods.LATTICE_BASED_ENUMERATE, it
                 is possible to select l = m - Delta for some Delta in [0, m), at
@@ -797,7 +872,7 @@ def solve_j_for_factors_mod_N(
 
       @param B  A bound B >= 0 on the offset in j. If B > 0, the
                 solve_j_for_r() function called by this function tries
-                to solve not only j, but also j ± 1, .., j ± B, for r,
+                to solve not only j, but also j ± 1, ..., j ± B, for r,
                 or for a positive integer multiple of r.
 
       @param k  The maximum number of iterations to perform when factoring N
@@ -809,14 +884,6 @@ def solve_j_for_factors_mod_N(
                 found after k iterations, an exception of type
                 IncompleteFactorizationException will be raised.
 
-      @param timeout  A timeout in seconds. Defaults to None. If the timeout is
-                      set to None, as much time as is necessary to completely
-                      factor N given the order r, or a multiple of r, will be
-                      used. If a timeout is explicitly specified, and the
-                      complete factorization of N has not been found when the
-                      timeout elapses, an exception of type
-                      IncompleteFactorizationException will be raised.
-
       @param accept_multiple  A flag that may be set to True to indicate that
                               only a positive integer multiple of r is sought.
                               If set to True, the solve_j_for_r() function
@@ -827,6 +894,18 @@ def solve_j_for_factors_mod_N(
                       specifies the method to use to solve j for r. For further
                       details, see the documentation for the SolutionMethods
                       class.
+
+      @param timeout  A timeout after which an IncompleteFactorizationException
+                      or TimeoutError will be raised and the computation
+                      aborted. More specifically, if the process of factoring N
+                      given r, or a multiple of r, has been initiated, an
+                      IncompleteFactorizationException will be raised, otherwise
+                      a TimeoutError will be raised, when the timeout elapses.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
 
       @param verbose  A flag that may be set to True to print intermediary
                       results and status updates when executing the
@@ -854,8 +933,384 @@ def solve_j_for_factors_mod_N(
             c_factor = c_factor,
             B = B,
             k = k,
-            timeout = timeout,
             accept_multiple = accept_multiple,
             method = method,
+            timeout = timeout,
+            verbose = verbose,
+            opt_speculative = opt_speculative);
+
+
+def solve_multiple_j_for_factors(
+  j_list : list[int | mpz],
+  m : int,
+  l : int,
+  g : CyclicGroupElement,
+  N : int | mpz,
+  tau : int = 0,
+  c_solve : int = 1,
+  c_factor : int = 1,
+  k : int | None = None,
+  delta : float = LLL_DEFAULT_DELTA,
+  precision : int | None = None,
+  enumerate : bool | EnumerationOptions = False,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_speculative : bool = True) -> set[int] | None:
+
+  """ @brief  Attempts to factor N completely, given a list of n frequencies
+              [j_1, ..., j_n] yielded by n independent runs of the quantum part
+              of Seifert's variation [Seifert01] of Shor's order-finding
+              algorithm [Shor94] when computing the order r of g modulo N, for g
+              an element selected uniformly at random from the multiplicative
+              group of the ring of integers modulo N.
+
+              This by using the algorithm from [E21b] to factor N given r, or a
+              positive multiple of r, and the post-processing algorithm from
+              [E24t] (see Sect. 5.4) and [E21], with supporting functions from
+              [E24], to find r, or a positive multiple of r, given the n
+              frequencies [j_1, ..., j_n].
+
+      Throughout this function, the algorithms are as described in [E24t], [E21]
+      and [E21b]. The notation is also inherited from said works.
+
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
+
+      [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
+                                   algorithm via simultaneous Diophantine
+                                   approximation". In: CT-RSA 2001.
+                                  Springer LNCS 2020, pp. 319–227 (2001).
+
+      [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
+                        logarithms and orders with tradeoffs".
+                       J. Math. Cryptol. 15(1), pp. 359–407 (2021).
+
+      [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
+                         single run of an order-finding algorithm".
+                        Quantum Inf. Process. 20(6):205 (2021).
+
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
+
+      [E24t] Ekerå, M.: "On factoring integers, and computing discrete
+                         logarithms and orders, quantumly".
+                        PhD thesis, KTH Royal Institute of Technology (2024).
+
+      @remark   This convenience function simply calls solve_multiple_j_for_r(),
+                and then solve_r_for_factors(), passing along r. To access all
+                options of these functions, call them manually in sequence
+                instead.
+
+      @param j_list   The n frequencies [j_1, ..., j_n] where j_1, ..., j_n are
+                      integers on [0, 2^(m + l)).
+
+      @param m  A positive integer m such that r < 2^m.
+
+      @param l  A positive integer l ≈ m / s for s a tradeoff factor. The length
+                of the control register is m + l in the quantum part of the
+                order-finding algorithm.
+
+      @param g  The group element g of order r.
+
+      @param N  The integer N.
+
+      @param tau  An integer tau on [0, l]. Used to scale the basis for the
+                  lattice L^tau that is used in the post-processing, and that is
+                  generated by the vector (j_1, ..., j_n, 2^tau), and by the n
+                  vectors (2^(m + l), 0, ..., 0) thru (0, ..., 0, 2^(m + l), 0).
+
+      @param c_solve  A parameter c_solve >= 1 that specifies the maximum size
+                      of the missing smooth component d in r = d * r_tilde when
+                      solving j for r, or a multiple of r. As is explained in
+                      [E24], increasing c increases the success probability, at
+                      the expense of increasing the runtime.
+
+      @param c_factor   A parameter c_factor >= 1 that specifies the maximum
+                        size of the missing smooth component in lambda'(N) when
+                        solving r for the complete factorization of N. As is
+                        explained in [E21b], increasing c increases the success
+                        probability, at the expense of increasing the runtime.
+
+      @param k  The maximum number of iterations to perform when factoring N
+                given the order r, or a multiple of r. Defaults to None.
+
+                If k is set to None, as many iterations as are necessary to
+                completely factor N will be performed. If k is explicitly
+                specified, and the complete factorization of N has not been
+                found after k iterations, an exception of type
+                IncompleteFactorizationException will be raised.
+
+      @param delta  The parameter delta to use when delta-LLL-reducing the basis
+                    for the lattice L^tau used in the post-processing. Must be
+                    on the interval (1/4, 1]. A polynomial runtime in the
+                    dimension of the lattice is only guaranteed for delta < 1.
+
+      @param precision  The precision to use when computing the Gram–Schmidt
+                        projection factors as a part of delta-LLL-reducing the
+                        basis for the lattice L^tau used in the post-processing.
+
+                        The precision may be set to None, as is the default, in
+                        which case the projection factors are represented as
+                        exact quotients.
+
+      @param enumerate  A flag that may be set to True to enumerate vectors in
+                        the lattice L^tau (until r or a positive multiple of r
+                        is found or the specified timeout has elapsed), or to
+                        EnumerationOptions.SVP to consider only a shortest
+                        non-zero vector in L^tau as returned by performing a
+                        limited enumeration, or to False to consider only a
+                        shortest non-zero vector as returned by LLL.
+
+                        May also be set to EnumerationOptions.BOUNDED_BY_TAU or
+                        to EnumerationOptions.BOUNDED_BY_TAU_COMPLETE in which
+                        case all vectors within distance R of the origin of the
+                        lattice L^tau are enumerated, where R depends on tau as
+                        R = sqrt(n + 1) * 2^(m + tau). In the former case, the
+                        enumeration is aborted early as soon as r or a positive
+                        multiple of r is found. In the latter case, the
+                        enumeration runs to completion, after which the minimum
+                        candidate for r is taken as r.
+
+      @param timeout  A timeout after which an IncompleteFactorizationException
+                      or TimeoutError will be raised and the computation
+                      aborted. More specifically, if the process of factoring N
+                      given r, or a multiple of r, has been initiated, an
+                      IncompleteFactorizationException will be raised, otherwise
+                      a TimeoutError will be raised, when the timeout elapses.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
+
+      @param verbose  A flag that may be set to True to print intermediary
+                      results and status updates when executing the
+                      post-processing algorithm.
+
+      @param opt_speculative  A flag that may be set to True to indicate that
+                              Alg. 2 in [E24] should be used instead of Alg. 3
+                              to find the missing cm-smooth component of r. In
+                              most cases, Alg. 2 is faster than Alg. 3, but in
+                              the worst case Alg. 2 is a lot slower than Alg. 3.
+                              For further details, see [E24].
+
+      @return   The set of all distinct prime factors that divide N, or None,
+                if a positive multiple of r could not be found given the n
+                frequencies [j_1, ..., j_n]. """
+
+  # Initial setup.
+  timeout = Timeout.parse(timeout);
+  timeout.check();
+
+  if verbose:
+    print("*** Computing a multiple of the order...\n");
+
+  r = solve_multiple_j_for_r(
+        j_list =  j_list,
+        m = m,
+        l = l,
+        g = g,
+        tau = tau,
+        c = c_solve,
+        delta = delta,
+        precision = precision,
+        enumerate = enumerate,
+        timeout = timeout,
+        verbose = verbose,
+        opt_speculative = opt_speculative);
+
+  if None == r:
+    return None;
+
+  if verbose:
+    print("\nComputed r = " + str(r) + "\n");
+
+    print("*** Computing the factorization...\n");
+
+  return solve_r_for_factors(
+            r = r,
+            N = N,
+            c = c_factor,
+            k = k,
+            timeout = timeout,
+            verbose = verbose);
+
+
+def solve_multiple_j_for_factors_mod_N(
+  j_list : list[int | mpz],
+  m : int,
+  l : int,
+  g : int | mpz,
+  N : int | mpz,
+  tau : int = 0,
+  c_solve : int = 1,
+  c_factor : int = 1,
+  k : int | None = None,
+  delta : float = LLL_DEFAULT_DELTA,
+  precision : int | None = None,
+  enumerate : bool | EnumerationOptions = False,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_speculative : bool = True) -> set[int] | None:
+
+  """ @brief  Attempts to factor N completely, given a list of n frequencies
+              [j_1, ..., j_n] yielded by n independent runs of the quantum part
+              of Seifert's variation [Seifert01] of Shor's order-finding
+              algorithm [Shor94] when computing the order r of g modulo N, for g
+              an element selected uniformly at random from the multiplicative
+              group of the ring of integers modulo N.
+
+              This by using the algorithm from [E21b] to factor N given r, or a
+              positive multiple of r, and the post-processing algorithm from
+              [E24t] (see Sect. 5.4) and [E21], with supporting functions from
+              [E24], to find r, or a positive multiple of r, given the n
+              frequencies [j_1, ..., j_n].
+
+      Throughout this function, the algorithms are as described in [E24t], [E21]
+      and [E21b]. The notation is also inherited from said works.
+
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
+
+      [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
+                                   algorithm via simultaneous Diophantine
+                                   approximation". In: CT-RSA 2001.
+                                  Springer LNCS 2020, pp. 319–227 (2001).
+
+      [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
+                        logarithms and orders with tradeoffs".
+                       J. Math. Cryptol. 15(1), pp. 359–407 (2021).
+
+      [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
+                         single run of an order-finding algorithm".
+                        Quantum Inf. Process. 20(6):205 (2021).
+
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
+
+      [E24t] Ekerå, M.: "On factoring integers, and computing discrete
+                         logarithms and orders, quantumly".
+                        PhD thesis, KTH Royal Institute of Technology (2024).
+
+      @remark   This convenience function simply calls solve_multiple_j_for_r(),
+                and then solve_r_for_factors(), passing along r. To access all
+                options of these functions, call them manually in sequence
+                instead.
+
+      @param j_list   The n frequencies [j_1, ..., j_n] where j_1, ..., j_n are
+                      integers on [0, 2^(m + l)).
+
+      @param m  A positive integer m such that r < 2^m.
+
+      @param l  A positive integer l ≈ m / s for s a tradeoff factor. The length
+                of the control register is m + l in the quantum part of the
+                order-finding algorithm.
+
+      @param g  The group element g of order r.
+
+      @param N  The integer N.
+
+      @param tau  An integer tau on [0, l]. Used to scale the basis for the
+                  lattice L^tau that is used in the post-processing, and that is
+                  generated by the vector (j_1, ..., j_n, 2^tau), and by the n
+                  vectors (2^(m + l), 0, ..., 0) thru (0, ..., 0, 2^(m + l), 0).
+
+      @param c_solve  A parameter c_solve >= 1 that specifies the maximum size
+                      of the missing smooth component d in r = d * r_tilde when
+                      solving j for r, or a multiple of r. As is explained in
+                      [E24], increasing c increases the success probability, at
+                      the expense of increasing the runtime.
+
+      @param c_factor   A parameter c_factor >= 1 that specifies the maximum
+                        size of the missing smooth component in lambda'(N) when
+                        solving r for the complete factorization of N. As is
+                        explained in [E21b], increasing c increases the success
+                        probability, at the expense of increasing the runtime.
+
+      @param k  The maximum number of iterations to perform when factoring N
+                given the order r, or a multiple of r. Defaults to None.
+
+                If k is set to None, as many iterations as are necessary to
+                completely factor N will be performed. If k is explicitly
+                specified, and the complete factorization of N has not been
+                found after k iterations, an exception of type
+                IncompleteFactorizationException will be raised.
+
+      @param delta  The parameter delta to use when delta-LLL-reducing the basis
+                    for the lattice L^tau used in the post-processing. Must be
+                    on the interval (1/4, 1]. A polynomial runtime in the
+                    dimension of the lattice is only guaranteed for delta < 1.
+
+      @param precision  The precision to use when computing the Gram–Schmidt
+                        projection factors as a part of delta-LLL-reducing the
+                        basis for the lattice L^tau used in the post-processing.
+
+                        The precision may be set to None, as is the default, in
+                        which case the projection factors are represented as
+                        exact quotients.
+
+      @param enumerate  A flag that may be set to True to enumerate vectors in
+                        the lattice L^tau (until r or a positive multiple of r
+                        is found or the specified timeout has elapsed), or to
+                        EnumerationOptions.SVP to consider only a shortest
+                        non-zero vector in L^tau as returned by performing a
+                        limited enumeration, or to False to consider only a
+                        shortest non-zero vector as returned by LLL.
+
+                        May also be set to EnumerationOptions.BOUNDED_BY_TAU or
+                        to EnumerationOptions.BOUNDED_BY_TAU_COMPLETE in which
+                        case all vectors within distance R of the origin of the
+                        lattice L^tau are enumerated, where R depends on tau as
+                        R = sqrt(n + 1) * 2^(m + tau). In the former case, the
+                        enumeration is aborted early as soon as r or a positive
+                        multiple of r is found. In the latter case, the
+                        enumeration runs to completion, after which the minimum
+                        candidate for r is taken as r.
+
+      @param timeout  A timeout after which an IncompleteFactorizationException
+                      or TimeoutError will be raised and the computation
+                      aborted. More specifically, if the process of factoring N
+                      given r, or a multiple of r, has been initiated, an
+                      IncompleteFactorizationException will be raised, otherwise
+                      a TimeoutError will be raised, when the timeout elapses.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
+
+      @param verbose  A flag that may be set to True to print intermediary
+                      results and status updates when executing the
+                      post-processing algorithm.
+
+      @param opt_speculative  A flag that may be set to True to indicate that
+                              Alg. 2 in [E24] should be used instead of Alg. 3
+                              to find the missing cm-smooth component of r. In
+                              most cases, Alg. 2 is faster than Alg. 3, but in
+                              the worst case Alg. 2 is a lot slower than Alg. 3.
+                              For further details, see [E24].
+
+      @return   The set of all distinct prime factors that divide N, or None,
+                if a positive multiple of r could not be found given the n
+                frequencies [j_1, ..., j_n]. """
+
+  g = IntegerModRingMulSubgroupElement(g, N);
+
+  return solve_multiple_j_for_factors(
+            j_list = j_list,
+            m = m,
+            l = l,
+            g = g,
+            N = N,
+            tau = tau,
+            c_solve = c_solve,
+            c_factor = c_factor,
+            k = k,
+            delta = delta,
+            precision = precision,
+            enumerate = enumerate,
+            timeout = timeout,
             verbose = verbose,
             opt_speculative = opt_speculative);

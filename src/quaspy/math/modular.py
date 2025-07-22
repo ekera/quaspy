@@ -1,6 +1,8 @@
 """ @brief  A module for modular arithmetic. """
 
-def truncmod(x, N):
+from gmpy2 import mpz;
+
+def truncmod(x : int | mpz, N : int | mpz) -> int | mpz:
 
   """ @brief  Returns x mod N constrained to the interval [N/2, N/2).
 

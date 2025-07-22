@@ -19,7 +19,11 @@ from gmpy2 import mpz;
 
 from gmpy2 import ceil;
 
-def setup_x_given_g_N(g, N):
+from ...math.groups import CyclicGroupElement;
+
+def setup_x_given_g_N(
+    g : CyclicGroupElement,
+    N : int | mpz) -> CyclicGroupElement:
 
   """ @brief  Sets up x = g^d' for d' = (N - 1) / 2 - 2^(l - 1) given g and N,
               for N the product of two large random distinct l-bit primes.
@@ -90,7 +94,10 @@ def setup_x_given_g_N(g, N):
   # Return x.
   return x;
 
-def setup_d_given_p_q(p, q):
+
+def setup_d_given_p_q(
+  p : int | mpz,
+  q : int | mpz) -> int:
 
   """ @brief  Sets up d = (p - 1) / 2 + (q - 1) / 2 - 2^(l - 1) given p and q.
 

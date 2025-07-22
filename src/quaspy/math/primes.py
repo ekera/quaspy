@@ -9,7 +9,7 @@ from math import ceil;
 
 from .random import sample_l_bit_integer;
 
-def prime_range(B):
+def prime_range(B : int) -> list[int]:
 
   """ @brief  Returns an ordered list of all primes less than B.
 
@@ -17,7 +17,7 @@ def prime_range(B):
 
       @return   An ordered list of all primes less than B. """
 
-  sieve = [True for p in range(0, B)];
+  sieve = [True for _ in range(0, B)];
   primes = [];
 
   p = 2;
@@ -34,7 +34,7 @@ def prime_range(B):
   return primes;
 
 
-def prime_power_product(B):
+def prime_power_product(B : int) -> int | mpz:
 
   """ @brief  Returns the product of q^e, as q runs over all primes <= B, for e
               the largest non-negative integer exponent such that q^e <= B.
@@ -60,12 +60,12 @@ def prime_power_product(B):
   return factor;
 
 
-def is_B_smooth(d, B):
+def is_B_smooth(d : int | mpz, B : int) -> bool:
 
   """ @brief  Tests if the integer d is B-smooth.
 
       As in [E24], d is said to be B-smooth if d = p1^e1 * .. pk^ek, for
-      q1, .., qk pairwise distinct primes, and e1, .., ek positive integer
+      q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer
       exponents, if it holds that qi^ei <= B for all i in [1, k].
 
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
@@ -92,7 +92,7 @@ def is_B_smooth(d, B):
   return d == 1;
 
 
-def sample_l_bit_prime(l):
+def sample_l_bit_prime(l : int) -> int | mpz:
 
   """ @brief  Returns an l-bit prime selected uniformly at random from the set
               of all such primes.

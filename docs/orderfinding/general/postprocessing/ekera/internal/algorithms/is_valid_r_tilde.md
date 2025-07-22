@@ -11,8 +11,8 @@ from quaspy.orderfinding.general.postprocessing.ekera.internal.algorithms import
 
 ## Prototype
 ```python
-def is_valid_r_tilde(r_tilde,
-                     m)
+def is_valid_r_tilde(r_tilde : int | gmpy2.mpz,
+                     m : int)
 ```
 
 ## Parameters

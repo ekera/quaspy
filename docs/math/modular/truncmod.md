@@ -11,8 +11,8 @@ from quaspy.math.modular import truncmod
 
 ## Prototype
 ```python
-def truncmod(x,
-             N)
+def truncmod(x : int | gmpy2.mpz,
+             N : int | gmpy2.mpz)
 ```
 
 ## Parameters

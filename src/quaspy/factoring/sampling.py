@@ -12,8 +12,8 @@
                       Quantum Inf. Process. 20(6):205 (2021).
 
     [E24t] Ekerå, M.: "On factoring integers, and computing discrete logarithms
-                       and orders, quantumly". PhD thesis, KTH Royal Institute
-                      of Technology (2024). """
+                       and orders, quantumly".
+                      PhD thesis, KTH Royal Institute of Technology (2024). """
 
 from gmpy2 import mpz;
 from gmpy2 import powmod;
@@ -30,14 +30,16 @@ from ..math.random import sample_integer;
 
 B_DEFAULT_SAMPLE = 10 ** 6;
 
-def sample_r_given_N(N, factors):
+def sample_r_given_N(
+  N : int | mpz,
+  factors : list[list[int | mpz]]) -> int:
 
   """ @brief  Returns the order r of an element g selected uniformly at random
               from the multiplicative group of the ring of integers modulo N,
               without explicitly computing and returning the element g.
 
-      Suppose that N = p1^e1 * .. * pn^en, for p1, .., pn pairwise distinct
-      odd prime factors, and e1, .., en positive integer exponents.
+      Suppose that N = p1^e1 * ... * pn^en, for p1, ..., pn pairwise distinct
+      odd prime factors, and e1, ..., en positive integer exponents.
 
       For i in [1, n], suppose that gi is selected uniformly at random from the
       multiplicative group of the ring of integers modulo pi^ei, and that the
@@ -62,7 +64,7 @@ def sample_r_given_N(N, factors):
       as all pi are odd, and gi = Gi^di computed, for Gi some fixed generator of
       the multiplicative group the ring of integers modulo pi^ei. Then, gi is of
       order ri = lambda(pi^ei) / gcd(lambda(pi^ei), di) for i in [1, n], so the
-      ri are easy to compute, as is r = lcm(r1, .., rn).
+      ri are easy to compute, as is r = lcm(r1, ..., rn).
 
       Again, unless the factorization of pi - 1 for i in [1, n] is known, it is
       hard to prove that an element Gi is a generator, and hence to explicitly
@@ -82,9 +84,9 @@ def sample_r_given_N(N, factors):
 
       @param N  The integer N.
 
-      @param factors  The factors of N = p1^e1 * .. * pn^en, represented on the
-                      form [[p1, e1], .., [pn, en]], for p1, .., pn pairwise
-                      distinct prime factors, and for e1, .., en positive
+      @param factors  The factors of N = p1^e1 * ... * pn^en, represented on the
+                      form [[p1, e1], ..., [pn, en]], for p1, ..., pn pairwise
+                      distinct prime factors, and for e1, ..., en positive
                       integer exponents.
 
       @return   The order r of an element g selected uniformly at random from
@@ -136,18 +138,18 @@ def sample_r_given_N(N, factors):
 
 
 def sample_g_r_given_N(
-  N,
-  N_factors,
-  pi_minus_one_factors = None,
-  B = B_DEFAULT_SAMPLE):
+  N : int | mpz,
+  N_factors : list[list[int | mpz]],
+  pi_minus_one_factors : list[list[list[int | mpz]]] | None = None,
+  B : int = B_DEFAULT_SAMPLE) -> list[int]:
 
   """ @brief  Returns [g, r], for g an element selected uniformly at random
               from the multiplicative group of the ring of integers modulo N,
               and r either a heuristic estimate of the order of g, or the exact
               order of g, depending on if optional parameters are specified.
 
-      Suppose that N = p1^e1 * .. * pn^en, for p1, .., pn pairwise distinct
-      odd prime factors, and e1, .., en positive integer exponents.
+      Suppose that N = p1^e1 * ... * pn^en, for p1, ..., pn pairwise distinct
+      odd prime factors, and e1, ..., en positive integer exponents.
 
       For i in [1, n], this function then selects gi from the multiplicative
       group of the ring of integers modulo pi^ei.
@@ -172,7 +174,7 @@ def sample_g_r_given_N(
       as an initial guess ri' for the order ri of gi. Then, for each prime
       factor f that divide ri', for as long as f divides ri' and
       gi^(ri' / f) = 1 (mod N), let ri' <- ri' / f. It follows that ri = ri' at
-      the end of the procedure. The order of g is then r = lcm(r1, .., rn).
+      the end of the procedure. The order of g is then r = lcm(r1, ..., rn).
 
       The above procedure is described in [E21b], and in the factoritall
       repository (available at https://www.github.com/ekera/factoritall).
@@ -183,17 +185,17 @@ def sample_g_r_given_N(
 
       @param N  The integer N.
 
-      @param N_factors  The factors of N = p1^e1 * .. * pn^en, represented on
-                        the form [[p1, e1], .., [pn, en]], for p1, .., pn
-                        pairwise distinct prime factors, and for e1, .., en
+      @param N_factors  The factors of N = p1^e1 * ... * pn^en, represented on
+                        the form [[p1, e1], ..., [pn, en]], for p1, ..., pn
+                        pairwise distinct prime factors, and for e1, ..., en
                         positive integer exponents.
 
-      @param pi_minus_one_factors  The factors of pi-1 = qi1^di1 * .. * qim^dim,
+      @param pi_minus_one_factors  The factors of pi-1 = qi1^di1 * ... * qim^dim,
                                    for i in [1, n], represented on the form
-                                   [F1, .., Fn], where each Fi is on the form
-                                   [[qi1, qi1], .., [qim, qim]], for
-                                   qi1, .., qim pairwise distinct prime factors,
-                                   and for di1, .., dim positive integer
+                                   [F1, ..., Fn], where each Fi is on the form
+                                   [[qi1, qi1], ..., [qim, qim]], for
+                                   qi1, ..., qim pairwise distinct prime factors,
+                                   and for di1, ..., dim positive integer
                                    exponents. May be set to None, in which case
                                    r will be computed deterministically as
                                    described above. If explicitly specified, the

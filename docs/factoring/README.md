@@ -12,7 +12,7 @@ import quaspy.factoring
 ## Submodules
 - [<code>general</code>](general/README.md)
 
-  A module for factoring general integers.
+  A module for factoring general integers via order finding.
 
 - [<code>rsa</code>](rsa/README.md)
 

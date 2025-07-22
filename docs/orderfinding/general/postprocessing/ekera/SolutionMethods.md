@@ -7,7 +7,7 @@ There are three solution methods:
 
 1. CONTINUED_FRACTIONS_BASED
 
-Expand j / 2^(m+l) in continued fractions to find z / r, and hence r_tilde = r / gcd(r, z), as originally proposed in [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), but with slightly smaller m+l, as decribed in [[E24]](https://doi.org/10.1145/3655026).
+Expand j / 2^(m + l) in continued fractions to find z / r, and hence r_tilde = r / gcd(r, z), as originally proposed in [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700), but with slightly smaller m+l, as decribed in [[E24]](https://doi.org/10.1145/3655026).
 
 By Lem. 4.1 in [[E24]](https://doi.org/10.1145/3655026), the last convergent p / q with denominator q < 2^((m+l)/2) in the continued fractions expansion of j / 2^(m+l) is equal to z / r, provided that r < 2^m and r^2 < 2^(m+l).
 

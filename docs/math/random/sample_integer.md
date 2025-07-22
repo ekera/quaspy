@@ -13,7 +13,7 @@ from quaspy.math.random import sample_integer
 
 ## Prototype
 ```python
-def sample_integer(B)
+def sample_integer(B : int)
 ```
 
 ## Parameters

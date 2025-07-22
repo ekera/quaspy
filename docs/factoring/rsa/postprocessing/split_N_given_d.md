@@ -29,8 +29,8 @@ from quaspy.factoring.rsa.postprocessing import split_N_given_d
 
 ## Prototype
 ```python
-def split_N_given_d(d,
-                    N)
+def split_N_given_d(d : int | gmpy2.mpz,
+                    N : int | gmpy2.mpz)
 ```
 
 ## Parameters
