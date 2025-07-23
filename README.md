@@ -37,6 +37,9 @@ Note that [Quaspy](https://github.com/ekera/quaspy) implements basic support for
 [Quaspy](https://github.com/ekera/quaspy) is a work in progress, and may be subject to major changes without prior notice.
 [Quaspy](https://github.com/ekera/quaspy) was developed for academic research purposes. It grew out of our research project in an organic manner as research questions were posed and answered. It is distributed "as is" without warranty of any kind, either expressed or implied. For further details, see the [license](LICENSE.md).
 
+### Notes on known memory leaks in gmpy2
+Please note that [Quaspy](https://github.com/ekera/quaspy) depends on [GMP](https://gmplib.org) and [MPFR](https://www.mpfr.org) via the [gmpy2](https://github.com/aleaxit/gmpy) wrapper for [Python3](https://www.python.org), and that there is a memory leak issue in [gmpy2](https://github.com/aleaxit/gmpy) that currently impacts [Quaspy](https://github.com/ekera/quaspy). We have [reported this issue](https://github.com/aleaxit/gmpy/issues/569), as have [others](https://github.com/aleaxit/gmpy/issues/511) before us, and there is a fairly trivial fix for it, but the maintainers of [gmpy2](https://github.com/aleaxit/gmpy) have thus far delayed the publication of said fix to [Pip3](https://pypi.org) for reasons unknown to us.
+
 ## Prerequisites
 To install [Python](https://www.python.org) under [Ubuntu 24.04 LTS](https://releases.ubuntu.com/24.04), along with required dependencies, execute:
 
