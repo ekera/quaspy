@@ -13,7 +13,7 @@ from quaspy.math.random import sample_l_bit_integer
 
 ## Prototype
 ```python
-def sample_l_bit_integer(l)
+def sample_l_bit_integer(l : int)
 ```
 
 ## Parameters

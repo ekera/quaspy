@@ -1,33 +1,38 @@
 """ @brief  A module for sampling a frequency pair (j, k) heuristically from the
-            distribution induced by Shor's quantum algorithm for finding a given
-            discrete logarithm d in a group of known order r, or from the
-            distribution induced by Ekerå's quantum algorithm, depending on how
-            parameters are selected. """
+            distribution induced by the quantum part of Shor's algorithm for
+            finding a discrete logarithm d in a group of known order r, or from
+            the distribution induced by the quantum part of Ekerå's variation
+            thereof, depending on how parameters are selected. """
 
 from ..sampling import sample_j_k_given_d_r_heuristic as \
   sample_j_k_given_d_r_heuristic_general;
+
+from ...utils.timeout import Timeout;
 
 from ..sampling import B_DEFAULT_DELTA;
 from ..sampling import B_DEFAULT_ETA;
 from ..sampling import DEFAULT_INTEGRATION_STEPS;
 
+from gmpy2 import mpz;
+
 def sample_j_k_given_d_r_heuristic(
-  d,
-  r,
-  m,
-  sigma,
-  l,
-  B_DELTA = B_DEFAULT_DELTA,
-  B_ETA = B_DEFAULT_ETA,
-  integration_steps = DEFAULT_INTEGRATION_STEPS,
-  verbose = False,
-  extended_result = False):
+  d : int | mpz,
+  r : int | mpz,
+  m : int,
+  sigma : int,
+  l : int,
+  B_DELTA : int = B_DEFAULT_DELTA,
+  B_ETA : int = B_DEFAULT_ETA,
+  integration_steps : int = DEFAULT_INTEGRATION_STEPS,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  extended_result : bool = False) -> list[int | mpz] | None:
 
   """ @brief  Samples a frequency pair (j, k) heuristically from the
-              distribution induced by Shor's quantum algorithm for finding a
-              given discrete logarithm d in a group of known order r, or
-              from the distribution induced by Ekerå's quantum algorithm,
-              depending on how parameters are selected.
+              distribution induced by the quantum part of Shor's algorithm for
+              finding a discrete logarithm d in a group of known order r, or
+              from the distribution induced by the quantum part of Ekerå's
+              variation thereof, depending on how parameters are selected.
 
       The sampling procedure is described in Sect. 5 of [E19p].
 
@@ -41,12 +46,12 @@ def sample_j_k_given_d_r_heuristic(
 
       @param m  A positive integer m such that r < 2^m.
 
-      @param sigma  An non-negative integer sigma such that m + sigma is the
-                    length of the first control register in the quantum
-                    algorithm.
+      @param sigma  A non-negative integer sigma such that m + sigma is the
+                    length of the first control register in the quantum part of
+                    the algorithm.
 
       @param l  A positive integer l such that l is the length of the second
-                control register in the quantum algorithm.
+                control register in the quantum part of the algorithm.
 
       @param B_DELTA  A parameter that upper-bounds the offset from the optimal
                       frequency k0(j) when sampling k given j and eta.
@@ -56,11 +61,19 @@ def sample_j_k_given_d_r_heuristic(
       @param integration_steps  The number of steps to perform when integrating
                                 the probability distribution.
 
+      @param timeout  A timeout after which a TimeoutError will be raised and
+                      the sampling procedure aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
+
       @param verbose  A flag that may be set to True to print intermediary
                       results when sampling.
 
       @param extended_result  A flag that may be set to True to not only return
-                              the frequency pair [j, k], but
+                              the frequency pair (j, k) as a list [j, k], but
                               [[j, k], [k0(j), offset, eta]].
 
       @return   The frequency pair [j, k] sampled if the extended_result flag is
@@ -77,6 +90,7 @@ def sample_j_k_given_d_r_heuristic(
            l = l,
            B_DELTA = B_DELTA,
            B_DEFAULT_ETA = B_ETA,
-          integration_steps = integration_steps,
+           integration_steps = integration_steps,
            verbose = verbose,
+           timeout = timeout,
            extended_result = extended_result);

@@ -1,6 +1,12 @@
-""" @brief  A module for sampling a frequency pair (j, k) from the distribution
-            induced by Ekerå–Håstad's quantum algorithm for finding a given
-            short discrete logarithm d in a group of unknown order r. """
+""" @brief  A module for sampling frequency pairs from the distribution induced
+            by the quantum part of Ekerå–Håstad's algorithm [EH17] for finding
+            short discrete logarithms in groups of unknown order.
+
+    [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
+                                      Discrete Logarithms and Factoring RSA
+                                      Integers.". In: PQCrypto 2017.
+                                     Springer LNCS 10346, pp. 347–363 (2017).
+"""
 
 import gmpy2;
 
@@ -15,29 +21,31 @@ from ...math.modular import truncmod;
 
 from ...math.random import sample_integer;
 
-from ..sampling import B_DEFAULT_DELTA;
-from ..sampling import B_DEFAULT_ETA;
+from ...utils.timeout import Timeout;
 
-B_DEFAULT = 1000;
+B_DEFAULT = 10 ** 5;
 
 def sample_j_k_given_d_r_tau(
-  d,
-  r,
-  m,
-  l,
-  tau,
-  verbose = False,
-  extended_result = False):
+  d : int | mpz,
+  r : int | mpz | None,
+  m : int,
+  l : int,
+  tau : int,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  extended_result : bool = False) -> list[int | mpz] | None:
 
   """ @brief  Samples a frequency pair (j, k) from the distribution induced by
-              Ekerå–Håstad's quantum algorithm for finding a given short
-              discrete logarithm d in a group of unknown order r.
+              the quantum part of Ekerå–Håstad's algorithm [EH17] for finding a
+              short discrete logarithm d in a group of unknown order r.
+
+      The sampling procedure is described in Sect. 5.6.5 of [E24t].
 
       To sample the distribution, j is first picked uniformly at random from
       [0, 2^(m + l)). A pivot is then selected uniformly at random from [0, 1),
       and the optimal frequency k0(j) for k computed.
 
-      For offsets 0, ±1, ±2, .., ±(B - 1) from k0(j) the probabilities
+      For offsets 0, ±1, ±2, ..., ±(B - 1) from k0(j) the probabilities
       2^(m+l) * P(j, k = (k0(j) + offset) mod 2^l) of observing (j, k) are then
       subtracted from the pivot, and (j, k) returned as soon as pivot <= 0
       provided that (j, k) is tau-good by Def. 1 in [E23p]. Otherwise, None
@@ -45,8 +53,14 @@ def sample_j_k_given_d_r_tau(
       tau-good pairs (j, k) are included in the search.
 
       Note that it follows from the analysis in [E20] and [E23p] that j is
-      distributed uniformly at random when r >= 2^(m + l) + (2^l - 1) * d.
-      This function checks that this requirement is respected.
+      distributed uniformly at random when r >= 2^(m + l) + (2^l - 1) * d. This
+      function checks that this requirement is respected provided that r is
+      included in the function call.
+
+      [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
+                                        Discrete Logarithms and Factoring RSA
+                                        Integers.". In: PQCrypto 2017.
+                                       Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
                         computing short discrete logarithms".
@@ -55,6 +69,10 @@ def sample_j_k_given_d_r_tau(
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                          the short DLP". ArXiv 2309.01754v2 (2025).
 
+      [E24t] Ekerå, M.: "On factoring integers, and computing discrete
+                         logarithms and orders, quantumly".
+                        PhD thesis, KTH Royal Institute of Technology (2024).
+
       @param d  The discrete logarithm d in [1, r).
 
       @param r  The order r. Used to check that r >= 2^(m + l) + (2^l - 1) * d.
@@ -62,20 +80,29 @@ def sample_j_k_given_d_r_tau(
 
       @param m  A positive integer m such that d < 2^m.
 
-      @param l  An non-negative integer l such that m + l is the length of the
-                first control register in the quantum algorithm.
+      @param l  A positive integer l such that the control registers in the
+                quantum part of the algorithm are of lengths m + l and l qubits,
+                respectively.
 
-                It is furthermore required that r >= 2^(m + l) + (2^l - 1) * d,
-                as this function is based on the analysis in [E20] that imposes
+                It is required that r >= 2^(m + l) + (2^l - 1) * d as this
+                function is based on the analysis in [E20] that imposes
                 this requirement so as to simplify the analysis.
 
       @param tau  The parameter tau. An integer on (0, l].
+
+      @param timeout  A timeout after which a TimeoutError will be raised and
+                      the sampling procedure aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
 
       @param verbose  A flag that may be set to True to print intermediary
                       results when sampling.
 
       @param extended_result  A flag that may be set to True to not only return
-                              the frequency pair [j, k], but
+                              the frequency pair (j, k) as a list [j, k], but
                               [[j, k], [k0(j), offset]].
 
       @return   The frequency pair [j, k] sampled if the extended_result flag is
@@ -85,14 +112,14 @@ def sample_j_k_given_d_r_tau(
                 frequency k0(j) was reached, or because (j, k) is not tau-good.
   """
 
-  result = sample_j_k_given_d_r(
-             d,
-             r,
-             m,
-             l,
-             B = (2 ** tau) + 2,
-             verbose = verbose,
-             extended_result = True);
+  result = sample_j_k_given_d_r(d,
+                                r,
+                                m,
+                                l,
+                                B = (2 ** tau) + 2,
+                                timeout = timeout,
+                                verbose = verbose,
+                                extended_result = True);
 
   if None == result:
     return None;
@@ -108,30 +135,40 @@ def sample_j_k_given_d_r_tau(
   else:
     return [j, k];
 
+
 def sample_j_k_given_d_r(
-  d,
-  r,
-  m,
-  l,
-  B = B_DEFAULT,
-  verbose = False,
-  extended_result = False):
+  d : int | mpz,
+  r : int | mpz | None,
+  m : int,
+  l : int,
+  B : int = B_DEFAULT,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  extended_result : bool = False) -> list[int | mpz] | None:
 
   """ @brief  Samples a frequency pair (j, k) from the distribution induced by
-              Ekerå–Håstad's quantum algorithm for finding a given short
-              discrete logarithm d in a group of unknown order r.
+              the quantum part of Ekerå–Håstad's algorithm [EH17] for finding a
+              short discrete logarithm d in a group of unknown order r.
+
+      The sampling procedure is described in Sect. 5.6.5 of [E24t].
 
       To sample the distribution, j is first picked uniformly at random from
       [0, 2^(m + l)). A pivot is then selected uniformly at random from [0, 1),
       and the optimal frequency k0(j) for k computed.
 
-      For offsets 0, ±1, ±2, .., ±(B - 1) from k0(j) the probabilities
+      For offsets 0, ±1, ±2, ..., ±(B - 1) from k0(j) the probabilities
       2^(m+l) * P(j, k = (k0(j) + offset) mod 2^l) of observing (j, k) are then
       subtracted from the pivot, and (j, k) returned as soon as pivot <= 0.
 
       Note that it follows from the analysis in [E20] and [E23p] that j is
       distributed uniformly at random when r >= 2^(m + l) + (2^l - 1) * d. This
-      function checks that this requirement is respected.
+      function checks that this requirement is respected provided that r is
+      included in the function call.
+
+      [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
+                                        Discrete Logarithms and Factoring RSA
+                                        Integers.". In: PQCrypto 2017.
+                                       Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
                         computing short discrete logarithms".
@@ -140,6 +177,10 @@ def sample_j_k_given_d_r(
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                          the short DLP". ArXiv 2309.01754v2 (2025).
 
+      [E24t] Ekerå, M.: "On factoring integers, and computing discrete
+                         logarithms and orders, quantumly".
+                        PhD thesis, KTH Royal Institute of Technology (2024).
+
       @param d  The discrete logarithm d in [1, r).
 
       @param r  The order r. Used to check that r >= 2^(m + l) + (2^l - 1) * d.
@@ -147,21 +188,30 @@ def sample_j_k_given_d_r(
 
       @param m  A positive integer m such that d < 2^m.
 
-      @param l  An non-negative integer l such that m + l is the length of the
-                first control register in the quantum algorithm.
+      @param l  A positive integer l such that the control registers in the
+                quantum part of the algorithm are of lengths m + l and l qubits,
+                respectively.
 
-                It is furthermore required that r >= 2^(m + l) + (2^l - 1) * d,
-                as this function is based on the analysis in [E20] that imposes
+                It is required that r >= 2^(m + l) + (2^l - 1) * d as this
+                function is based on the analysis in [E20] that imposes
                 this requirement so as to simplify the analysis.
 
       @param B  A parameter B that upper-bounds the offset from the optimal
                 frequency k0(j) as explained above.
 
+      @param timeout  A timeout after which a TimeoutError will be raised and
+                      the sampling procedure aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
+
       @param verbose  A flag that may be set to True to print intermediary
                       results when sampling.
 
       @param extended_result  A flag that may be set to True to not only return
-                              the frequency pair [j, k], but
+                              the frequency pair (j, k) as a list [j, k], but
                               [[j, k], [k0(j), offset]].
 
       @return   The frequency pair [j, k] sampled if the extended_result flag is
@@ -176,6 +226,10 @@ def sample_j_k_given_d_r(
 
   if l <= 0:
     raise Exception("Error: Incorrect parameter l.");
+
+  # Initial setup.
+  timeout = Timeout.parse(timeout);
+  timeout.check();
 
   # Check the requirement that r >= 2 ** (m + l) + (2 ** l - 1) * d.
   if (r != None) and (r < 2 ** (m + l) + (2 ** l - 1) * d):
@@ -193,78 +247,84 @@ def sample_j_k_given_d_r(
   if verbose:
     print("Computed k0(j) =", k0);
 
-  # Define precision.
+  # Define the precision.
   precision = 2 * (m + 2 * l);
   if precision < 256:
     precision = 256;
 
-  # Swap out the current precision and set the new precision.
-  swapped_out_precision = gmpy2.get_context().precision;
-  gmpy2.get_context().precision = precision;
+  with gmpy2.context(gmpy2.get_context()) as context:
 
-  # Explore a region around k0(j).
-  pivot = \
-    mpfr(mpz(sample_integer(mpz(2 ** precision))), precision) / \
-      mpfr(mpz(2 ** precision), precision);
+    # Set the precision.
+    context.precision = precision;
 
-  if verbose:
-    print("Sampled pivot =", str(pivot) + "\n");
+    # Explore a region around k0(j).
+    pivot = \
+      mpfr(mpz(sample_integer(mpz(2 ** precision))), precision) / \
+        mpfr(mpz(2 ** precision), precision);
 
-  def P(j, k):
-    # Compute the probability as described in Sect. 3.2 of [E20].
-    alpha = truncmod(mpz(d * j + (2 ** m) * k), mpz(2 ** (m + l)));
+    if verbose:
+      print("Sampled pivot =", str(pivot) + "\n");
 
-    if alpha == 0:
-      # Use the expression for P(0), see Sect. 3.2 in [E20].
-      result  = ((2 ** (m + l)) - ((2 ** l) - 1) * d) * (2 ** (2 * l));
-      result += (((2 ** l) * d) / 3) * ((2 ** l) - 1) * ((2 ** (l + 1)) - 1);
-      result /= 2 ** (2 * (m + 2 * l));
+    def P(j, k):
 
-    else:
-      # Use the expression for P(theta), see Sect. 3.2 in [E20].
-      theta = mpfr(2 * mpfr_const_pi(precision) * alpha) / mpz(2 ** (m + l));
+      with gmpy2.context(gmpy2.get_context()) as context:
 
-      result  = mpfr_cos(mpz((2 ** l) - 1) * theta) - \
-          mpfr_cos(mpz(2 ** l) * theta);
-      result /= 1 - mpfr_cos(theta);
-      result -= 1;
-      result /= 2;
-      result  = mpz((2 ** l) - 1) - result;
-      result *= mpz(2 * d);
-      result += (mpz(2 ** (m + l)) - mpz((2 ** l) - 1) * d) * \
-        (1 - mpfr_cos(mpz(2 ** l) * theta));
-      result /= 1 - mpfr_cos(theta);
-      result /= mpz(2 ** (2 * (m + 2 * l)));
+        # Set the precision.
+        context.precision = precision;
 
-    return result;
+        # Compute the probability as described in Sect. 3.2 of [E20].
+        alpha = truncmod(mpz(d * j + (2 ** m) * k), mpz(2 ** (m + l)));
 
-  # Sample k.
-  if verbose:
-    print("Sampling k...");
+        if alpha == 0:
+          # Use the expression for P(0), see Sect. 3.2 in [E20].
+          result  = ((2 ** (m + l)) - ((2 ** l) - 1) * d) * (2 ** (2 * l));
+          result += (((2 ** l) * d) / 3) * ((2 ** l) - 1) * ((2 ** (l + 1)) - 1);
+          result /= 2 ** (2 * (m + 2 * l));
 
-  for offset in range(B):
-    for sign in [1, -1]:
-      if (0 == offset) and (-1 == sign):
-        continue;
-
-      k = mpz(k0 + sign * offset) % mpz(2 ** l);
-      probability = mpz(2 ** (m + l)) * P(j, k);
-      pivot -= probability;
-
-      if verbose:
-        print("Offset:", sign * offset, "-- Probability:", probability, \
-          "-- Pivot:", pivot, "-- k:", k);
-
-      if pivot <= 0:
-        # Restore precision.
-        gmpy2.get_context().precision = swapped_out_precision;
-
-        if extended_result:
-          return [[j, k], [k0, sign * offset]];
         else:
-          return [j, k];
+          # Use the expression for P(theta), see Sect. 3.2 in [E20].
+          theta = mpfr(2 * mpfr_const_pi(precision) * alpha) / mpz(2 ** (m + l));
 
-  # Restore precision.
-  gmpy2.get_context().precision = swapped_out_precision;
+          result  = mpfr_cos(mpz((2 ** l) - 1) * theta) - \
+              mpfr_cos(mpz(2 ** l) * theta);
+          result /= 1 - mpfr_cos(theta);
+          result -= 1;
+          result /= 2;
+          result  = mpz((2 ** l) - 1) - result;
+          result *= mpz(2 * d);
+          result += (mpz(2 ** (m + l)) - mpz((2 ** l) - 1) * d) * \
+            (1 - mpfr_cos(mpz(2 ** l) * theta));
+          result /= 1 - mpfr_cos(theta);
+          result /= mpz(2 ** (2 * (m + 2 * l)));
 
-  return None;
+        return result;
+
+    # Sample k.
+    if verbose:
+      print("Sampling k...");
+
+    for offset in range(B):
+
+      # Check the timeout.
+      timeout.check();
+
+      for sign in [1, -1]:
+
+        if (0 == offset) and (-1 == sign):
+          continue;
+
+        k = mpz(k0 + sign * offset) % mpz(2 ** l);
+        probability = mpz(2 ** (m + l)) * P(j, k);
+        pivot -= probability;
+
+        if verbose:
+          print("Offset:", sign * offset, "-- Probability:", probability, \
+                  "-- Pivot:", pivot, "-- k:", k);
+
+        if pivot <= 0:
+          if extended_result:
+            return [[int(j), int(k)], [int(k0), sign * offset]];
+          else:
+            return [int(j), int(k)];
+
+    return None;

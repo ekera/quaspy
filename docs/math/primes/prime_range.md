@@ -11,7 +11,7 @@ from quaspy.math.primes import prime_range
 
 ## Prototype
 ```python
-def prime_range(B)
+def prime_range(B : int)
 ```
 
 ## Parameters

@@ -1,5 +1,7 @@
 """ @brief  A module for a utility class for collecting timing statistics. """
 
+from __future__ import annotations;
+
 from time import time;
 from math import floor;
 
@@ -23,7 +25,7 @@ class Timer:
     self.state = Timer.STOPPED;
     self.delta_t = delta_t;
 
-  def start(self):
+  def start(self) -> Timer:
 
     """ @brief  Starts the timer if it is currently stopped.
 
@@ -35,7 +37,7 @@ class Timer:
 
     return self;
 
-  def stop(self):
+  def stop(self) -> Timer:
 
     """ @brief  Stops the timer if it is currently running.
 
@@ -47,7 +49,7 @@ class Timer:
 
     return self;
 
-  def reset(self, delta_t = 0):
+  def reset(self, delta_t = 0) -> Timer:
 
     """ @brief  Stops the timer and re-initializes it to a specific time delta.
 
@@ -60,7 +62,7 @@ class Timer:
 
     return self;
 
-  def restart(self):
+  def restart(self) -> Timer:
 
     """ @brief  Resets the timer and then starts it again.
 
@@ -71,7 +73,7 @@ class Timer:
 
     return self;
 
-  def peek(self):
+  def peek(self) -> int | float:
 
     """ @brief  Peeks at the timer, returning the number of seconds elapsed.
 
@@ -85,7 +87,7 @@ class Timer:
 
     return tmp_delta_t;
 
-  def __add__(a, b):
+  def __add__(a : Timer, b : Timer) -> Timer:
 
     """ @brief  Adds the time deltas of two stopped timers, returning a new
                 timer with said time delta.
@@ -106,48 +108,77 @@ class Timer:
 
     return Timer(a.delta_t + b.delta_t);
 
-  def __str__(self):
+  def __str__(self) -> str:
 
     """ @brief  Returns a string representation of the timer.
 
         @return   A string representation of the timer. """
 
-    # Get a temporary time delta.
-    tmp_delta_t = self.peek();
+    return Timer.format(self.peek());
 
-    # Compute hours, minutes, seconds, milliseconds and microseconds.
-    hours = floor(tmp_delta_t / 3600);
-    mins = floor(tmp_delta_t / 60) % 60;
-    secs = floor(tmp_delta_t) % 60;
-    ms = int(floor((10 ** 3) * tmp_delta_t)) % (10 ** 3);
-    us = int(floor((10 ** 6) * tmp_delta_t)) % (10 ** 3);
-
-    # Format as a human-readable string.
-    hr = "";
-    if tmp_delta_t >= 3600:
-      hr += str(hours) + " hour";
-      if hours > 1:
-        hr += "s ";
-      else:
-        hr += " ";
-
-    if tmp_delta_t >= 60:
-      hr += str(mins) + " min ";
-
-    if tmp_delta_t >= 1:
-      hr += str(secs) + " sec ";
-
-    if tmp_delta_t >= 10 ** -3:
-      hr += str(ms) + " ms ";
-
-    hr += str(us) + " µs";
-
-    return hr;
-
-  def __repr__(self):
+  def __repr__(self) -> str:
 
     """ @brief  Returns a string representation of the timer.
 
         @return   A string representation of the timer. """
 
     return str(self);
+
+  @staticmethod
+  def format(delta_t : int | float) -> str:
+
+    """ @brief  Formats a time delta in seconds as a string.
+
+        @param delta_t  The time delta in seconds.
+
+        @return   A string representation of the time delta. """
+
+    # Compute days, hours, minutes, seconds, milliseconds and microseconds.
+    days = floor(delta_t / 3600 / 24);
+    hours = floor(delta_t / 3600) % 24;
+    mins = floor(delta_t / 60) % 60;
+    secs = floor(delta_t) % 60;
+    ms = int(floor((10 ** 3) * delta_t)) % (10 ** 3);
+    us = int(floor((10 ** 6) * delta_t)) % (10 ** 3);
+
+    # Format the time delta as a human-readable string.
+    hr = "";
+
+    if days > 0:
+      if hr != "":
+        hr += " "
+      hr += str(days) + " d";
+
+    if hours > 0:
+      if hr != "":
+        hr += " "
+      hr += str(hours) + " h";
+
+    if mins > 0:
+      if hr != "":
+        hr += " "
+      hr += str(mins) + " m";
+
+    if secs > 0:
+      if hr != "":
+        hr += " "
+      hr += str(secs) + " s";
+
+    if ms > 0:
+      if hr != "":
+        hr += " "
+      hr += str(ms) + " ms";
+
+    if us > 0:
+      if hr != "":
+        hr += " "
+      hr += str(us) + " µs";
+
+    # Handle the special case of the time delta being zero.
+    if hr == "":
+      if isinstance(delta_t, int):
+        hr = "0 s";
+      else:
+        hr = "0 µs";
+
+    return hr;

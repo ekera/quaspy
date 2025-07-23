@@ -1,10 +1,38 @@
 """ @brief  A module for solving a frequency j yielded by the quantum part of
-            Shor's order-finding algorithm for the order r, or optionally for a
-            positive integer multiple of r. This by using the post-processing
-            algorithms in [E24].
+            Shor's order-finding algorithm [Shor94] for the order r, or
+            optionally for a positive integer multiple of r, by using
+            the classical post-processing algorithms from [E24].
+
+    This module furthermore contains functions for solving a list of n
+    frequencies [j_1, ..., j_n] yielded by n runs of the quantum part of
+    Seifert's variation [Seifert01] of Shor's order-finding algorithm [Shor94]
+    for r, or for a positive integer multiple of r. This by using the classical
+    post-processing algorithms from [E24t] (see Sect. 5.4) and [E21], with
+    supporting functions from [E24].
+
+    Throughout this module, the algorithms are as described in [E24t], [E24] and
+    [E21]. The notation is also inherited from said works.
+
+    [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                         In: Proceedings from FOCS '94, pp. 124–134 (1994).
+
+    [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
+                                 algorithm via simultaneous Diophantine
+                                 approximation". In: CT-RSA 2001.
+                                Springer LNCS 2020, pp. 319–227 (2001).
+
+    [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
+                      logarithms and orders with tradeoffs".
+                     J. Math. Cryptol. 15(1), pp. 359–407 (2021).
 
     [E24] Ekerå, M.: "On the success probability of quantum order finding".
-                     ACM Trans. Quantum Comput. 5(2):11 (2024). """
+                     ACM Trans. Quantum Comput. 5(2):11 (2024).
+
+    [E24t] Ekerå, M.: "On factoring integers, and computing discrete logarithms
+                       and orders, quantumly". PhD thesis, KTH Royal Institute
+                      of Technology (2024). """
+
 
 from enum import Enum;
 
@@ -26,7 +54,20 @@ from .internal.collection import CandidateCollection;
 from .internal.algorithms import algorithm2;
 from .internal.algorithms import algorithm3;
 
-from .. import B_DEFAULT_SOLVE;
+from .....math.lattices.enumerate import enumerate as enumerate_lattice;
+
+from .....math.lattices.lll import lll;
+from .....math.lattices.lll import LLL_DEFAULT_DELTA;
+from .....math.lattices.lll import LLL_DEFAULT_REDUCED_PRECISION;
+
+from .....math.lattices.svp import solve_svp;
+
+from .....math.vectors import norm2;
+
+from .....utils.timeout import Timeout;
+
+B_DEFAULT_SOLVE = 1000;
+
 
 class SolutionMethods(Enum):
 
@@ -41,7 +82,7 @@ class SolutionMethods(Enum):
 
       1. CONTINUED_FRACTIONS_BASED
 
-         Expand j / 2^(m+l) in continued fractions to find z / r, and hence
+         Expand j / 2^(m + l) in continued fractions to find z / r, and hence
          r_tilde = r / gcd(r, z), as originally proposed in [Shor94], but with
          slightly smaller m+l, as decribed in [E24].
 
@@ -96,28 +137,52 @@ class SolutionMethods(Enum):
   LATTICE_BASED_ENUMERATE = 3;
 
 
+class EnumerationOptions(Enum):
+
+  """ @brief  An enumeration of options for solving a list of n frequencies
+              [j_1, ..., j_n] for r.
+
+      The meaning of the options are explained in the documentation for the
+      solve_multiple_j_for_r() and solve_multiple_j_for_r_mod_N() functions. """
+
+  TRUE = True;
+
+  FALSE = False;
+
+  SVP = "SVP";
+
+  BOUNDED_BY_TAU = "BOUNDED_BY_TAU";
+
+  BOUNDED_BY_TAU_COMPLETE = "BOUNDED_BY_TAU_COMPLETE";
+
+
 def solve_j_for_r(
-  j : int,
+  j : int | mpz,
   m : int,
   l : int,
-  g: CyclicGroupElement,
+  g : CyclicGroupElement,
   c : int = 1,
   B : int = B_DEFAULT_SOLVE,
-  accept_multiple = False,
-  method = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
-  verbose = False,
-  opt_speculative = True,
-  opt_isolate_peak = True):
+  accept_multiple : bool = False,
+  method : SolutionMethods = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
+  timeout : int | None | Timeout = None,
+  verbose : bool  = False,
+  opt_speculative : bool = True,
+  opt_isolate_peak : bool = True):
 
   """ @brief  Attempts to compute the order r of g, or a positive integer
               multiple thereof, given a frequency j yielded by the quantum part
-              of Shor's order-finding algorithm, by using the post-processing
-              algorithms described in detail in [E24].
+              of Shor's order-finding algorithm [Shor94], by using the
+              post-processing algorithms described in detail in [E24].
+
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
 
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      The idea is to try to solve not only j, but also j ± 1, .., j ± B, for r,
+      The idea is to try to solve not only j, but also j ± 1, ..., j ± B, for r,
       with the aim of solving an optimal frequency j0(z) for r, for z the peak
       index on [0, r). Provided
 
@@ -144,12 +209,12 @@ def solve_j_for_r(
 
       @param m  A positive integer m such that r < 2^m.
 
-      @param l  A positive integer l <= m, such that m+l is the length of the
+      @param l  A positive integer l <= m, such that m + l is the length of the
                 control register in the quantum order-finding algorithm.
 
                 If method is set to SolutionMethods.CONTINUED_FRACTIONS_BASED or
                 SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR, it is required
-                that r^2 < 2^(m+l) or else r may not be found.
+                that r^2 < 2^(m + l) or else r may not be found.
 
                 If method is set to SolutionMethods.LATTICE_BASED_ENUMERATE, it
                 is possible to select l = m - Delta for some Delta in [0, m), at
@@ -166,7 +231,7 @@ def solve_j_for_r(
                 probability, at the expense of increasing the runtime.
 
       @param B  A bound B >= 0 on the offset in j. If B > 0, this function tries
-                to solve not only j, but also j ± 1, .., j ± B, for r, or for a
+                to solve not only j, but also j ± 1, ..., j ± B, for r, or for a
                 positive integer multiple of r.
 
       @param accept_multiple  A flag that may be set to True to indicate that
@@ -178,6 +243,14 @@ def solve_j_for_r(
                       specifies the method to use to solve j for r. For further
                       details, see the documentation for the SolutionMethods
                       class.
+
+      @param timeout  A timeout after which a TimeoutError will be raised and
+                      the computation aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
 
       @param verbose  A flag that may be set to True to print intermediary
                       results and status updates when executing the
@@ -211,6 +284,10 @@ def solve_j_for_r(
                 flag is set to True, some positive integer multiple of r is
                 returned with probabilty >= P. Otherwise, None is returned. """
 
+  # Initial setup.
+  timeout = Timeout.parse(timeout);
+  timeout.check();
+
   # Configure algorithms.
   if opt_speculative:
     algorithm = algorithm2;
@@ -240,7 +317,7 @@ def solve_j_for_r(
   gp = g ** e;
   if gp == 1:
     # Trivial case.
-    return algorithm(g, 1, m, c);
+    return algorithm(g, 1, m, c, timeout);
 
   j = mpz(j);
 
@@ -263,6 +340,10 @@ def solve_j_for_r(
       break;
 
     for sign in [1, -1]:
+
+      # Check the timeout.
+      timeout.check();
+
       if (0 == offset) and (-1 == sign):
         continue;
 
@@ -403,11 +484,11 @@ def solve_j_for_r(
                 print("Testing the reduced candidate:", \
                   reduced_r_tilde_candidate);
 
-              # Test the reduce candidate.
+              # Test the reduced candidate.
               if (gp ** reduced_r_tilde_candidate) == 1:
                 if accept_multiple:
                   # Return immediately.
-                  return algorithm(g, r_tilde_candidate, m, c);
+                  return algorithm(g, r_tilde_candidate, m, c, timeout);
 
                 # Add r_tilde_candidate to the filtered candidates for r_tilde.
                 filtered_r_tilde_candidates.add(r_tilde_candidate);
@@ -437,7 +518,7 @@ def solve_j_for_r(
         if accept_multiple:
           if len(filtered_r_tilde_candidates) != 0:
             # Return immediately.
-            return algorithm(g, min(filtered_r_tilde_candidates), m, c);
+            return algorithm(g, min(filtered_r_tilde_candidates), m, c, timeout);
 
       else:
         raise Exception("Error: Incorrect parameters: Unknown method.");
@@ -459,36 +540,41 @@ def solve_j_for_r(
   if len(filtered_r_tilde_candidates) == 0:
     return None;
 
-  return min([algorithm(g, r_tilde_candidate, m, c)
+  return min([algorithm(g, r_tilde_candidate, m, c, timeout)
     for r_tilde_candidate in filtered_r_tilde_candidates])
 
 
 def solve_j_for_r_mod_N(
-  j : int,
+  j : int | mpz,
   m : int,
   l : int,
-  g: int,
-  N: int,
+  g : int | mpz,
+  N : int | mpz,
   c : int = 1,
   B : int = B_DEFAULT_SOLVE,
-  accept_multiple = False,
-  method = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
-  verbose = False,
-  opt_speculative = True,
-  opt_isolate_peak = True):
+  accept_multiple : bool = False,
+  method : SolutionMethods = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_speculative : bool = True,
+  opt_isolate_peak : bool = True):
 
   """ @brief  Attempts to compute the order r of g mod N, or a positive integer
               multiple thereof, given a frequency j yielded by the quantum part
-              of Shor's order-finding algorithm, by using the post-processing
-              algorithms described in detail in [E24].
+              of Shor's order-finding algorithm [Shor94], by using the
+              post-processing algorithms described in detail in [E24].
 
       @remark   This convenience function simply calls solve_j_for_r() with g
                 setup by calling IntegerModRingMulSubgroupElement(g, N).
 
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
+
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      The idea is to try to solve not only j, but also j ± 1, .., j ± B, for r,
+      The idea is to try to solve not only j, but also j ± 1, ..., j ± B, for r,
       with the aim of solving an optimal frequency j0(z) for r, for z the peak
       index on [0, r). Provided
 
@@ -511,16 +597,16 @@ def solve_j_for_r_mod_N(
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
                          the short DLP". ArXiv 2309.01754v2 (2025).
 
-      @param j  The frequency j yielded by the quantum order-finding algorithm.
+      @param j  The frequency j. An integer on [0, 2^(m + l)).
 
       @param m  A positive integer m such that r < 2^m.
 
-      @param l  A positive integer l <= m, such that m+l is the length of the
+      @param l  A positive integer l <= m, such that m + l is the length of the
                 control register in the quantum order-finding algorithm.
 
                 If method is set to SolutionMethods.CONTINUED_FRACTIONS_BASED or
                 SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR, it is required
-                that r^2 < 2^(m+l) or else r may not be found.
+                that r^2 < 2^(m + l) or else r may not be found.
 
                 If method is set to SolutionMethods.LATTICE_BASED_ENUMERATE, it
                 is possible to select l = m - Delta for some Delta in [0, m), at
@@ -539,9 +625,8 @@ def solve_j_for_r_mod_N(
                 probability, at the expense of increasing the runtime.
 
       @param B  A bound B >= 0 on the offset in j. If B > 0, this function tries
-                to solve not only j, but also j ± 1, .., j ± B, for r, or for a
+                to solve not only j, but also j ± 1, ..., j ± B, for r, or for a
                 positive integer multiple of r.
-
 
       @param accept_multiple  A flag that may be set to True to indicate that
                               only a positive integer multiple of r is sought.
@@ -552,6 +637,14 @@ def solve_j_for_r_mod_N(
                       specifies the method to use to solve j for r. For further
                       details, see the documentation for the SolutionMethods
                       class.
+
+      @param timeout  A timeout after which a TimeoutError will be raised and
+                      the computation aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
 
       @param verbose  A flag that may be set to True to print intermediary
                       results and status updates when executing the
@@ -578,12 +671,13 @@ def solve_j_for_r_mod_N(
                                 such that g^r = 1.
 
       @return   If the accept_multiple flag is set to False, the order r of g
-                is returned with probability >= P, for P as given by the lower
-                bound in [E24] (provided that the opt_isolate_peak flag is set
-                to False). Otherwise, None, or exceptionally a positive integer
-                multiple of the order r, is returned. If the accept_multiple
-                flag is set to True, some positive integer multiple of r is
-                returned with probabilty >= P. Otherwise, None is returned. """
+                mod N is returned with probability >= P, for P as given by the
+                lower bound in [E24] (provided that the opt_isolate_peak flag is
+                set to False). Otherwise, None, or exceptionally a positive
+                integer multiple of the order r, is returned. If the
+                accept_multiple flag is set to True, some positive integer
+                multiple of r is returned with probabilty >= P. Otherwise, None
+                is returned. """
 
   g = IntegerModRingMulSubgroupElement(g, N);
 
@@ -596,6 +690,457 @@ def solve_j_for_r_mod_N(
     B = B,
     accept_multiple = accept_multiple,
     method = method,
+    timeout = timeout,
     verbose = verbose,
     opt_speculative = opt_speculative,
     opt_isolate_peak = opt_isolate_peak);
+
+
+def solve_multiple_j_for_r(
+  j_list : list[int | mpz],
+  m : int,
+  l : int,
+  g : CyclicGroupElement,
+  tau : int = 0,
+  c : int = 1,
+  delta : float = LLL_DEFAULT_DELTA,
+  precision : int | None = None,
+  enumerate : bool | EnumerationOptions = False,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_speculative : bool = True):
+
+  """ @brief  Attempts to compute the order r of g, or a positive integer
+              multiple thereof, given a list of n frequencies [j_1, ..., j_n]
+              yielded by n independent runs of the quantum part of Seifert's
+              variation [Seifert01] of Shor's order-finding algorithm [Shor94]
+              as described in [E24t] (see Sect. 5.4) and [E21] (see App. A).
+              This by using Ekerå's lattice-based classical post-processing
+              from [E24t] and [E21], with supporting functions from [E24].
+
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
+
+      [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
+                                   algorithm via simultaneous Diophantine
+                                   approximation". In: CT-RSA 2001.
+                                  Springer LNCS 2020, pp. 319–227 (2001).
+
+      [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
+                        logarithms and orders with tradeoffs".
+                       J. Math. Cryptol. 15(1), pp. 359–407 (2021).
+
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
+
+      [E24t] Ekerå, M.: "On factoring integers, and computing discrete
+                         logarithms and orders, quantumly".
+                        PhD thesis, KTH Royal Institute of Technology (2024).
+
+      @param j_list   The n frequencies [j_1, ..., j_n] where j_1, ..., j_n are
+                      integers on [0, 2^(m + l)).
+
+      @param m  A positive integer m such that r < 2^m.
+
+      @param l  A positive integer l ≈ m / s for s a tradeoff factor.
+
+      @param g  The group element g of order r.
+
+      @param tau  An integer tau on [0, l]. Used to scale the basis for the
+                  lattice L^tau that is used in the post-processing, and that is
+                  generated by the vector (j_1, ..., j_n, 2^tau), and by the n
+                  vectors (2^(m + l), 0, ..., 0) thru (0, ..., 0, 2^(m + l), 0).
+
+      @param c  A parameter c >= 1 that specifies the maximum size of the
+                missing cm-smooth component d in r = d * r_tilde when solving j
+                for r, for cm-smooth as defined in [E24].
+
+                As is explained in [E24], increasing c increases the success
+                probability, at the expense of increasing the runtime.
+
+      @param delta  The parameter delta to use when delta-LLL-reducing the basis
+                    for the lattice L^tau used in the post-processing. Must be
+                    on the interval (1/4, 1]. A polynomial runtime in the
+                    dimension of the lattice is only guaranteed for delta < 1.
+
+      @param precision  The precision to use when computing the Gram–Schmidt
+                        projection factors as a part of delta-LLL-reducing the
+                        basis for the lattice L^tau used in the post-processing.
+
+                        The precision may be set to None, as is the default, in
+                        which case the projection factors are represented as
+                        exact quotients.
+
+      @param enumerate  A flag that may be set to True to enumerate vectors in
+                        the lattice L^tau (until r or a positive multiple of r
+                        is found or the specified timeout has elapsed), or to
+                        EnumerationOptions.SVP to consider only a shortest
+                        non-zero vector in L^tau as returned by performing a
+                        limited enumeration, or to False to consider only a
+                        shortest non-zero vector as returned by LLL.
+
+                        May also be set to EnumerationOptions.BOUNDED_BY_TAU or
+                        to EnumerationOptions.BOUNDED_BY_TAU_COMPLETE in which
+                        case all vectors within distance R of the origin of the
+                        lattice L^tau are enumerated, where R depends on tau as
+                        R = sqrt(n + 1) * 2^(m + tau). In the former case, the
+                        enumeration is aborted early as soon as r or a positive
+                        multiple of r is found. In the latter case, the
+                        enumeration runs to completion, after which the minimum
+                        candidate for r is taken as r.
+
+      @param timeout  A timeout after which a TimeoutError will be raised and
+                      the computation aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
+
+      @param verbose  A flag that may be set to True to print intermediary
+                      results and status updates when executing the
+                      post-processing algorithm.
+
+      @param opt_speculative  A flag that may be set to True to indicate that
+                              Alg. 2 in [E24] should be used instead of Alg. 3
+                              to find the missing cm-smooth component of r. In
+                              most cases, Alg. 2 is faster than Alg. 3, but in
+                              the worst case Alg. 2 is a lot slower than Alg. 3.
+                              For further details, see [E24].
+
+      @return   The order r of g, or some positive multiple thereof, or None, if
+                solving for r fails. """
+
+  # Initial setup.
+  timeout = Timeout.parse(timeout);
+  timeout.check();
+
+  if None in j_list:
+    return None;
+
+  n = len(j_list);
+  if n < 1:
+    return None;
+
+  # Configure algorithms.
+  if opt_speculative:
+    algorithm = algorithm2;
+  else:
+    algorithm = algorithm3;
+
+  # Pre-compute e and gp.
+  e = prime_power_product(c * m);
+
+  gp = g ** e;
+  if gp == 1:
+    # Trivial case.
+    return algorithm(g, 1, m, c, timeout);
+
+  # Setup a basis for the lattice.
+  if verbose:
+    print("Setting up the basis...");
+
+  A = [[mpz(j) for j in j_list] + [mpz(2 ** tau)]];
+  for i in range(0, n):
+    row = (n + 1) * [mpz(0)];
+    row[i] = mpz(2 ** (m + l));
+    A.append(row);
+
+  # Reduce the basis for the lattice.
+  if verbose:
+    print("Computing the LLL-reduced basis with reduced precision...");
+
+  B = lll(A,
+          delta = delta,
+          timeout = timeout,
+          precision = LLL_DEFAULT_REDUCED_PRECISION);
+            # Pre-compute with reduced precision.
+
+  # Check the timeout.
+  timeout.check();
+
+  if verbose:
+    print(" ** Refining the LLL-reduced basis with full precision...");
+
+  [B, [Bs, M]] = lll(B,
+                     delta = delta,
+                     timeout = timeout,
+                     gs = True,
+                     precision = precision);
+
+  # Check the timeout.
+  timeout.check();
+
+
+  if enumerate in [EnumerationOptions.TRUE, True,
+                   EnumerationOptions.FALSE, False,
+                   EnumerationOptions.SVP]:
+
+    # Find a short non-zero vector in the lattice.
+    if enumerate == EnumerationOptions.SVP:
+      if verbose:
+        print("Executing an enumeration to solve SVP...");
+
+      # Let u be a shortest non-zero vector in the lattice.
+      u = solve_svp(B, timeout = timeout, gs = [Bs, M]);
+    else:
+      # Let u be a shortest non-zero vector in the delta-LLL-reduced basis.
+      u = B[0];
+
+    # Check if a solution was found.
+    if verbose:
+      print(" ** Checking:", u);
+
+    r_tilde_candidate = abs(u[-1]);
+    if 0 < r_tilde_candidate < 2 ** (m + tau):
+      r_tilde_candidate = r_tilde_candidate // (2 ** tau);
+      if (gp ** r_tilde_candidate) == 1:
+        return algorithm(g, r_tilde_candidate, m, c, timeout);
+
+    if enumerate not in [True, EnumerationOptions.TRUE]:
+      return None;
+
+    # Check the timeout.
+    timeout.check();
+
+    if verbose:
+      print("Enumerating vectors around v...");
+
+    # Set the enumeration radius R = |u|^2.
+    R2 = norm2(u);
+
+    # Enumerate with gradually increasing radii.
+    while True:
+
+      # Check the timeout.
+      timeout.check();
+
+      # Enumerate, whilst checking the timeout.
+      for u in enumerate_lattice(B,
+                                 R2,
+                                 timeout = timeout,
+                                 gs = [Bs, M]):
+
+        # Check if a solution was found.
+        if verbose:
+          print(" ** Checking:", u);
+
+        r_tilde_candidate = abs(u[-1]);
+        if 0 < r_tilde_candidate < 2 ** (m + tau):
+          r_tilde_candidate = r_tilde_candidate // (2 ** tau);
+          if (gp ** r_tilde_candidate) == 1:
+            return algorithm(g, r_tilde_candidate, m, c, timeout);
+
+      # Double the enumeration radius.
+      if verbose:
+          print(" ** Doubling the enumeration radius.");
+
+      R2 = 4 * R2;
+
+  elif enumerate in [EnumerationOptions.BOUNDED_BY_TAU,
+                     EnumerationOptions.BOUNDED_BY_TAU_COMPLETE]:
+
+    mu = mpz(0);
+
+    # Setup the set S', and keep it reduced by using a special class.
+    filtered_r_tilde_candidates = CandidateCollection();
+
+    # Setup a set of dismissed reduced candidates for r_tilde.
+    dismissed_reduced_r_tilde_candidates = set();
+
+    # Check the timeout.
+    timeout.check();
+
+    # Enumerate, whilst checking the timeout.
+    for u in enumerate_lattice(B,
+                               R2 = mpz(n + 1) * mpz(2 ** (2 * (m + tau))),
+                               timeout = timeout,
+                               gs = [Bs, M]):
+
+      # Check if a solution was found.
+      if verbose:
+        print(" ** Checking:", u);
+
+      r_tilde_candidate = abs(u[-1]);
+      if 0 < r_tilde_candidate < 2 ** (m + tau):
+        r_tilde_candidate = r_tilde_candidate // (2 ** tau);
+
+        if r_tilde_candidate in filtered_r_tilde_candidates:
+          # We already found this candidate, or a divisor of it.
+          continue;
+
+        # Use that mu is an r-multiple to reduce the candidate for r_tilde.
+        reduced_r_tilde_candidate = gcd(mu, r_tilde_candidate);
+
+        # Check if the remainder after reduction is equal to one, or if we
+        # already have dismissed this reduced candidate. Otherwise proceed.
+        if ((reduced_r_tilde_candidate == 1) or
+            (reduced_r_tilde_candidate in \
+               dismissed_reduced_r_tilde_candidates)):
+          # We can dismiss this candidate.
+          continue;
+
+        # Test the reduced candidate.
+        if (gp ** reduced_r_tilde_candidate) == 1:
+          if enumerate == EnumerationOptions.BOUNDED_BY_TAU:
+            # Return immediately.
+            return algorithm(g, r_tilde_candidate, m, c, timeout);
+
+          # Add r_tilde_candidate to the filtered candidates for r_tilde.
+          filtered_r_tilde_candidates.add(r_tilde_candidate);
+
+          # We know that reduced_r_tilde_candidate * e is a multiple of r,
+          # so we may update mu to account for this fact:
+          mu = gcd(reduced_r_tilde_candidate * e, mu);
+        else:
+          dismissed_reduced_r_tilde_candidates.add(reduced_r_tilde_candidate);
+
+    if len(filtered_r_tilde_candidates) == 0:
+      # No solution was found.
+      return None;
+
+    return min([algorithm(g, r_tilde_candidate, m, c, timeout)
+      for r_tilde_candidate in filtered_r_tilde_candidates])
+
+  else:
+    raise Exception("Error: Incorrect parameters: Unknown enumerate option.");
+
+
+def solve_multiple_j_for_r_mod_N(
+  j_list : list[int | mpz],
+  m : int,
+  l : int,
+  g : int | mpz,
+  N : int | mpz,
+  tau : int = 0,
+  c : int = 1,
+  delta : float = LLL_DEFAULT_DELTA,
+  precision : int | None = None,
+  enumerate : bool | EnumerationOptions = False,
+  timeout : int | None | Timeout = None,
+  verbose : bool = False,
+  opt_speculative : bool = True):
+
+  """ @brief  Attempts to compute the order r of g mod N, or a positive integer
+              multiple thereof, given a list of n frequencies [j_1, ..., j_n]
+              yielded by n independent runs of the quantum part of Seifert's
+              variation [Seifert01] of Shor's order-finding algorithm [Shor94]
+              as described in [E24t] (see Sect. 5.4) and [E21] (see App. A).
+              This by using Ekerå's lattice-based classical post-processing
+              from [E24t] and [E21], with supporting functions from [E24].
+
+      @remark   This convenience function simply calls solve_multiple_j_for_r()
+                with g setup by calling IntegerModRingMulSubgroupElement(g, N).
+
+      [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
+                            Logarithms and Factoring".
+                           In: Proceedings from FOCS '94, pp. 124–134 (1994).
+
+      [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
+                                   algorithm via simultaneous Diophantine
+                                   approximation". In: CT-RSA 2001.
+                                  Springer LNCS 2020, pp. 319–227 (2001).
+
+      [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
+                        logarithms and orders with tradeoffs".
+                       J. Math. Cryptol. 15(1), pp. 359–407 (2021).
+
+      [E24] Ekerå, M.: "On the success probability of quantum order finding".
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
+
+      [E24t] Ekerå, M.: "On factoring integers, and computing discrete
+                         logarithms and orders, quantumly".
+                        PhD thesis, KTH Royal Institute of Technology (2024).
+
+      @param j_list   The n frequencies [j_1, ..., j_n] where j_1, ..., j_n are
+                      integers on [0, 2^(m + l)).
+
+      @param m  A positive integer m such that r < 2^m.
+
+      @param l  A positive integer l ≈ m / s for s a tradeoff factor.
+
+      @param g  The group element g of order r modulo N.
+
+      @param N  The modulus N.
+
+      @param tau  An integer tau on [0, l]. Used to scale the basis for the
+                  lattice L^tau that is used in the post-processing, and that is
+                  generated by the vector (j_1, ..., j_n, 2^tau), and by the n
+                  vectors (2^(m + l), 0, ..., 0) thru (0, ..., 0, 2^(m + l), 0).
+
+      @param c  A parameter c >= 1 that specifies the maximum size of the
+                missing cm-smooth component d in r = d * r_tilde when solving j
+                for r, for cm-smooth as defined in [E24].
+
+                As is explained in [E24], increasing c increases the success
+                probability, at the expense of increasing the runtime.
+
+      @param delta  The parameter delta to use when delta-LLL-reducing the basis
+                    for the lattice L^tau used in the post-processing. Must be
+                    on the interval (1/4, 1]. A polynomial runtime in the
+                    dimension of the lattice is only guaranteed for delta < 1.
+
+      @param precision  The precision to use when computing the Gram–Schmidt
+                        projection factors as a part of delta-LLL-reducing the
+                        basis for the lattice L^tau used in the post-processing.
+
+                        The precision may be set to None, as is the default, in
+                        which case the projection factors are represented as
+                        exact quotients.
+
+      @param enumerate  A flag that may be set to True to enumerate vectors in
+                        the lattice L^tau (until r or a positive multiple of r
+                        is found or the specified timeout has elapsed), or to
+                        EnumerationOptions.SVP to consider only a shortest
+                        non-zero vector in L^tau as returned by performing a
+                        limited enumeration, or to False to consider only a
+                        shortest non-zero vector as returned by LLL.
+
+                        May also be set to EnumerationOptions.BOUNDED_BY_TAU or
+                        to EnumerationOptions.BOUNDED_BY_TAU_COMPLETE in which
+                        case all vectors within distance R of the origin of the
+                        lattice L^tau are enumerated, where R depends on tau as
+                        R = sqrt(n + 1) * 2^(m + tau). In the former case, the
+                        enumeration is aborted early as soon as r or a positive
+                        multiple of r is found. In the latter case, the
+                        enumeration runs to completion, after which the minimum
+                        candidate for r is taken as r.
+
+      @param timeout  A timeout after which a TimeoutError will be raised and
+                      the computation aborted.
+
+                      The timeout may be represented as an integer specifying
+                      the timeout in seconds, or as an instance of the Timeout
+                      class. May be set to None, as is the default, in which
+                      case no timeout is enforced.
+
+      @param verbose  A flag that may be set to True to print intermediary
+                      results and status updates when executing the
+                      post-processing algorithm.
+
+      @param opt_speculative  A flag that may be set to True to indicate that
+                              Alg. 2 in [E24] should be used instead of Alg. 3
+                              to find the missing cm-smooth component of r. In
+                              most cases, Alg. 2 is faster than Alg. 3, but in
+                              the worst case Alg. 2 is a lot slower than Alg. 3.
+                              For further details, see [E24].
+
+      @return   The order r of g mod N, or some positive multiple thereof, or
+                None, if solving for r fails. """
+
+  g = IntegerModRingMulSubgroupElement(g, N);
+
+  return solve_multiple_j_for_r(
+    j_list = j_list,
+    m = m,
+    l = l,
+    g = g,
+    tau = tau,
+    c = c,
+    delta = delta,
+    precision = precision,
+    enumerate = enumerate,
+    timeout = timeout,
+    verbose = verbose,
+    opt_speculative = opt_speculative);

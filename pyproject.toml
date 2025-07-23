@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quaspy"
-version = "0.9.4"
+version = "1.0.0a0"
 description = "The Quaspy library for Python for simulating and post-processing various quantum algorithms, including Shor's algorithms and Ekerå–Håstad's variations of Shor's algorithms."
 readme = "res/pip/README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.10"
 
 authors = [
   { name = "Martin Ekerå", email = "ekera@kth.se" }

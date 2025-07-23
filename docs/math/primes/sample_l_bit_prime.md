@@ -15,7 +15,7 @@ from quaspy.math.primes import sample_l_bit_prime
 
 ## Prototype
 ```python
-def sample_l_bit_prime(l)
+def sample_l_bit_prime(l : int)
 ```
 
 ## Parameters

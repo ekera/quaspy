@@ -1,7 +1,9 @@
 """ @brief  A module for finding the largest power of two that divides an
             integer. """
 
-def kappa(x):
+from gmpy2 import mpz;
+
+def kappa(x : int | mpz) -> int:
 
   """ @brief  Given an integer x, this function returns t such that x = 2^t * o,
               for o odd.

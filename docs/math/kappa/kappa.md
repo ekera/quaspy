@@ -11,7 +11,7 @@ from quaspy.math.kappa import kappa
 
 ## Prototype
 ```python
-def kappa(x)
+def kappa(x : int | gmpy2.mpz)
 ```
 
 ## Parameters

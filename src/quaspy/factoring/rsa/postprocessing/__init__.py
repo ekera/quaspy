@@ -6,7 +6,9 @@ from gmpy2 import mpz;
 from gmpy2 import isqrt_rem as sqrt_rem;
 from gmpy2 import ceil;
 
-def split_N_given_d(d, N):
+def split_N_given_d(
+  d : int | mpz,
+  N : int | mpz) -> set[int] | None:
 
   """ @brief  Splits N = pq into the large l-bit prime factors p and q given
               d = (p - 1) / 2 + (q - 1) / 2 - 2^(l - 1).

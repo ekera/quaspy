@@ -1,6 +1,7 @@
 # A simple tool for generating Markdown documentation for Quaspy.
 
 import os;
+import types;
 
 import inspect;
 
@@ -31,19 +32,22 @@ import quaspy.logarithmfinding.short.postprocessing;
 import quaspy.logarithmfinding.short.sampling;
 
 import quaspy.math;
-import quaspy.math.babai;
 import quaspy.math.continued_fractions;
 import quaspy.math.crt;
-import quaspy.math.gram_schmidt;
 import quaspy.math.groups;
 import quaspy.math.kappa;
-import quaspy.math.lagrange;
-import quaspy.math.matrix_solvers;
+import quaspy.math.lattices.babai;
+import quaspy.math.lattices.cvp;
+import quaspy.math.lattices.enumerate;
+import quaspy.math.lattices.gram_schmidt;
+import quaspy.math.lattices.lagrange;
+import quaspy.math.lattices.lll;
+import quaspy.math.lattices.svp;
+import quaspy.math.matrices;
 import quaspy.math.modular;
-import quaspy.math.norms;
 import quaspy.math.primes;
-import quaspy.math.projections;
 import quaspy.math.random;
+import quaspy.math.vectors;
 
 import quaspy.orderfinding;
 import quaspy.orderfinding.general;
@@ -52,6 +56,7 @@ import quaspy.orderfinding.general.postprocessing.ekera;
 import quaspy.orderfinding.general.sampling;
 
 import quaspy.utils;
+import quaspy.utils.timeout;
 import quaspy.utils.timer;
 
 def fixup(paragraph):
@@ -71,26 +76,32 @@ def fixup(paragraph):
   citations["[EH17]"] = "https://doi.org/10.1007/978-3-319-59879-6_20";
   citations["[E19p]"] = "https://doi.org/10.48550/arXiv.1905.09084";
   citations["[E20]"] = "https://doi.org/10.1007/s10623-020-00783-2";
+  citations["[E21]"] = "https://doi.org/10.1515/jmc-2020-0006";
   citations["[E21b]"] = "https://doi.org/10.1007/s11128-021-03069-1";
-  citations["[E22p]"] = "https://doi.org/10.48550/arXiv.2201.07791";
   citations["[E23p]"] = "https://doi.org/10.48550/arXiv.2309.01754";
   citations["[E24]"] = "https://doi.org/10.1145/3655026";
-  citations["[E24t]"] = "https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf";
+  citations["[E24t]"] = \
+    "https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf";
 
   citations["[Shor94]"] = "https://doi.org/10.1109/SFCS.1994.365700";
   citations["[Shor97]"] = "https://doi.org/10.1137/S0097539795293172";
 
+  citations["[Seifert01]"] = "https://doi.org/10.1007/3-540-45353-9_24";
+
   citations["[Babai86]"] = "https://doi.org/10.1007/BF02579403";
+  citations["[LLL82]"] = "https://doi.org/10.1007/BF01457454";
 
   citations["factoritall repository"] = \
-    "https://www.github.com/ekera/factoritall";
+    "https://github.com/ekera/factoritall";
   citations["Factoritall repository"] = \
-    "https://www.github.com/ekera/factoritall";
+    "https://github.com/ekera/factoritall";
 
   citations["qunundrum repository"] = \
-    "https://www.github.com/ekera/qunundrum";
+    "https://github.com/ekera/qunundrum";
   citations["Qunundrum repository"] = \
-    "https://www.github.com/ekera/qunundrum";
+    "https://github.com/ekera/qunundrum";
+
+  citations["fpLLL"] = "https://github.com/fplll/fplll";
 
   for key in citations.keys():
     citation = "[" + key + "](" + citations[key] + ")";
@@ -126,7 +137,8 @@ def get_brief(f):
   offset = 0;
 
   if (not paragraphs[offset].startswith("@brief ")):
-    raise Exception("Error: Expected the docstring to start with @brief.");
+    raise Exception("Error: Expected the docstring for \"" + str(f) + \
+                      "\" to start with @brief.");
 
   brief = paragraphs[offset].split(" ")[1:];
   brief = " ".join(brief);
@@ -134,7 +146,7 @@ def get_brief(f):
   return brief;
 
 
-def markdown_for_function(f, path = "docs", c = None):
+def markdown_for_routine(f, path = "docs", c = None):
   if c == None:
     print("  Processing function:", f.__name__);
   else:
@@ -159,7 +171,8 @@ def markdown_for_function(f, path = "docs", c = None):
     offset = 0;
 
     if (not paragraphs[offset].startswith("@brief ")):
-      raise Exception("Error: Expected the docstring to start with @brief.");
+      raise Exception("Error: Expected the docstring for the routine \"" +
+                        str(f) + "\" to start with @brief.");
 
     brief = paragraphs[offset].split(" ")[1:];
     brief = " ".join(brief);
@@ -252,11 +265,11 @@ def markdown_for_function(f, path = "docs", c = None):
   prototype_params = ", ".join(prototype_params);
 
   if c == None:
-    file.write("## Function: <code>" + f.__name__.replace("_", "\_") + \
+    file.write("## Function: <code>" + f.__name__.replace("_", "\\_") + \
                 "(" + prototype_params + ")" + "</code>\n");
   else:
     file.write("## Method: <code>" + c.__name__ + "." + \
-                f.__name__.replace("_", "\_") + \
+                f.__name__.replace("_", "\\_") + \
                     "(" + prototype_params + ")" + "</code>\n");
   for x in brief:
     file.write(x + "\n\n");
@@ -293,7 +306,10 @@ def markdown_for_function(f, path = "docs", c = None):
 
     param = sgn.parameters[sgn_param_names[i]];
     if param.annotation != inspect._empty:
-      prototype += " : " + str(param.annotation.__name__);
+      if isinstance(param.annotation, types.UnionType) or isinstance(param.annotation, str):
+        prototype += " : " + str(param.annotation);
+      else:
+        prototype += " : " + str(param.annotation.__name__);
     if param.default != inspect._empty:
       prototype += " = " + str(param.default);
 
@@ -350,7 +366,8 @@ def markdown_for_class(c, path = "docs"):
   offset = 0;
 
   if (not paragraphs[offset].startswith("@brief ")):
-    raise Exception("Error: Expected the docstring to start with @brief.");
+    raise Exception("Error: Expected the docstring for the class \"" + str(c) +
+                      "\" to start with @brief.");
 
   brief = paragraphs[offset].split(" ")[1:];
   brief = " ".join(brief);
@@ -372,10 +389,20 @@ def markdown_for_class(c, path = "docs"):
   methods = [];
 
   for function in getmembers(c, isfunction):
-    methods.append(function[1]);
+    # Only include functions actually defined in the class, not functions
+    # defined in classes inherited from by this class.
+    if function[0] in c.__dict__.keys():
+      origin_module = c.__dict__[function[0]].__module__;
+      if origin_module.startswith("quaspy"):
+        methods.append(function[1]);
 
   for method in getmembers(c, ismethod):
-    methods.append(method[1]);
+    # Only include methods actually defined in the class, not methods
+    # defined in classes inherited from by this class.
+    if method[0] in c.__dict__.keys():
+      origin_module = c.__dict__[method[0]].__module__;
+      if origin_module.startswith("quaspy"):
+        methods.append(method[1]);
 
   # Members
   members = [x[1] for x in getmembers(c) if x[0] == "__members__"];
@@ -419,7 +446,7 @@ def markdown_for_class(c, path = "docs"):
 
       params = ", ".join(params);
 
-      file.write("- [<code>" + str(m.__name__).replace("__", "\_\_") + \
+      file.write("- [<code>" + str(m.__name__).replace("__", "\\_\\_") + \
                   "(" + params + ")" + "</code>]" + \
         "(" + c.__name__ + "/" + m.__name__ + ".md)");
       if getattr(m, '__isabstractmethod__', False):
@@ -433,7 +460,7 @@ def markdown_for_class(c, path = "docs"):
         print("** Missing @brief documentation...");
         file.write("\n");
 
-      markdown_for_function(m, os.path.join(path, c.__name__), c);
+      markdown_for_routine(m, os.path.join(path, c.__name__), c);
 
   # Members
   if len(members) > 0:
@@ -458,6 +485,7 @@ def markdown_for_module(module, path = "docs", level = 0):
 
   if len(paragraphs) == 0:
     brief = [];
+    print("** Missing @brief documentation...");
   else:
     if (paragraphs[offset].startswith("@brief ")):
       brief = paragraphs[offset].split(" ")[1:];
@@ -465,6 +493,7 @@ def markdown_for_module(module, path = "docs", level = 0):
       brief = [brief];
     else:
       brief = [paragraphs[offset]];
+      print("** Missing @brief documentation...");
 
     offset += 1;
 
@@ -483,16 +512,15 @@ def markdown_for_module(module, path = "docs", level = 0):
     subpath = os.path.join(path, submodule[0]);
     submodule = submodule[1];
 
+    if not submodule.__name__.startswith(module.__name__):
+      continue;
+
     if os.path.exists(subpath):
       if not os.path.isdir(subpath):
         raise Exception("Error: The output directory is contaminated by " +
           "unknown activity.");
     else:
       os.mkdir(subpath);
-
-    if not submodule.__name__.startswith(module.__name__):
-      # print("*** Skipping module:", submodule.__name__);
-      continue;
 
     markdown_for_module(submodule, subpath, level + 1);
     submodules.append(submodule);
@@ -501,7 +529,7 @@ def markdown_for_module(module, path = "docs", level = 0):
 
   for f in getmembers(module, isfunction):
     if f[1].__module__ == module.__name__:
-      markdown_for_function(f[1], path);
+      markdown_for_routine(f[1], path);
       functions.append(f[1]);
 
   classes = [];

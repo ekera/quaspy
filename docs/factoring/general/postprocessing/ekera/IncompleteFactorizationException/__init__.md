@@ -12,8 +12,8 @@ from quaspy.factoring.general.postprocessing.ekera import IncompleteFactorizatio
 ## Prototype
 ```python
 def __init__(self,
-             message,
-             factors)
+             message : str,
+             factors : set)
 ```
 
 ## Parameters

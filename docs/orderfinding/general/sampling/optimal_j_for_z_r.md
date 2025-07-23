@@ -11,10 +11,10 @@ from quaspy.orderfinding.general.sampling import optimal_j_for_z_r
 
 ## Prototype
 ```python
-def optimal_j_for_z_r(z,
-                      r,
-                      m,
-                      l)
+def optimal_j_for_z_r(z : int | gmpy2.mpz,
+                      r : int | gmpy2.mpz,
+                      m : int,
+                      l : int)
 ```
 
 ## Parameters
@@ -23,7 +23,7 @@ def optimal_j_for_z_r(z,
 | z | The peak index z in [0, r). |
 | r | The order r. |
 | m | A positive integer m such that r < 2^m. |
-| l | An integer l on [0, m), such that m + l is the length of the control register in the quantum order-finding algorithm. |
+| l | An integer l on [0, m), such that m + l is the length of the control register in the quantum part of the algorithm. |
 
 ## Return value
 The optimal frequency j0(z) = round(2^(m + l) / r * z).

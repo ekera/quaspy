@@ -29,8 +29,8 @@ from quaspy.factoring.rsa import setup_x_given_g_N
 
 ## Prototype
 ```python
-def setup_x_given_g_N(g,
-                      N)
+def setup_x_given_g_N(g : CyclicGroupElement,
+                      N : int | gmpy2.mpz)
 ```
 
 ## Parameters

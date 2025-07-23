@@ -1,7 +1,7 @@
 """ @brief  A module for splitting N, given the order r of an element g selected
             uniformly at random from the multiplicative group of the ring of
             integers modulo N, where g must be explicitly specified. This by
-            using the original algorithm in [Shor94].
+            using the original algorithm from [Shor94].
 
     [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
                           Logarithms and Factoring".
@@ -12,12 +12,15 @@ from gmpy2 import mpz;
 from gmpy2 import gcd;
 from gmpy2 import powmod;
 
-def split_N_given_g_r(g, r, N):
+def split_N_given_g_r(
+  g : int | mpz,
+  r : int | mpz,
+  N : int | mpz) -> set[int] | None:
 
   """ @brief  Attempts to split N, given the order r of an element g selected
               uniformly at random from the multiplicative group of the ring of
               integers modulo N, where g must be explicitly specified. This by
-              using the original algorithm in [Shor94].
+              using the original algorithm from [Shor94].
 
       [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
                             Logarithms and Factoring".

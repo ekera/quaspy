@@ -1,5 +1,5 @@
 ## Function: <code>split\_N\_given\_g\_r(g, r, N)</code>
-Attempts to split N, given the order r of an element g selected uniformly at random from the multiplicative group of the ring of integers modulo N, where g must be explicitly specified. This by using the original algorithm in [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700).
+Attempts to split N, given the order r of an element g selected uniformly at random from the multiplicative group of the ring of integers modulo N, where g must be explicitly specified. This by using the original algorithm from [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700).
 
 The algorithm succeeds iff r is even and g^(r/2) != -1 (mod N).
 
@@ -13,9 +13,9 @@ from quaspy.factoring.general.postprocessing.shor import split_N_given_g_r
 
 ## Prototype
 ```python
-def split_N_given_g_r(g,
-                      r,
-                      N)
+def split_N_given_g_r(g : int | gmpy2.mpz,
+                      r : int | gmpy2.mpz,
+                      N : int | gmpy2.mpz)
 ```
 
 ## Parameters

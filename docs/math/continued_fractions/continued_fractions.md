@@ -11,10 +11,10 @@ from quaspy.math.continued_fractions import continued_fractions
 
 ## Prototype
 ```python
-def continued_fractions(j,
-                        m,
-                        l,
-                        denominator_bound = None)
+def continued_fractions(j : int | gmpy2.mpz,
+                        m : int,
+                        l : int,
+                        denominator_bound : bool = None)
 ```
 
 ## Parameters

@@ -4,7 +4,11 @@ from gmpy2 import mpz;
 from gmpy2 import mpq;
 from gmpy2 import mpfr;
 
-def continued_fractions(j, m, l, denominator_bound = None):
+def continued_fractions(
+    j : int | mpz,
+    m : int,
+    l : int,
+    denominator_bound : bool = None) -> list[int | mpz]:
 
   """ @brief  Expands j / 2^(m + l) in continued fractions, and returns an
               ordered list of all denominators < 2^((m + l) / 2), unless an

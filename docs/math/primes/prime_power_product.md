@@ -11,7 +11,7 @@ from quaspy.math.primes import prime_power_product
 
 ## Prototype
 ```python
-def prime_power_product(B)
+def prime_power_product(B : int)
 ```
 
 ## Parameters

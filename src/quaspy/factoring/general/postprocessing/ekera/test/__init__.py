@@ -25,8 +25,6 @@ from math import prod;
 from math import floor;
 from math import prod;
 
-from ......orderfinding.general.postprocessing.ekera import SolutionMethods;
-
 from ......utils.timer import Timer;
 
 from ......math.groups import SimulatedCyclicGroupElement;
@@ -44,11 +42,14 @@ from .....sampling import sample_g_r_given_N;
 
 from .....sampling import B_DEFAULT_SAMPLE;
 
-from ......orderfinding.general.postprocessing import B_DEFAULT_SOLVE;
+from ......orderfinding.general.postprocessing.ekera import B_DEFAULT_SOLVE;
 
-from ......math.primes import is_B_smooth, prime_range;
+from ......math.primes import is_B_smooth;
 
-def is_admissible_r(r, B, N_factors):
+def is_admissible_r(
+  r : int | mpz,
+  B : int,
+  N_factors : list[list[int | mpz]]) -> bool:
 
   """ @brief  Tests if (pi - 1) / gcd(pi - 1, r) is B-smooth for all but at
               most one of the prime factors pi of N.
@@ -57,9 +58,9 @@ def is_admissible_r(r, B, N_factors):
 
       @param B  The upper bound B.
 
-      @param N_factors  The factors of N = p1^e1 * .. * pn^en, represented on
-                        the form [[p1, e1], .., [pn, en]], for p1, .., pn
-                        pairwise distinct prime factors, and for e1, .., en
+      @param N_factors  The factors of N = p1^e1 * ... * pn^en, represented on
+                        the form [[p1, e1], ..., [pn, en]], for p1, ..., pn
+                        pairwise distinct prime factors, and for e1, ..., en
                         positive integer exponents.
 
       @return   True if (pi - 1) / gcd(pi - 1, r) is B-smooth for all but at
@@ -81,19 +82,17 @@ def is_admissible_r(r, B, N_factors):
 
 
 def test_solve_r_for_factors_of_N(
-  N,
-  N_factors,
-  pi_minus_one_factors = None,
-  c = 1,
-  sample_g = False,
-  verbose = True):
+  N : int | mpz,
+  N_factors : list[list[int | mpz]],
+  c : int = 1,
+  verbose : bool = True) -> None:
 
   """ @brief  Samples the order r of an element g selected uniformly at random
               from the multiplicative group of the ring of integers modulo N,
               and attempts to recover the complete factorization of N given r.
 
       More specifically, this function accepts as input the complete
-      factorization of an integer N = p1^e1 * .. * pn^en with n distinct prime
+      factorization of an integer N = p1^e1 * ... * pn^en with n distinct prime
       factors pi, and optionally of pi - 1, for i in [1, n].
 
       It then samples the order r of an element g selected uniformly at random
@@ -102,33 +101,14 @@ def test_solve_r_for_factors_of_N(
 
       @param N  The integer N.
 
-      @param N_factors  The factors of N = p1^e1 * .. * pn^en, represented on
-                        the form [[p1, e1], .., [pn, en]], for p1, .., pn
-                        pairwise distinct prime factors, and for e1, .., en
+      @param N_factors  The factors of N = p1^e1 * ... * pn^en, represented on
+                        the form [[p1, e1], ..., [pn, en]], for p1, ..., pn
+                        pairwise distinct prime factors, and for e1, ..., en
                         positive integer exponents.
-
-      @param pi_minus_one_factors  The factors of pi-1 = qi1^di1 * .. * qim^dim,
-                                   for i in [1, n], represented on the form
-                                   [F1, .., Fn], where each Fi is on the form
-                                   [[qi1, qi1], .., [qim, qim]], for
-                                   qi1, .., qim pairwise distinct prime factors,
-                                   and for di1, .., dim positive integer
-                                   exponents. May be set to None, in which case
-                                   r will be computed deterministically as
-                                   described above. If explicitly specified, the
-                                   order r will be computed exactly.
 
       @param c  A parameter c >= 1 that specifies the maximum size of the
                 missing smooth component in lambda'(N) when solving r for the
                 complete factorization of N.
-
-      @param sample_g   A flag that may be set to True to not exactly sample the
-                        order r of an element g selected uniformly at random
-                        from the multiplicative group of the ring of integers
-                        modulo N, but rather to sample g and to then exactly or
-                        heuristically compute r (depending on whether the
-                        complete factorizations of pi - 1 for i in [1, n] are
-                        specified or not).
 
       @param verbose  A flag that may be set to True to print intermediary
                       results. Defaults to True.
@@ -177,11 +157,11 @@ def test_solve_r_for_factors_of_N(
 
 
 def test_solve_r_for_factors_of_random_N(
-  l = 1024,
-  n = 2,
-  e_max = 1,
-  c = 1,
-  verbose = True):
+  l : int = 1024,
+  n : int = 2,
+  e_max : int = 1,
+  c : int = 1,
+  verbose : bool = True) -> None:
 
   """ @brief  Samples the order r of an element g selected uniformly at random
               from the multiplicative group of the ring of integers modulo N,
@@ -190,7 +170,7 @@ def test_solve_r_for_factors_of_random_N(
       More specifically, this function first selects n pairwise distinct l-bit
       prime factors pi from the set of all l-bit prime factors, and n integer
       exponents ei uniformly at random from the interval [1, e_max), for i on
-      [1, n], after which it computes the integer N = p1^e1 * .. * pn^en.
+      [1, n], after which it computes the integer N = p1^e1 * ... * pn^en.
 
       It then samples the order r of an element g selected uniformly at random
       from the multiplicative group of the ring of integers modulo N, and
@@ -260,22 +240,22 @@ def test_solve_r_for_factors_of_random_N(
 
 
 def test_solve_j_for_factors_of_N(
-  N,
-  N_factors,
-  pi_minus_one_factors = None,
-  c_factor = 1,
-  c_solve = 1,
-  B_solve = B_DEFAULT_SOLVE,
-  B_sample = B_DEFAULT_SAMPLE,
-  sample_g = False,
-  verbose = True):
+  N : int | mpz,
+  N_factors : list[list[int | mpz]],
+  pi_minus_one_factors : list[list[list[int | mpz]]] | None = None,
+  c_factor : int = 1,
+  c_solve : int = 1,
+  B_solve : int = B_DEFAULT_SOLVE,
+  B_sample : int = B_DEFAULT_SAMPLE,
+  sample_g : bool = False,
+  verbose : bool = True) -> None:
 
   """ @brief  Samples a frequency j from the probability distribution induced
               by Shor's order-finding algorithm when factoring N, and then
               attempts to solve j for the complete factorization of N.
 
       More specifically, this function accepts as input the complete
-      factorization of an integer N = p1^e1 * .. * pn^en with n distinct prime
+      factorization of an integer N = p1^e1 * ... * pn^en with n distinct prime
       factors pi, and optionally of pi - 1, for i in [1, n].
 
       It samples the order r of an element g selected uniformly at random from
@@ -291,21 +271,26 @@ def test_solve_j_for_factors_of_N(
 
       @param N  The integer N.
 
-      @param N_factors  The factors of N = p1^e1 * .. * pn^en, represented on
-                        the form [[p1, e1], .., [pn, en]], for p1, .., pn
-                        pairwise distinct prime factors, and for e1, .., en
+      @param N_factors  The factors of N = p1^e1 * ... * pn^en, represented on
+                        the form [[p1, e1], ..., [pn, en]], for p1, ..., pn
+                        pairwise distinct prime factors, and for e1, ..., en
                         positive integer exponents.
 
-      @param pi_minus_one_factors  The factors of pi-1 = qi1^di1 * .. * qim^dim,
+      @param pi_minus_one_factors  The factors of
+
+                                      pi - 1 = qi1^di1 * ... * qim^dim,
+
                                    for i in [1, n], represented on the form
-                                   [F1, .., Fn], where each Fi is on the form
-                                   [[qi1, qi1], .., [qim, qim]], for
-                                   qi1, .., qim pairwise distinct prime factors,
-                                   and for di1, .., dim positive integer
-                                   exponents. May be set to None, in which case
-                                   r will be computed deterministically as
-                                   described above. If explicitly specified, the
-                                   order r will be computed exactly.
+                                   [F1, ..., Fn], where each Fi is on the form
+                                   [[qi1, qi1], ..., [qim, qim]], for
+                                   qi1, ..., qim pairwise distinct prime
+                                   factors, and for di1, ..., dim positive
+                                   integer exponents.
+
+                                   May be set to None, in which case r will be
+                                   computed deterministically as described
+                                   above. If explicitly specified, the order r
+                                   will be computed exactly.
 
       @param c_factor   A parameter c_factor >= 1 that specifies the maximum
                         size of the missing smooth component in lambda'(N) when
@@ -420,15 +405,15 @@ def test_solve_j_for_factors_of_N(
 
 
 def test_solve_j_for_factors_of_random_N(
-  l = 1024,
-  n = 2,
-  e_max = 1,
-  c_factor = 1,
-  c_solve = 1,
-  B_solve = B_DEFAULT_SOLVE,
-  B_sample = B_DEFAULT_SAMPLE,
-  sample_g = False,
-  verbose = True):
+  l : int = 1024,
+  n : int = 2,
+  e_max : int = 1,
+  c_factor : int = 1,
+  c_solve : int = 1,
+  B_solve : int = B_DEFAULT_SOLVE,
+  B_sample : int = B_DEFAULT_SAMPLE,
+  sample_g : bool = False,
+  verbose : bool = True) -> None:
 
   """ @brief  Samples a frequency j from the probability distribution induced
               by Shor's order-finding algorithm when factoring N, and then
@@ -437,7 +422,7 @@ def test_solve_j_for_factors_of_random_N(
       More specifically, this function first selects n pairwise distinct l-bit
       prime factors pi from the set of all l-bit prime factors, and n integer
       exponents ei uniformly at random from the interval [1, e_max), for i on
-      [1, n], after which it computes the integer N = p1^e1 * .. * pn^en.
+      [1, n], after which it computes the integer N = p1^e1 * ... * pn^en.
 
       It then samples the order r of an element g selected uniformly at random
       from the multiplicative group of the ring of integers modulo N. Next, it
@@ -532,7 +517,7 @@ def test_solve_j_for_factors_of_random_N(
     verbose = verbose);
 
 
-def test_all(verbose = True):
+def test_all(verbose : bool = True) -> None:
 
   """ @brief  Executes the test suite described in App. A.3 of [E21b].
 

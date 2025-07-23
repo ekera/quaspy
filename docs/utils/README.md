@@ -10,6 +10,10 @@ import quaspy.utils
 - [<code>quaspy</code>](../README.md)
 
 ## Submodules
+- [<code>timeout</code>](timeout/README.md)
+
+  A module for a utility class for handling timeouts.
+
 - [<code>timer</code>](timer/README.md)
 
   A module for a utility class for collecting timing statistics.

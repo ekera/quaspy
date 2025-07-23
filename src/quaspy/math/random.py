@@ -2,7 +2,7 @@
 
 from secrets import randbelow;
 
-def sample_integer(B):
+def sample_integer(B : int) -> int:
 
   """ @brief  Returns an integer selected uniformly at random from [0, B).
 
@@ -15,13 +15,13 @@ def sample_integer(B):
 
       @return   An integer selected uniformly at random from [0, B). """
 
-  if (B < 1):
+  if B < 1:
     raise Exception("Error: Incorrect parameters: Pick B >= 1.");
 
   return randbelow(B);
 
 
-def sample_l_bit_integer(l):
+def sample_l_bit_integer(l : int) -> int:
 
   """ @brief  Returns an l-bit integer selected uniformly at random from the set
               of all such integers.
@@ -37,7 +37,7 @@ def sample_l_bit_integer(l):
       @return   An l-bit integer selected uniformly at random from the set of
                 all such integers. """
 
-  if (l < 1):
+  if l < 1:
     raise Exception("Error: Incorrect parameters: Pick l >= 1.");
 
   return 2 ** (l - 1) + sample_integer(2 ** (l - 1));

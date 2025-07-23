@@ -15,8 +15,8 @@ from quaspy.utils.timer import Timer
 
 ## Prototype
 ```python
-def __add__(a,
-            b)
+def __add__(a : Timer,
+            b : Timer)
 ```
 
 ## Parameters

@@ -18,15 +18,17 @@ from ......math.groups import SimulatedCyclicGroupElement;
 
 from ......math.random import sample_integer, sample_l_bit_integer;
 
-from .. import solve_j_for_r;
-
 from ....sampling import optimal_j_for_z_r, sample_j_given_r;
 
 from ....sampling import B_DEFAULT_SAMPLE;
 
-from ... import B_DEFAULT_SOLVE;
+from ...ekera import B_DEFAULT_SOLVE;
+
+from .. import solve_j_for_r;
 
 from .. import SolutionMethods;
+
+from gmpy2 import mpz;
 
 from math import gcd;
 
@@ -35,17 +37,17 @@ from ..internal.solve import solve_j_for_r_tilde_lattice_svp;
 from ..internal.solve import solve_j_for_r_tilde_continued_fractions;
 
 def test_solve_j_for_r(
-  r,
-  m = None,
-  Delta = None,
-  c = 1,
-  B_solve = B_DEFAULT_SOLVE,
-  B_sample = B_DEFAULT_SAMPLE,
-  accept_multiple = False,
-  method = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
-  verbose = True,
-  opt_speculative = True,
-  opt_isolate_peak = True):
+  r : int | mpz,
+  m : int | None = None,
+  Delta : int | None = None,
+  c : int = 1,
+  B_solve : int = B_DEFAULT_SOLVE,
+  B_sample : int = B_DEFAULT_SAMPLE,
+  accept_multiple : bool = False,
+  method : SolutionMethods = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
+  verbose : bool = True,
+  opt_speculative : bool = True,
+  opt_isolate_peak : bool = True) -> None:
 
   """ @brief  Tests the solve_j_for_r() function for a given r, and a given
               set of parameters and optimization flags.
@@ -99,7 +101,7 @@ def test_solve_j_for_r(
       @param B_solve  A bound B >= 0 on the offset in j when solving j for r.
 
                       If B > 0, this function tries to solve not only j, but
-                      also j ± 1, .., j ± B, for r, or for a positive integer
+                      also j ± 1, ..., j ± B, for r, or for a positive integer
                       multiple of r. For further details, see solve_j_for_r().
 
       @param B_sample   A bound B >= 0 on the offset in j when sampling j. For
@@ -157,7 +159,7 @@ def test_solve_j_for_r(
     if r.bit_length() > m:
       raise Exception("Error: It is required that r < 2^m.");
 
-  if Delta == None:
+  if None == Delta:
     l = m;
     while (l > 0) and ((r ** 2) < (2 ** (m + l - 1))):
       l -= 1;
@@ -169,7 +171,7 @@ def test_solve_j_for_r(
 
   # Sample j.
   sample = sample_j_given_r(r, m, l, B = B_sample, extended_result = True);
-  if sample == None:
+  if None == sample:
     if verbose:
       print("\n*** Failed to sample j.\n");
 
@@ -204,7 +206,7 @@ def test_solve_j_for_r(
   # Stop the timer.
   timer.stop();
 
-  if candidate_r == None:
+  if None == candidate_r:
     # Check if we expect to fail since the offset is too large.
     if abs(j0_offset) > B_solve:
       if verbose:
@@ -254,15 +256,15 @@ def test_solve_j_for_r(
 
 
 def test_solve_j_for_random_r(
-  m = 2048,
-  Delta = None,
-  B_solve = B_DEFAULT_SOLVE,
-  B_sample = B_DEFAULT_SAMPLE,
-  accept_multiple = False,
-  method = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
-  verbose = True,
-  opt_speculative = True,
-  opt_isolate_peak = True):
+  m : int = 2048,
+  Delta : int | None = None,
+  B_solve : int = B_DEFAULT_SOLVE,
+  B_sample : int = B_DEFAULT_SAMPLE,
+  accept_multiple : bool = False,
+  method : SolutionMethods = SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
+  verbose : bool = True,
+  opt_speculative : bool = True,
+  opt_isolate_peak : bool = True) -> None:
 
   """ @brief  Selects an m bit order r uniformly at random from the set of all
               such orders, and then calls test_solve_j_for_r() for this order r,
@@ -285,6 +287,7 @@ def test_solve_j_for_random_r(
   test_solve_j_for_r(
     r = r,
     m = m,
+    Delta = Delta,
     B_solve = B_solve,
     B_sample = B_sample,
     accept_multiple = accept_multiple,
@@ -294,7 +297,7 @@ def test_solve_j_for_random_r(
     opt_isolate_peak = opt_isolate_peak);
 
 
-def test_all_solve_for_r(verbose = True):
+def test_all_solve_for_r(verbose : bool = True) -> None:
 
   """ @brief  Calls test_solve_j_for_random_r() for all combinations of
               accept_multiple and opt_speculative in {True, False}, and, for
@@ -366,7 +369,13 @@ def test_all_solve_for_r(verbose = True):
                 opt_isolate_peak = opt_isolate_peak);
 
 
-def test_solve_for_r_tilde(z, r, m, c = 1, Deltas = False, verbose = False):
+def test_solve_for_r_tilde(
+  z : int | mpz,
+  r : int | mpz,
+  m : int,
+  c : int = 1,
+  Deltas : bool = False,
+  verbose : bool = False) -> None:
 
   """ @brief  Calls solve_j_for_r_tilde_continued_fractions(),
               solve_j_for_r_tilde_lattice_svp() and
@@ -392,7 +401,7 @@ def test_solve_for_r_tilde(z, r, m, c = 1, Deltas = False, verbose = False):
       If the Deltas flag is set to true, this function also attempt to solve j
       for r using the lattice-based solver with enumeration, whilst setting
       l = m - Delta och re-computing j = j0(z) given r, m and l, for all Delta
-      in [0, .., min(m - 1, 12)]. For each value of Delta, it is again verified
+      in [0, ..., min(m - 1, 12)]. For each value of Delta, it is again verified
       that r_tilde is successfully  recovered.
 
       @remark   This function checks whether d = gcd(r, z) is cm-smooth.
@@ -458,7 +467,8 @@ def test_solve_for_r_tilde(z, r, m, c = 1, Deltas = False, verbose = False):
                                 g = g,
                                 c = c,
                                 accept_multiple = False,
-                                filtered_r_tilde_candidates = set());
+                                filtered_r_tilde_candidates = set(),
+                                verbose = verbose);
 
     if type(r_tilde_candidates) != type(set()):
       raise Exception("Error: Expected a set to the returned.");
@@ -473,7 +483,8 @@ def test_solve_for_r_tilde(z, r, m, c = 1, Deltas = False, verbose = False):
                                 l = l,
                                 g = g,
                                 c = c,
-                                accept_multiple = False);
+                                accept_multiple = False,
+                                verbose = verbose);
 
     if not (r_tilde in r_tilde_candidates):
       raise Exception("Error: Failed to recover r_tilde by enumerating L.");
@@ -494,7 +505,8 @@ def test_solve_for_r_tilde(z, r, m, c = 1, Deltas = False, verbose = False):
                                     g = g,
                                     c = c,
                                     accept_multiple = False,
-                                    filtered_r_tilde_candidates = set());
+                                    filtered_r_tilde_candidates = set(),
+                                    verbose = verbose);
 
         if type(r_tilde_candidates) != type(set()):
           raise Exception("Error: Expected a set to the returned.");
@@ -509,13 +521,17 @@ def test_solve_for_r_tilde(z, r, m, c = 1, Deltas = False, verbose = False):
                                     l = l,
                                     g = g,
                                     c = c,
-                                    accept_multiple = False);
+                                    accept_multiple = False,
+                                    verbose = verbose);
 
         if not (r_tilde in r_tilde_candidates):
           raise Exception("Error: Failed to recover r_tilde by enumerating L.");
 
 
-def test_solve_for_r_tilde_exhaustive(m = 16, c = 1, verbose = False):
+def test_solve_for_r_tilde_exhaustive(
+  m : int = 16,
+  c : int = 1,
+  verbose : bool = False) -> None:
 
   """ @brief  Selects r uniformly at random from the set of all m-bit integers,
               and then calls test_solve_for_r_tilde() for r, and for all values
@@ -553,7 +569,10 @@ def test_solve_for_r_tilde_exhaustive(m = 16, c = 1, verbose = False):
       verbose = verbose);
 
 
-def test_solve_for_r_tilde_randomized(m = 2048, c = 1, verbose = False):
+def test_solve_for_r_tilde_randomized(
+  m : int = 2048,
+  c : int = 1,
+  verbose : bool = False) -> None:
 
   """ @brief  Selects r uniformly at random from the set of all m-bit integers,
               then selects z uniformly at random from [0, r), and finally calls
@@ -587,10 +606,11 @@ def test_solve_for_r_tilde_randomized(m = 2048, c = 1, verbose = False):
     verbose = verbose);
 
 
-def test_all_solve_for_r_tilde(verbose = False):
+def test_all_solve_for_r_tilde(
+  verbose : bool = False) -> None:
 
   """ @brief  Calls test_solve_for_r_tilde_exhaustive(m, verbose) for all
-              integers m in {4, 5, .., 16}, and then calls
+              integers m in {4, 5, ..., 16}, and then calls
               test_solve_for_r_tilde_randomized(m, verbose) ten times
               for m in {256, 512, 1024, 2048, 4096, 8192, 16384}, passing
               along the verbose flag.
@@ -609,7 +629,8 @@ def test_all_solve_for_r_tilde(verbose = False):
       test_solve_for_r_tilde_randomized(m = m, verbose = verbose);
 
 
-def test_all(verbose = False):
+def test_all(
+  verbose : bool = False) -> None:
 
   """ @brief  Calls test_all_solve_for_r_tilde(), and then
               test_all_solve_for_r(), passing along the verbose flag.

@@ -13,12 +13,11 @@ from math import floor;
 
 from .collection import CandidateCollection;
 
-from ......math.lagrange import lagrange;
 from ......math.continued_fractions import continued_fractions;
+from ......math.lattices.lagrange import lagrange;
+from ......math.vectors import norm2;
 
 from ......math.primes import prime_power_product;
-
-from ......math.norms import norm2;
 
 def solve_j_for_r_tilde_continued_fractions(j, m, l):
 
@@ -102,10 +101,11 @@ def solve_j_for_r_tilde_lattice_svp(j, m, l, multiples = None):
                         default, if no such multiples are available.
 
                         The idea is that when trying to solve not only j but
-                        also j ± 1, .., j ± B for r_tilde, in the hope that this
-                        will lead to an optimal frequency j0(z) being solved for
-                        r_tilde, the row multiples that yield a Lagrange-reduced
-                        basis for adjecent offsets in j are likely to be close.
+                        also j ± 1, ..., j ± B for r_tilde, in the hope that
+                        this will lead to an optimal frequency j0(z) being
+                        solved for r_tilde, the row multiples that yield a
+                        Lagrange-reduced basis for adjecent offsets in j are
+                        likely to be close.
 
                         For this reason, this function accepts row multiples as
                         input, and it furthermore returns as output the row
@@ -209,7 +209,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
       @param m  A positive integer m such that r < 2^m.
 
-      @param l  A positive integer l <= m, such that m+l is the length of the
+      @param l  A positive integer l <= m, such that m + l is the length of the
                 control register in the quantum order-finding algorithm.
 
                 As is explained in [E24], it is possible to select l = m-Delta,
@@ -248,7 +248,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
                                           integer range [1, 2^m).
 
                                           When e.g. solving not only j, but also
-                                          j ± 1, .., j ± B, for r, for B some
+                                          j ± 1, ..., j ± B, for r, for B some
                                           bound, then this parameter allows for
                                           accounting for candidates of r_tilde
                                           found in enumerations for previous
@@ -297,10 +297,11 @@ def solve_j_for_r_tilde_lattice_enumerate(
                         default, if no such multiples are available.
 
                         The idea is that when trying to solve not only j but
-                        also j ± 1, .., j ± B for r_tilde, in the hope that this
-                        will lead to an optimal frequency j0(z) being solved for
-                        r_tilde, the row multiples that yield a Lagrange-reduced
-                        basis for adjecent offsets in j are likely to be close.
+                        also j ± 1, ..., j ± B for r_tilde, in the hope that
+                        this will lead to an optimal frequency j0(z) being
+                        solved for r_tilde, the row multiples that yield a
+                        Lagrange-reduced basis for adjecent offsets in j are
+                        likely to be close.
 
                         For this reason, this function accepts row multiples as
                         input, and it furthermore returns as output the row
@@ -344,380 +345,376 @@ def solve_j_for_r_tilde_lattice_enumerate(
 
   # Enforce default. Note: We cannot use CandidateCollection() or set() as
   # defaults in the prototype because Python caches these collections/sets.
-  if filtered_r_tilde_candidates == None:
+  if None == filtered_r_tilde_candidates:
     filtered_r_tilde_candidates = CandidateCollection();
 
-  if dismissed_reduced_r_tilde_candidates == None:
+  if None == dismissed_reduced_r_tilde_candidates:
     dismissed_reduced_r_tilde_candidates = set();
 
   # Sanity checks.
   if (m <= 0) or (l < 0) or (l > m):
     raise Exception("Error: Incorrect parameters");
 
-  # Setup precision.
-  swapped_out_precision = gmpy2.get_context().precision;
-  gmpy2.get_context().precision = 53;
+  with gmpy2.context(gmpy2.get_context()) as context:
 
-  # Compute Delta given m and l.
-  Delta = m - l;
+    # Set the precision.
+    context.precision = 53;
 
-  # Setup the basis matrix for the lattice L (scaled by a factor of two).
-  A = [[mpz(2 * j), mpz(1)], [2 * mpz(2 ** (m + l)), mpz(0)]];
-  # Without scaling: A = [[mpz(j), mpq(1, 2)], [mpz(2 ** (m + l), mpz(0)]];
+    # Compute Delta given m and l.
+    Delta = m - l;
 
-  # Reduce the basis matrix.
-  [A, multiples] = lagrange(A, multiples = multiples);
+    # Setup the basis matrix for the lattice L (scaled by a factor of two).
+    A = [[mpz(2 * j), mpz(1)], [2 * mpz(2 ** (m + l)), mpz(0)]];
+    # Without scaling: A = [[mpz(j), mpq(1, 2)], [mpz(2 ** (m + l), mpz(0)]];
 
-  # Extract the shortest non-zero vector, denoted s1, and the shortest
-  # non-zero vector that is linerly independent to s1, denoted s2.
-  [s1, s2] = A;
+    # Reduce the basis matrix.
+    [A, multiples] = lagrange(A, multiples = multiples);
 
-  # Compute float representation of these vectors, since they may be large.
-  s1f = [mpfr(x) for x in s1];
-  s2f = [mpfr(x) for x in s2];
+    # Extract the shortest non-zero vector, denoted s1, and the shortest
+    # non-zero vector that is linerly independent to s1, denoted s2.
+    [s1, s2] = A;
 
-  # Compute the Gram-Schmidt-coefficient mu21, such that
-  #   mu12 * s1 = component of s2 that is parallel to s1, and
-  #   s2 - mu12 * s1 = component of s2 that is orthogonal to s1.
-  mu12 = (s1f[0] * s2f[0] + s1f[1] * s2f[1]) / norm2(s1f);
+    # Compute float representation of these vectors, since they may be large.
+    s1f = [mpfr(x) for x in s1];
+    s2f = [mpfr(x) for x in s2];
 
-  # Compute the parallel and orthogonal components of s2.
-  s2f_parallel = [mu12 * s1f[0], mu12 * s1f[1]];
-  s2f_orthogonal = [s2f[0] - s2f_parallel[0], s2f[1] - s2f_parallel[1]];
+    # Compute the Gram–Schmidt-coefficient mu21, such that
+    #   mu12 * s1 = component of s2 that is parallel to s1, and
+    #   s2 - mu12 * s1 = component of s2 that is orthogonal to s1.
+    mu12 = (s1f[0] * s2f[0] + s1f[1] * s2f[1]) / norm2(s1f);
 
-  if None == g_pow_e_context:
-    # Form e.
-    e = prime_power_product(c * m); # TBD: Pass e to this function alongside x.
+    # Compute the parallel and orthogonal components of s2.
+    s2f_parallel = [mu12 * s1f[0], mu12 * s1f[1]];
+    s2f_orthogonal = [s2f[0] - s2f_parallel[0], s2f[1] - s2f_parallel[1]];
 
-    # Exponentiate g to e to form x.
-    x = g ** e;
-  else:
-    [x, e] = g_pow_e_context;
+    if None == g_pow_e_context:
+      # Form e.
+      e = prime_power_product(c * m);
 
-    e = mpz(e);
-
-  # The radius of the circle to enumerate. In [E24], the radius of the circle to
-  # enumerate is 2^(m - 1/2), which would imply radius2 = 2^(2m - 1). This bound
-  # stems from the fact that the target vector is
-  #
-  #   | [alpha_0(z) / d, (r / 2) / d] | <= | [r/2, r/2] | =
-  #     sqrt((r/2)^2 + (r/2)^2) = sqrt(r^2 / 2) = r / sqrt(2) <
-  #       2^m / sqrt(2) = 2^(m-1/2),
-  #
-  # since d = gcd(z, r) >= 1, |alpha_0(z)| <= r/2 and r < 2^m.
-  #
-  # We have scaled the lattice by a factor of two, yielding instead
-  #
-  #   | [2 alpha_0(z) / d, r / d] | <= | [r, r] | =
-  #     sqrt(r^2 + r^2) = sqrt(2 r^2) = sqrt(2) r <
-  #       sqrt(2) 2^m = 2^(m+1/2),
-  #
-  # and (2^(m+1/2))^2 = 2^(2m+1) as below.
-  radius2 = mpfr(mpz(2 ** (2 * m + 1)));
-
-  # A flag that is set to True if a candidate was found and to False otherwise.
-  success = False;
-
-  # Setup mu.
-  mu = mpz(mu);
-
-  if norm2(s2f_orthogonal) >= radius2:
-    # As is stated in [E24], if | s2_orthogonal | >= radius^2, we have that the
-    # second component of the shortest non-zero vector must be r_tilde / 2 (and
-    # we have scaled by factor of two, so the component is now r_tilde).
-
-    r_tilde_candidate = abs(s1[1]);
-
-    if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
-      if r_tilde_candidate in filtered_r_tilde_candidates:
-        success = True;
-      else:
-        # Use that mu is an r-multiple to reduce the candidate for r_tilde.
-        reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
-
-        if (reduced_r_tilde_candidate in dismissed_reduced_r_tilde_candidates):
-          # Dismiss the reduced candidate.
-          if verbose:
-            print("Dismissing:", r_tilde_candidate);
-        else:
-          # The reduced candidate has not already been dismissed.
-          if verbose:
-            print("Testing the reduced candidate:", \
-              reduced_r_tilde_candidate);
-
-          # Test the reduced candidate.
-          if (x ** reduced_r_tilde_candidate) == 1:
-            success = True;
-
-            # Add r_tilde_candidate to the filtered candidates for r_tilde.
-            filtered_r_tilde_candidates.add(r_tilde_candidate);
-
-            # We know that reduced_r_tilde_candidate * e is a multiple of r,
-            # so we may update mu to account for this fact:
-            mu = gcd(reduced_r_tilde_candidate * e, mu);
-          else:
-            # Add reduced_r_tilde_candidate to the dismissed reduced
-            # candidates for r_tilde to avoid future exponentiations.
-            dismissed_reduced_r_tilde_candidates.\
-              add(reduced_r_tilde_candidate);
-
-    gmpy2.get_context().precision = swapped_out_precision;
-    return [filtered_r_tilde_candidates,
-            [success,
-             dismissed_reduced_r_tilde_candidates,
-             mu,
-             multiples]];
-
-  # Compute an upper bound B on the number of points to enumerate.
-  B = floor(6 * sqrt(3) * (2 ** Delta));
-
-  # Pre-compute 2^m for later comparisons.
-  pow2mf = mpfr(mpz(2 ** m));
-
-  # Storage for x_basis = [x ** s1[1], x ** s2[1]] that is precomputed upon
-  # demand if the partial_exponentiation flag is set to True.
-  x_basis = None;
-
-  count = 0;
-
-  i2 = 0;
-
-  while True:
-    # Check the condition on the radius.
-    u2_orthogonalf = [i2 * s2f_orthogonal[0], i2 * s2f_orthogonal[1]];
-    if norm2(u2_orthogonalf) > radius2:
-      break;
-
-    # Form u2f.
-    u2f = [i2 * s2f[0], i2 * s2f[1]];
-
-    # Form i1hat and search i1 = i1hat, i1hat ± 1, i1hat ± 2, ..
-    i1 = i1hat = round(-mu12 * i2);
-
-    # Optimization: Jump ahead in i1.
-    uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
-
-    if s1f[1] >= 0:
-      if uf[1] <= -pow2mf:
-        i1 += int(floor((-uf[1] - pow2mf) // s1f[1]));
+      # Exponentiate g to e to form x.
+      x = g ** e;
     else:
-      if uf[1] >= pow2mf:
-        i1 += int(floor((uf[1] - pow2mf) // -s1f[1]));
-    # End of optimization.
+      [x, e] = g_pow_e_context;
+
+      e = mpz(e);
+
+    # The radius of the circle to enumerate. In [E24], the radius of the circle
+    # to enumerate is 2^(m - 1/2), which would imply radius2 = 2^(2m - 1). This
+    # bound stems from the fact that the target vector is
+    #
+    #   | [alpha_0(z) / d, (r / 2) / d] | <= | [r/2, r/2] | =
+    #     sqrt((r/2)^2 + (r/2)^2) = sqrt(r^2 / 2) = r / sqrt(2) <
+    #       2^m / sqrt(2) = 2^(m-1/2),
+    #
+    # since d = gcd(z, r) >= 1, |alpha_0(z)| <= r/2 and r < 2^m.
+    #
+    # We have scaled the lattice by a factor of two, yielding instead
+    #
+    #   | [2 alpha_0(z) / d, r / d] | <= | [r, r] | =
+    #     sqrt(r^2 + r^2) = sqrt(2 r^2) = sqrt(2) r <
+    #       sqrt(2) 2^m = 2^(m+1/2),
+    #
+    # and (2^(m+1/2))^2 = 2^(2m+1) as below.
+    radius2 = mpfr(mpz(2 ** (2 * m + 1)));
+
+    # A flag that is set to True if a candidate was found, otherwise to False.
+    success = False;
+
+    # Setup mu.
+    mu = mpz(mu);
+
+    if norm2(s2f_orthogonal) >= radius2:
+      # As is stated in [E24], if | s2_orthogonal | >= radius^2, we have that
+      # the second component of the shortest non-zero vector must be r_tilde / 2
+      # (and we have scaled by factor of two, so the component is now r_tilde).
+
+      r_tilde_candidate = abs(s1[1]);
+
+      if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+        if r_tilde_candidate in filtered_r_tilde_candidates:
+          success = True;
+        else:
+          # Use that mu is an r-multiple to reduce the candidate for r_tilde.
+          reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
+
+          if (reduced_r_tilde_candidate in \
+              dismissed_reduced_r_tilde_candidates):
+            # Dismiss the reduced candidate.
+            if verbose:
+              print("Dismissing:", r_tilde_candidate);
+          else:
+            # The reduced candidate has not already been dismissed.
+            if verbose:
+              print("Testing the reduced candidate:", \
+                reduced_r_tilde_candidate);
+
+            # Test the reduced candidate.
+            if (x ** reduced_r_tilde_candidate) == 1:
+              success = True;
+
+              # Add r_tilde_candidate to the filtered candidates for r_tilde.
+              filtered_r_tilde_candidates.add(r_tilde_candidate);
+
+              # We know that reduced_r_tilde_candidate * e is a multiple of r,
+              # so we may update mu to account for this fact:
+              mu = gcd(reduced_r_tilde_candidate * e, mu);
+            else:
+              # Add reduced_r_tilde_candidate to the dismissed reduced
+              # candidates for r_tilde to avoid future exponentiations.
+              dismissed_reduced_r_tilde_candidates.\
+                add(reduced_r_tilde_candidate);
+
+      return [filtered_r_tilde_candidates,
+              [success,
+              dismissed_reduced_r_tilde_candidates,
+              mu,
+              multiples]];
+
+    # Compute an upper bound B on the number of points to enumerate.
+    B = floor(6 * sqrt(3) * (2 ** Delta));
+
+    # Pre-compute 2^m for later comparisons.
+    pow2mf = mpfr(mpz(2 ** m));
+
+    # Storage for x_basis = [x ** s1[1], x ** s2[1]] that is precomputed upon
+    # demand if the partial_exponentiation flag is set to True.
+    x_basis = None;
+
+    count = 0;
+
+    i2 = 0;
 
     while True:
       # Check the condition on the radius.
-      uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
-      if norm2(uf) > radius2:
+      u2_orthogonalf = [i2 * s2f_orthogonal[0], i2 * s2f_orthogonal[1]];
+      if norm2(u2_orthogonalf) > radius2:
         break;
 
-      # Update the count with an additional candidate point. We only search over
-      # positive i2, but if [i1, i2] is a candidate, then of course so is
-      # [-i1, -i2], so unless i2 = 0 we count the candidate twice.
-      if i2 != 0:
-        count += 2;
-      else:
-        count += 1;
+      # Form u2f.
+      u2f = [i2 * s2f[0], i2 * s2f[1]];
 
-      # Check the candidate.
-      if (not (i1 == i2 == 0)) and (0 < abs(uf[0]) < pow2mf) \
-                               and (0 < abs(uf[1]) < pow2mf):
+      # Form i1hat and search i1 = i1hat, i1hat ± 1, i1hat ± 2, ..
+      i1 = i1hat = round(-mu12 * i2);
 
-        # Compute r_tilde_candidate.
-        r_tilde_candidate = abs(i1 * s1[1] + i2 * s2[1]);
-
-        if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
-          if r_tilde_candidate in filtered_r_tilde_candidates:
-            success = True;
-
-            if accept_multiple:
-              gmpy2.get_context().precision = swapped_out_precision;
-              return [filtered_r_tilde_candidates,
-                      [success,
-                       dismissed_reduced_r_tilde_candidates,
-                       mu,
-                       multiples]];
-          else:
-            # Use that mu is an r-multiple to reduce the candidate for r_tilde.
-            reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
-
-            if (reduced_r_tilde_candidate in \
-              dismissed_reduced_r_tilde_candidates):
-              # Dismiss the reduced candidate.
-              if verbose:
-                print("Dismissing:", r_tilde_candidate);
-            else:
-              # The reduced candidate has not already been dismissed.
-              if verbose:
-                print("Testing the candidate:", i1, i2, \
-                  reduced_r_tilde_candidate, r_tilde_candidate);
-
-              # Test the reduced candidate.
-              if partial_exponentiation:
-                if x_basis == None:
-                    x_basis = [x ** s1[1], x ** s2[1]];
-
-                z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
-              else:
-                z = x ** reduced_r_tilde_candidate;
-
-              if z == 1:
-                success = True;
-
-                # Add r_tilde_candidate to the filtered candidates for r_tilde.
-                filtered_r_tilde_candidates.add(r_tilde_candidate);
-
-                if accept_multiple:
-                  gmpy2.get_context().precision = swapped_out_precision;
-                  return [filtered_r_tilde_candidates,
-                          [success,
-                           dismissed_reduced_r_tilde_candidates,
-                           mu,
-                           multiples]];
-
-                # We know that reduced_r_tilde_candidate * e is a multiple of r,
-                # so we may update mu to account for this fact:
-                mu = gcd(reduced_r_tilde_candidate * e, mu);
-              else:
-                # Add reduced_r_tilde_candidate to the dismissed reduced
-                # candidates for r_tilde to avoid future exponentiations.
-                dismissed_reduced_r_tilde_candidates.\
-                  add(reduced_r_tilde_candidate);
-
-      if s1f[0] >= 0:
-        if uf[0] >=  pow2mf:
-          break; # There is no point in continuing.
-      else:
-        if uf[0] <= -pow2mf:
-          break; # There is no point in continuing.
+      # Optimization: Jump ahead in i1.
+      uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
 
       if s1f[1] >= 0:
-        if uf[1] >=  pow2mf:
-          break; # There is no point in continuing.
-      else:
         if uf[1] <= -pow2mf:
-          break; # There is no point in continuing.
-
-      i1 += 1;
-
-    i1 = i1hat - 1;
-
-    # Optimization: Jump ahead in i1.
-    uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
-
-    if s1f[1] >= 0:
-      if uf[1] <= -pow2mf:
-        i1 -= int(floor((-uf[1] - pow2mf) // s1f[1]));
-    else:
-      if uf[1] >= pow2mf:
-        i1 -= int(floor((uf[1] - pow2mf) // -s1f[1]));
-    # End of optimization.
-
-    while True:
-      # Check the condition on the radius.
-      uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
-      if norm2(uf) > radius2:
-        break;
-
-      # Update the count with an additional candidate point. We only search
-      # over positive i2, but if [i1, i2] is a candidate, then of course so
-      # is [-i1, -i2], so unless i2 = 0 we count the candidate twice.
-      if i2 != 0:
-        count += 2;
+          i1 += int(floor((-uf[1] - pow2mf) // s1f[1]));
       else:
-        count += 1;
+        if uf[1] >= pow2mf:
+          i1 += int(floor((uf[1] - pow2mf) // -s1f[1]));
+      # End of optimization.
 
-      # Check the candidate.
-      if (not (i1 == i2 == 0)) and (0 < abs(uf[0]) < pow2mf) \
-                               and (0 < abs(uf[1]) < pow2mf):
+      while True:
+        # Check the condition on the radius.
+        uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
+        if norm2(uf) > radius2:
+          break;
 
-        # Compute r_tilde_candidate.
-        r_tilde_candidate = abs(i1 * s1[1] + i2 * s2[1]);
+        # Update the count with an additional candidate point. We only search
+        # over positive i2, but if [i1, i2] is a candidate, then of course so is
+        # [-i1, -i2], so unless i2 = 0 we count the candidate twice.
+        if i2 != 0:
+          count += 2;
+        else:
+          count += 1;
 
-        if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
-          if r_tilde_candidate in filtered_r_tilde_candidates:
-            success = True;
+        # Check the candidate.
+        if (not (i1 == i2 == 0)) and (0 < abs(uf[0]) < pow2mf) \
+                                and (0 < abs(uf[1]) < pow2mf):
 
-            if accept_multiple:
-              gmpy2.get_context().precision = swapped_out_precision;
-              return [filtered_r_tilde_candidates,
-                      [success,
-                       dismissed_reduced_r_tilde_candidates,
-                       mu,
-                       multiples]];
-          else:
-            # Use that mu is an r-multiple to reduce the candidate for r_tilde.
-            reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
+          # Compute r_tilde_candidate.
+          r_tilde_candidate = abs(i1 * s1[1] + i2 * s2[1]);
 
-            if (reduced_r_tilde_candidate in \
-              dismissed_reduced_r_tilde_candidates):
-              # Dismiss the reduced candidate.
-              if verbose:
-                print("Dismissing:", r_tilde_candidate);
+          if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+            if r_tilde_candidate in filtered_r_tilde_candidates:
+              success = True;
+
+              if accept_multiple:
+                return [filtered_r_tilde_candidates,
+                        [success,
+                        dismissed_reduced_r_tilde_candidates,
+                        mu,
+                        multiples]];
             else:
-              # The reduced candidate has not already been dismissed.
-              if verbose:
-                print("Testing the candidate:", i1, i2, \
-                  reduced_r_tilde_candidate, r_tilde_candidate);
+              # Use that mu is an r-multiple to reduce the r_tilde candidate.
+              reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
 
-              # Test the reduced candidate.
-              if partial_exponentiation:
-                if x_basis == None:
-                    x_basis = [x ** s1[1], x ** s2[1]];
-
-                z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
+              if (reduced_r_tilde_candidate in \
+                dismissed_reduced_r_tilde_candidates):
+                # Dismiss the reduced candidate.
+                if verbose:
+                  print("Dismissing:", r_tilde_candidate);
               else:
-                z = x ** reduced_r_tilde_candidate;
+                # The reduced candidate has not already been dismissed.
+                if verbose:
+                  print("Testing the candidate:", i1, i2, \
+                    reduced_r_tilde_candidate, r_tilde_candidate);
 
-              if z == 1:
-                success = True;
+                # Test the reduced candidate.
+                if partial_exponentiation:
+                  if None == x_basis:
+                      x_basis = [x ** s1[1], x ** s2[1]];
 
-                # Add r_tilde_candidate to the filtered candidates for r_tilde.
-                filtered_r_tilde_candidates.add(r_tilde_candidate);
+                  z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
+                else:
+                  z = x ** reduced_r_tilde_candidate;
 
-                if accept_multiple:
-                  gmpy2.get_context().precision = swapped_out_precision;
-                  return [filtered_r_tilde_candidates,
-                          [success,
-                           dismissed_reduced_r_tilde_candidates,
-                           mu,
-                           multiples]];
+                if z == 1:
+                  success = True;
 
-                # We know that reduced_r_tilde_candidate * e is a multiple of r,
-                # so we may update mu to account for this fact:
-                mu = gcd(reduced_r_tilde_candidate * e, mu);
-              else:
-                # Add reduced_r_tilde_candidate to the dismissed reduced
-                # candidates for r_tilde to avoid future exponentiations.
-                dismissed_reduced_r_tilde_candidates.\
-                  add(reduced_r_tilde_candidate);
+                  # Add r_tilde_candidate to the filtered r_tilde candidates.
+                  filtered_r_tilde_candidates.add(r_tilde_candidate);
 
-      if s1f[0] <= 0:
-        if uf[0] >=  pow2mf:
-          break; # There is no point in continuing.
-      else:
-        if uf[0] <= -pow2mf:
-          break; # There is no point in continuing.
+                  if accept_multiple:
+                    return [filtered_r_tilde_candidates,
+                            [success,
+                            dismissed_reduced_r_tilde_candidates,
+                            mu,
+                            multiples]];
 
-      if s1f[1] <= 0:
-        if uf[1] >=  pow2mf:
-          break; # There is no point in continuing.
-      else:
+                  # We know that reduced_r_tilde_candidate * e is a multiple of
+                  # r, so we may update mu to account for this fact:
+                  mu = gcd(reduced_r_tilde_candidate * e, mu);
+                else:
+                  # Add reduced_r_tilde_candidate to the dismissed reduced
+                  # candidates for r_tilde to avoid future exponentiations.
+                  dismissed_reduced_r_tilde_candidates.\
+                    add(reduced_r_tilde_candidate);
+
+        if s1f[0] >= 0:
+          if uf[0] >=  pow2mf:
+            break; # There is no point in continuing.
+        else:
+          if uf[0] <= -pow2mf:
+            break; # There is no point in continuing.
+
+        if s1f[1] >= 0:
+          if uf[1] >=  pow2mf:
+            break; # There is no point in continuing.
+        else:
+          if uf[1] <= -pow2mf:
+            break; # There is no point in continuing.
+
+        i1 += 1;
+
+      i1 = i1hat - 1;
+
+      # Optimization: Jump ahead in i1.
+      uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
+
+      if s1f[1] >= 0:
         if uf[1] <= -pow2mf:
-          break; # There is no point in continuing.
+          i1 -= int(floor((-uf[1] - pow2mf) // s1f[1]));
+      else:
+        if uf[1] >= pow2mf:
+          i1 -= int(floor((uf[1] - pow2mf) // -s1f[1]));
+      # End of optimization.
 
-      i1 -= 1;
+      while True:
+        # Check the condition on the radius.
+        uf = [u2f[0] + i1 * s1f[0], u2f[1] + i1 * s1f[1]];
+        if norm2(uf) > radius2:
+          break;
 
-    # Try next i2.
-    i2 += 1;
+        # Update the count with an additional candidate point. We only search
+        # over positive i2, but if [i1, i2] is a candidate, then of course so is
+        # [-i1, -i2], so unless i2 = 0 we count the candidate twice.
+        if i2 != 0:
+          count += 2;
+        else:
+          count += 1;
 
-    # Sanity check.
-    if count >= B:
-      raise Exception("Error: Enumerated more vectors than expected.");
+        # Check the candidate.
+        if (not (i1 == i2 == 0)) and (0 < abs(uf[0]) < pow2mf) \
+                                and (0 < abs(uf[1]) < pow2mf):
 
-  gmpy2.get_context().precision = swapped_out_precision;
-  return [filtered_r_tilde_candidates,
-          [success,
-           dismissed_reduced_r_tilde_candidates,
-           mu,
-           multiples]];
+          # Compute r_tilde_candidate.
+          r_tilde_candidate = abs(i1 * s1[1] + i2 * s2[1]);
+
+          if (r_tilde_candidate >= 1) and (r_tilde_candidate < (2 ** m)):
+            if r_tilde_candidate in filtered_r_tilde_candidates:
+              success = True;
+
+              if accept_multiple:
+                return [filtered_r_tilde_candidates,
+                        [success,
+                        dismissed_reduced_r_tilde_candidates,
+                        mu,
+                        multiples]];
+            else:
+              # Use that mu is an r-multiple to reduce the r_tilde candidate.
+              reduced_r_tilde_candidate = gcd(r_tilde_candidate, mu);
+
+              if (reduced_r_tilde_candidate in \
+                dismissed_reduced_r_tilde_candidates):
+                # Dismiss the reduced candidate.
+                if verbose:
+                  print("Dismissing:", r_tilde_candidate);
+              else:
+                # The reduced candidate has not already been dismissed.
+                if verbose:
+                  print("Testing the candidate:", i1, i2, \
+                    reduced_r_tilde_candidate, r_tilde_candidate);
+
+                # Test the reduced candidate.
+                if partial_exponentiation:
+                  if None == x_basis:
+                      x_basis = [x ** s1[1], x ** s2[1]];
+
+                  z = (x_basis[0] ** i1) * (x_basis[1] ** i2);
+                else:
+                  z = x ** reduced_r_tilde_candidate;
+
+                if z == 1:
+                  success = True;
+
+                  # Add r_tilde_candidate to the filtered r_tilde candidates.
+                  filtered_r_tilde_candidates.add(r_tilde_candidate);
+
+                  if accept_multiple:
+                    return [filtered_r_tilde_candidates,
+                            [success,
+                            dismissed_reduced_r_tilde_candidates,
+                            mu,
+                            multiples]];
+
+                  # We know that reduced_r_tilde_candidate * e is a multiple of
+                  # r, so we may update mu to account for this fact:
+                  mu = gcd(reduced_r_tilde_candidate * e, mu);
+                else:
+                  # Add reduced_r_tilde_candidate to the dismissed reduced
+                  # candidates for r_tilde to avoid future exponentiations.
+                  dismissed_reduced_r_tilde_candidates.\
+                    add(reduced_r_tilde_candidate);
+
+        if s1f[0] <= 0:
+          if uf[0] >=  pow2mf:
+            break; # There is no point in continuing.
+        else:
+          if uf[0] <= -pow2mf:
+            break; # There is no point in continuing.
+
+        if s1f[1] <= 0:
+          if uf[1] >=  pow2mf:
+            break; # There is no point in continuing.
+        else:
+          if uf[1] <= -pow2mf:
+            break; # There is no point in continuing.
+
+        i1 -= 1;
+
+      # Try next i2.
+      i2 += 1;
+
+      # Sanity check.
+      if count >= B:
+        raise Exception("Error: Enumerated more vectors than expected.");
+
+    return [filtered_r_tilde_candidates,
+            [success,
+            dismissed_reduced_r_tilde_candidates,
+            mu,
+            multiples]];

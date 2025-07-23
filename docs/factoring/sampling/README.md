@@ -1,7 +1,7 @@
 ## Module: <code>sampling</code>
 A module for exactly or heuristically sampling an element g uniformly at random from the multiplicative group of the ring of integers modulo N and returning the order r of g. This when the complete factorization of N is known.
 
-The procedures in this module are described in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1), in [[E24t]](https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf) (see in particular Sect. 5.2.3) and in the [Factoritall repository](https://www.github.com/ekera/factoritall) (available at https://www.github.com/ekera/factoritall).
+The procedures in this module are described in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1), in [[E24t]](https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf) (see in particular Sect. 5.2.3) and in the [Factoritall repository](https://github.com/ekera/factoritall) (available at https://github.com/ekera/factoritall).
 
 ## Import directive
 ```python
