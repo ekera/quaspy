@@ -48,10 +48,10 @@ $ sudo apt install libgmp-dev libmpfr-dev libmpc-dev
 For other Linux and Unix distributions, or operating systems, you may need to [download Python](https://www.python.org/downloads) and install it manually along with the required dependencies.
 
 ### Installing the library
-To install the latest release of [Quaspy](https://github.com/ekera/quaspy) via [Pip3](https://pypi.org), execute:
+To install the latest pre-release of [Quaspy](https://github.com/ekera/quaspy) via [Pip3](https://pypi.org), execute:
 
 ```console
-$ pip3 install quaspy=1.0.0a0
+$ pip3 install --pre quaspy
 ```
 
 You may also install [Quaspy](https://github.com/ekera/quaspy) directly from this repository, by executing:
