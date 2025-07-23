@@ -24,7 +24,7 @@ def is_lll_reduced(B : list,
 | ----------- | ------------------ |
 | B | The basis matrix B. |
 | delta | The delta parameter in the Lovász condition. Must be on the interval (1/4, 1]. |
-| gs | The list [Bs, M], where Bs is the Gram–Schmidt orthogonalized basis for B, and M is the associated matrix of Gram–Schmidt projection factors, as returned by calling<br><br>[Bs, M] = gram_schmidt(B, precision = precision),<br><br>or None, in which case this function will make the above call.<br><br>If you plan to perform several enumerations in the same lattice, then time may be saved by not re-computing Bs and M for each call.<br><br>Note that the basis B is typically LLL-reduced by calling lll() before calling this function. The lll() function can return not only B but also Bs and M (since Bs and M are incrementally computed as a part of the LLL reduction process) allowing you to directly pass them along to this function. |
+| gs | The list [Bs, M], where Bs is the Gram–Schmidt orthogonalized basis for B, and M is the associated matrix of Gram–Schmidt projection factors, as returned by calling<br><br>[Bs, M] = gram_schmidt(B, precision = precision),<br><br>or None, in which case this function will make the above call. |
 | precision | The precision to use when computing the Gram–Schmidt projection factors in M. May be set to None, in which case projection factors are represented as exact quotients.<br><br>Note that this parameter only has an effect if gs is set to None as the Gram–Schmidt orthogonalized basis Bs and the associated matrix M of Gram–Schmidt projection factors are otherwise pre-computed. |
 
 ## Return value

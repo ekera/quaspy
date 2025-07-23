@@ -214,16 +214,6 @@ def is_lll_reduced(
 
                   or None, in which case this function will make the above call.
 
-                  If you plan to perform several enumerations in the same
-                  lattice, then time may be saved by not re-computing Bs and M
-                  for each call.
-
-                  Note that the basis B is typically LLL-reduced by calling
-                  lll() before calling this function. The lll() function can
-                  return not only B but also Bs and M (since Bs and M are
-                  incrementally computed as a part of the LLL reduction process)
-                  allowing you to directly pass them along to this function.
-
       @param precision  The precision to use when computing the Gram–Schmidt
                         projection factors in M. May be set to None, in which
                         case projection factors are represented as exact
