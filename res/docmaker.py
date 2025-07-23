@@ -512,15 +512,15 @@ def markdown_for_module(module, path = "docs", level = 0):
     subpath = os.path.join(path, submodule[0]);
     submodule = submodule[1];
 
+    if not submodule.__name__.startswith(module.__name__):
+      continue;
+
     if os.path.exists(subpath):
       if not os.path.isdir(subpath):
         raise Exception("Error: The output directory is contaminated by " +
           "unknown activity.");
     else:
       os.mkdir(subpath);
-
-    if not submodule.__name__.startswith(module.__name__):
-      continue;
 
     markdown_for_module(submodule, subpath, level + 1);
     submodules.append(submodule);
