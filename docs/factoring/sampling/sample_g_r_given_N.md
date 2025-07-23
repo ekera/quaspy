@@ -17,7 +17,7 @@ lambda(pi^ei) = (pi - 1) pi^(ei - 1)
 
 as an initial guess ri' for the order ri of gi. Then, for each prime factor f that divide ri', for as long as f divides ri' and gi^(ri' / f) = 1 (mod N), let ri' <- ri' / f. It follows that ri = ri' at the end of the procedure. The order of g is then r = lcm(r1, ..., rn).
 
-The above procedure is described in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1), and in the [factoritall repository](https://www.github.com/ekera/factoritall) (available at https://www.github.com/ekera/factoritall).
+The above procedure is described in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1), and in the [factoritall repository](https://github.com/ekera/factoritall) (available at https://github.com/ekera/factoritall).
 
 ## Import directive
 ```python

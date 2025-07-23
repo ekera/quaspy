@@ -5,7 +5,7 @@
 
     The procedures in this module are described in [E21b], in [E24t] (see in
     particular Sect. 5.2.3) and in the Factoritall repository (available at
-    https://www.github.com/ekera/factoritall).
+    https://github.com/ekera/factoritall).
 
     [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                        single run of an order-finding algorithm".
@@ -72,7 +72,7 @@ def sample_r_given_N(
 
       The above procedure is not described in [E21b], but in [E24t] (see in
       particular Sect. 5.2.3) and in the Factoritall repository (available at
-      https://www.github.com/ekera/factoritall).
+      https://github.com/ekera/factoritall).
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".
@@ -177,7 +177,7 @@ def sample_g_r_given_N(
       the end of the procedure. The order of g is then r = lcm(r1, ..., rn).
 
       The above procedure is described in [E21b], and in the factoritall
-      repository (available at https://www.github.com/ekera/factoritall).
+      repository (available at https://github.com/ekera/factoritall).
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
                          single run of an order-finding algorithm".

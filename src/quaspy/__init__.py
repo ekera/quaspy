@@ -47,12 +47,12 @@
 
     Note that Quaspy implements basic support for tradeoffs via a native Python
     implementation of LLL that is stable and resasonable performant. See also
-    the Qunundrum repository (see https://www.github.com/ekera/qunundrum) with
-    its suite of MPI programs that implements support for tradeoffs via LLL and
-    BKZ as implemented by fpLLL (see https://github.com/fplll/fplll).
+    the Qunundrum repository (see https://github.com/ekera/qunundrum) with its
+    suite of MPI programs that implements support for tradeoffs via LLL and BKZ
+    as implemented by fpLLL (see https://github.com/fplll/fplll).
 
     Note furthermore that portions of Quaspy are inherited from the Factoritall
-    repository (see https://www.github.com/ekera/factoritall).
+    repository (see https://github.com/ekera/factoritall).
 
     Quaspy is a work in progress, and may be subject to major changes without
     prior notice. Quaspy was developed for academic research purposes. It grew
@@ -127,9 +127,9 @@ from .factoring.rsa import setup_d_given_p_q;
 from .factoring.rsa import setup_x_given_g_N;
 
 # The algorithms in [E21b], [E24t] (see in particular Sect. 5.2.3) and the
-# Factoritall repository (available at https://www.github.com/ekera/factoritall)
-# for sampling g uniformly at random from the multiplicative group of the ring
-# of integers modulo N, and for returning [g, r] or r, for r the (in some cases
+# Factoritall repository (available at https://github.com/ekera/factoritall) for
+# sampling g uniformly at random from the multiplicative group of the ring of
+# integers modulo N, and for returning [g, r] or r, for r the (in some cases
 # heuristically computed) order of g.
 from .factoring.sampling import sample_g_r_given_N;
 from .factoring.sampling import sample_r_given_N;

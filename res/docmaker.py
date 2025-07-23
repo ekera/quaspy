@@ -92,14 +92,14 @@ def fixup(paragraph):
   citations["[LLL82]"] = "https://doi.org/10.1007/BF01457454";
 
   citations["factoritall repository"] = \
-    "https://www.github.com/ekera/factoritall";
+    "https://github.com/ekera/factoritall";
   citations["Factoritall repository"] = \
-    "https://www.github.com/ekera/factoritall";
+    "https://github.com/ekera/factoritall";
 
   citations["qunundrum repository"] = \
-    "https://www.github.com/ekera/qunundrum";
+    "https://github.com/ekera/qunundrum";
   citations["Qunundrum repository"] = \
-    "https://www.github.com/ekera/qunundrum";
+    "https://github.com/ekera/qunundrum";
 
   citations["fpLLL"] = "https://github.com/fplll/fplll";
 

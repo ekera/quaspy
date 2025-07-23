@@ -15,7 +15,7 @@ as all pi are odd, and gi = Gi^di computed, for Gi some fixed generator of the m
 
 Again, unless the factorization of pi - 1 for i in [1, n] is known, it is hard to prove that an element Gi is a generator, and hence to explicitly compute g. This explains why this function only returns r.
 
-The above procedure is not described in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1), but in [[E24t]](https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf) (see in particular Sect. 5.2.3) and in the [Factoritall repository](https://www.github.com/ekera/factoritall) (available at https://www.github.com/ekera/factoritall).
+The above procedure is not described in [[E21b]](https://doi.org/10.1007/s11128-021-03069-1), but in [[E24t]](https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf) (see in particular Sect. 5.2.3) and in the [Factoritall repository](https://github.com/ekera/factoritall) (available at https://github.com/ekera/factoritall).
 
 ## Import directive
 ```python

@@ -15,9 +15,9 @@ The root module for the [Quaspy](https://github.com/ekera/quaspy) (Quantum algor
 
 All modules, classes, methods and functions in [Quaspy](https://github.com/ekera/quaspy) are documented using Python docstrings (see https://github.com/ekera/quaspy/blob/main/docs).
 
-Note that [Quaspy](https://github.com/ekera/quaspy) implements basic support for tradeoffs via a native Python implementation of LLL that is stable and resasonable performant. See also the [Qunundrum repository](https://www.github.com/ekera/qunundrum) (see https://www.github.com/ekera/qunundrum) with its suite of MPI programs that implements support for tradeoffs via LLL and BKZ as implemented by [fpLLL](https://github.com/fplll/fplll) (see https://github.com/fplll/fplll).
+Note that [Quaspy](https://github.com/ekera/quaspy) implements basic support for tradeoffs via a native Python implementation of LLL that is stable and resasonable performant. See also the [Qunundrum repository](https://github.com/ekera/qunundrum) (see https://github.com/ekera/qunundrum) with its suite of MPI programs that implements support for tradeoffs via LLL and BKZ as implemented by [fpLLL](https://github.com/fplll/fplll) (see https://github.com/fplll/fplll).
 
-Note furthermore that portions of [Quaspy](https://github.com/ekera/quaspy) are inherited from the [Factoritall repository](https://www.github.com/ekera/factoritall) (see https://www.github.com/ekera/factoritall).
+Note furthermore that portions of [Quaspy](https://github.com/ekera/quaspy) are inherited from the [Factoritall repository](https://github.com/ekera/factoritall) (see https://github.com/ekera/factoritall).
 
 [Quaspy](https://github.com/ekera/quaspy) is a work in progress, and may be subject to major changes without prior notice. [Quaspy](https://github.com/ekera/quaspy) was developed for academic research purposes. It grew out of our research project in an organic manner as research questions were posed and answered. It is distributed "as is" without warranty of any kind, either expressed or implied. For further details, see the license (see https://github.com/ekera/quaspy/blob/main/LICENSE.md).
 
