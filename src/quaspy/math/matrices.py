@@ -8,7 +8,7 @@ from gmpy2 import mpq;
 from copy import deepcopy;
 
 
-def dimensions(B : list[list[Any]]):
+def dimensions(B : list[list[Any]]) -> tuple[int, int]:
 
   """ @brief  Returns the dimensions of the matrix B.
 
