@@ -281,12 +281,12 @@ def sample_g_r_given_N(
   # Pre-compute the set of all primes on [2, B).
   primes = prime_range(B);
 
+  # Compute modulii = pi^ei for i in [1, n].
+  moduliis = [pi ** ei for [pi, ei] in factors];
+
   # Heuristically compute gi and ri for i in [1, n].
   gis = [];
   ris = [];
-
-  # Compute modulii = pi^ei for i in [1, n].
-  moduliis = [pi ** ei for [pi, ei] in factors];
 
   for i in range(n):
     pi = pis[i];
@@ -298,6 +298,8 @@ def sample_g_r_given_N(
       gi = sample_integer(modulii);
       if gcd(gi, pi) == 1:
         break;
+
+    gis.append(gi);
 
     # Factor pi - 1.
     if pi_minus_one_factors != None:
@@ -358,7 +360,6 @@ def sample_g_r_given_N(
       if x != 1:
         raise Exception("Error: Sanity check failed: Internal error.")
 
-    gis.append(gi);
     ris.append(ri);
 
   # Compute r.
