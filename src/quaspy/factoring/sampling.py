@@ -382,7 +382,7 @@ def sample_g_r_given_N(
     # to identify the power of q in the order of gip, and multiply it onto ri.
 
     for (x, q, d) in recursive(gip, F):
-      for i in range(d):
+      for _ in range(d):
         if x == 1:
           break;
 
