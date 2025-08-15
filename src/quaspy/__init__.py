@@ -46,10 +46,10 @@
     Python docstrings (see https://github.com/ekera/quaspy/blob/main/docs).
 
     Note that Quaspy implements basic support for tradeoffs via a native Python
-    implementation of LLL that is stable and resasonable performant. See also
-    the Qunundrum repository (see https://github.com/ekera/qunundrum) with its
-    suite of MPI programs that implements support for tradeoffs via LLL and BKZ
-    as implemented by fpLLL (see https://github.com/fplll/fplll).
+    implementation of LLL that is stable and reasonably efficient. See also the
+    Qunundrum repository (see https://github.com/ekera/qunundrum) with its suite
+    of MPI programs that implements support for tradeoffs via LLL and BKZ as
+    implemented by fpLLL (see https://github.com/fplll/fplll).
 
     Note furthermore that portions of Quaspy are inherited from the Factoritall
     repository (see https://github.com/ekera/factoritall).
