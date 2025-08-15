@@ -289,32 +289,47 @@ def sample_g_r_given_N(
   ris = [];
 
   for i in range(n):
+    # Setup pi, ei and modulii = (pi - 1) pi^(ei - 1).
     pi = pis[i];
     ei = eis[i];
     modulii = moduliis[i];
 
-    # Sample gi in Z_{pi^ei}^*.
+    # Sample gi uniformly at random from Z_{pi^ei}^*.
     while True:
       gi = sample_integer(modulii);
       if gcd(gi, pi) == 1:
         break;
 
+    # Store gi.
     gis.append(gi);
 
     # Factor pi - 1.
+    # Branch on whether the factorization of pi - 1 is known.
     if pi_minus_one_factors != None:
+      # If the factorization of pi - 1 is known, then we known the factorization
+      # of the order phi(pi^ei) of Z_{pi^ei}^* and so we can exactly find the
+      # order ri of the element gi sampled from Z_{pi^ei}^* above.
+
+      # Let F be the factorization of phi(pi^ei). Since we know the complete
+      # factorization of pi - 1 we can completely find F.
       F = pi_minus_one_factors[i];
       if ei > 1:
         F.append([pi, ei - 1]);
 
+      # Initially let ri = phi(pi^ei) = (pi - 1) * pi^(ei - 1) / prod(F) = 1.
       ri = 1;
+
+      # Initially let gip = gi^ri mod pi^ei = gi.
       gip = gi;
     else:
+      # Let F be the factorization of phi(pi^ei). Since we do not know the
+      # complete factorization of pi - 1 we may *not* completely find F.
       F = [];
 
       if ei > 1:
         F.append([pi, ei - 1]);
 
+      # Find all factors of pi - 1 that are < B and add them to F.
       tmp = pi - 1;
 
       for q in primes:
@@ -327,8 +342,22 @@ def sample_g_r_given_N(
         if d > 0:
           F.append([q, d]);
 
+      # Initially let ri = phi(pi^ei) = (pi - 1) * pi^(ei - 1) / prod(F).
       ri = tmp;
+
+      # Initially let gip = gi^ri mod pi^ei.
       gip = powmod(gi, ri, modulii);
+
+    # The idea is now to use F to find the order of gip and to multiply it onto
+    # ri. If we found F completely above, this will set ri to the order of gi.
+    # Otherwise, this will set ri to the order of gi with high probability
+    # assuming that B is large. (If ri is not set to the order of gi, ri is
+    # instead set to some positive integer multiple of the order of gi.)
+
+    # To start off, define a recursive helper function that upon input of an
+    # element x of Z_{pi^ei}^* and F efficiently returns a set of tuples of the
+    # form (x^(prod(F) / q^d), q, d) where q runs over the factors in F, and
+    # where d is the exponent of q in F.
 
     def recursive(x, F):
       l = len(F);
@@ -349,6 +378,10 @@ def sample_g_r_given_N(
 
       return recursive(x_L, F_L).union(recursive(x_R, F_R));
 
+    # Call the above recursive function for x = gip and F, use the set of tuples
+    # (x^(prod(F) / q^d), q, d) = (gip^(phi(pi^ei) / ri / q^d), q, d) it returns
+    # to identify the power of q in the order of gip, and multiply it onto ri.
+
     for (x, q, d) in recursive(gip, F):
       for i in range(d):
         if x == 1:
@@ -360,6 +393,7 @@ def sample_g_r_given_N(
       if x != 1:
         raise Exception("Error: Sanity check failed: Internal error.")
 
+    # Store ri.
     ris.append(ri);
 
   # Compute r.
