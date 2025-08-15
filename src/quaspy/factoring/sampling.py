@@ -325,7 +325,6 @@ def sample_g_r_given_N(
       # Let F be the factorization of phi(pi^ei). Since we do not know the
       # complete factorization of pi - 1 we may *not* completely find F.
       F = [];
-
       if ei > 1:
         F.append([pi, ei - 1]);
 
