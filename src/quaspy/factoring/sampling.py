@@ -326,7 +326,7 @@ def sample_g_r_given_N(
           F.append([q, d]);
 
       ri = tmp;
-      gip = powmod(gi, tmp, modulii);
+      gip = powmod(gi, ri, modulii);
 
     def recursive(x, F):
       l = len(F);
