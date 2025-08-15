@@ -391,7 +391,7 @@ def sample_g_r_given_N(
         ri *= q;
 
       if x != 1:
-        raise Exception("Error: Sanity check failed: Internal error.")
+        raise Exception("Error: Sanity check failed: Internal error.");
 
     # Store ri.
     ris.append(ri);
