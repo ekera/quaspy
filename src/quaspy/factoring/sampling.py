@@ -303,10 +303,9 @@ def sample_g_r_given_N(
     # Store gi.
     gis.append(gi);
 
-    # Factor pi - 1.
     # Branch on whether the factorization of pi - 1 is known.
     if pi_minus_one_factors != None:
-      # If the factorization of pi - 1 is known, then we known the factorization
+      # If the factorization of pi - 1 is known, then we know the factorization
       # of the order phi(pi^ei) of Z_{pi^ei}^* and so we can exactly find the
       # order ri of the element gi sampled from Z_{pi^ei}^* above.
 
