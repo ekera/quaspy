@@ -60,7 +60,7 @@ $ pip3 install --pre quaspy
 You may also install [Quaspy](https://github.com/ekera/quaspy) directly from this repository, by executing:
 
 ```console
-$ pip3 install dist/quaspy-1.0.0a0-py3-none-any.whl
+$ pip3 install dist/quaspy-1.0.0a1-py3-none-any.whl
 ```
 
 If you get get an error message to the effect that the environment is externally managed, you first need to setup a virtual environment, by executing:
