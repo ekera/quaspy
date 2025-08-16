@@ -310,7 +310,7 @@ def sample_g_r_given_N(
       # order ri of the element gi sampled from Z_{pi^ei}^* above.
 
       # Let F be the factorization of phi(pi^ei). Since we know the complete
-      # factorization of pi - 1 we can completely find F.
+      # factorization of pi - 1 we can guarantee that F will be complete.
       F = pi_minus_one_factors[i];
       if ei > 1:
         F.append([pi, ei - 1]);
@@ -322,7 +322,7 @@ def sample_g_r_given_N(
       gip = gi;
     else:
       # Let F be the factorization of phi(pi^ei). Since we do not know the
-      # complete factorization of pi - 1 we may *not* completely find F.
+      # complete factorization of pi - 1 it may be that F will not be complete.
       F = [];
       if ei > 1:
         F.append([pi, ei - 1]);
@@ -347,10 +347,10 @@ def sample_g_r_given_N(
       gip = powmod(gi, ri, modulii);
 
     # The idea is now to use F to find the order of gip and to multiply it onto
-    # ri. If we found F completely above, this will set ri to the order of gi.
-    # Otherwise, this will set ri to the order of gi with high probability
-    # assuming that B is large. (If ri is not set to the order of gi, ri is
-    # instead set to some positive integer multiple of the order of gi.)
+    # ri. If F is complete, this will set ri to the order of gi. Otherwise, this
+    # will set ri to the order of gi with high probability assuming that B is
+    # large. (If ri is not set to the order of gi, ri is instead set to some
+    # positive integer multiple of the order of gi.)
 
     # To start off, define a recursive helper function that upon input of an
     # element x of Z_{pi^ei}^* and F efficiently returns a set of tuples of the
