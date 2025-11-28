@@ -32,7 +32,7 @@ from quaspy.utils.timeout import Timeout
 
 - [<code>is_indefinite(self)</code>](Timeout/is_indefinite.md)
 
-  Returns True if the timeout in indefinite, False otherwise.
+  Returns True if the timeout is indefinite, False otherwise.
 
 - [<code>parse(timeout)</code>](Timeout/parse.md)
 

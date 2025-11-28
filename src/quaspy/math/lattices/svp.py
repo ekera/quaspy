@@ -52,7 +52,7 @@ def solve_svp(
 
                   or None, in which case this function will make the above call.
 
-                  If you plan to call this functions repeatedly for the same
+                  If you plan to call this function repeatedly for the same
                   lattice, then time may be saved by not re-computing Bs and M
                   for each call.
 

@@ -1,5 +1,5 @@
 ## Method: <code>Timeout.is\_indefinite(self)</code>
-Returns True if the timeout in indefinite, False otherwise.
+Returns True if the timeout is indefinite, False otherwise.
 
 ## Import directive
 ```python

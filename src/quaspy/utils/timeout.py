@@ -38,7 +38,7 @@ class Timeout:
 
   def is_indefinite(self) -> bool:
 
-    """ @brief  Returns True if the timeout in indefinite, False otherwise.
+    """ @brief  Returns True if the timeout is indefinite, False otherwise.
 
         @return   True if the timeout is indefinite, False otherwise. """
 

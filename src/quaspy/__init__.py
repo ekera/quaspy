@@ -8,7 +8,7 @@
       [E24] that recovers the order in a single run with very high success
       probability. Furthermore, these modules implement simulators for the
       quantum part of Seifert's variation [Seifert01] of Shor's order-finding
-      algorithm [Shor94], as described as in [E24t] and [E21], and with the
+      algorithm [Shor94], as described in [E24t] and [E21], and with the
       classical post-processing from [E24t] and [E21] with supporting functions
       from [E24] that efficiently recovers the order, or a positive integer
       multiple of the order, in multiple runs when making tradeoffs.
