@@ -89,7 +89,7 @@ def sample_j_k_given_d_r_heuristic(
            sigma = sigma,
            l = l,
            B_DELTA = B_DELTA,
-           B_DEFAULT_ETA = B_ETA,
+           B_ETA = B_ETA,
            integration_steps = integration_steps,
            verbose = verbose,
            timeout = timeout,

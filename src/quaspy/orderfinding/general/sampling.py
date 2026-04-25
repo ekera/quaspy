@@ -204,7 +204,7 @@ def sample_j_given_r(
 
     r = mpz(r);
     if verbose:
-      print("Note: It holds that gcd(z, r) = " + gcd(z, r) + "\n");
+      print("Note: It holds that gcd(z, r) = " + str(int(gcd(z, r))) + "\n");
 
     # Compute the optimal frequency j0(z).
     j0 = mpz(mpfr_round(mpfr(mpz(2 ** (m + l)) * z) / mpfr(r)));
