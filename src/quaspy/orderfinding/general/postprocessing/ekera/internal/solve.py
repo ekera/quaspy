@@ -104,7 +104,7 @@ def solve_j_for_r_tilde_lattice_svp(j, m, l, multiples = None):
                         also j ± 1, ..., j ± B for r_tilde, in the hope that
                         this will lead to an optimal frequency j0(z) being
                         solved for r_tilde, the row multiples that yield a
-                        Lagrange-reduced basis for adjecent offsets in j are
+                        Lagrange-reduced basis for adjacent offsets in j are
                         likely to be close.
 
                         For this reason, this function accepts row multiples as
@@ -174,14 +174,15 @@ def solve_j_for_r_tilde_lattice_enumerate(
       optimizations have been integrated into this implementation, so the
       enumeration typically considers fewer points than the bound indicates.
 
-      @remark   Unlike the solve_j_for_r_tilde_lattice_svp() function, and the
+      @remark   Unlike solve_j_for_r_tilde_lattice_svp() and
                 solve_j_for_r_tilde_continued_fractions(), this function does
                 check that the candidates x for r_tilde returned fulfill the
                 requirement that e(x) * x is a positive multiple of r, where
                 e(x) is cm-smooth by the definition of cm-smooth in [E24].
 
                 This is necessary as the enumeration may generate a
-                comparatively, and it can also be done efficiently.
+                comparatively large number of candidates, and furthermore the
+                test can be performed efficiently.
 
                 A side effect of this test being performed is that this function
                 will typically not find r_tilde = r / d if d is not cm-smooth.
@@ -300,7 +301,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
                         also j ± 1, ..., j ± B for r_tilde, in the hope that
                         this will lead to an optimal frequency j0(z) being
                         solved for r_tilde, the row multiples that yield a
-                        Lagrange-reduced basis for adjecent offsets in j are
+                        Lagrange-reduced basis for adjacent offsets in j are
                         likely to be close.
 
                         For this reason, this function accepts row multiples as

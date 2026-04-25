@@ -48,7 +48,7 @@ def algorithm1(
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
+      As in [E24], d is said to be cm-smooth if d = q1^e1 * .. qk^ek, for
       q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer
       exponents, if it holds that qi^ei <= cm for all i in [1, k].
 
@@ -128,7 +128,7 @@ def algorithm2(
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
+      As in [E24], d is said to be cm-smooth if d = q1^e1 * .. qk^ek, for
       q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer
       exponents, if it holds that qi^ei <= cm for all i in [1, k].
 
@@ -241,7 +241,7 @@ def algorithm3(
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
                        ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
+      As in [E24], d is said to be cm-smooth if d = q1^e1 * .. qk^ek, for
       q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer
       exponents, if it holds that qi^ei <= cm for all i in [1, k].
 
@@ -349,9 +349,9 @@ def algorithm4(
       This function implements Alg. 4 from [E24].
 
       [E24] Ekerå, M.: "On the success probability of quantum order finding".
-                       ArXiv 2201.07791v2 (2022).
+                       ACM Trans. Quantum Comput. 5(2):11 (2024).
 
-      As in [E24], d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for
+      As in [E24], d is said to be cm-smooth if d = q1^e1 * .. qk^ek, for
       q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer
       exponents, if it holds that qi^ei <= cm for all i in [1, k].
 

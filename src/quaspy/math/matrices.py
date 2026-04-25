@@ -120,7 +120,7 @@ def solve_left(
   if n != d:
     raise Exception("Error: The matrix B must be a square matrix.");
 
-  # We seek to solve c B = t for t. We do so simply by multiplying to the right
+  # We seek to solve c B = t for c. We do so simply by multiplying to the right
   # with the inverse B^-1 of B, yielding c = c B B^-1 = t B^-1.
   if None == B_inv:
     # Compute the inverse B^-1 of B.

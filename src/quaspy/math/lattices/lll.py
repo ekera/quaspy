@@ -198,7 +198,7 @@ def is_lll_reduced(
               pp. 515–534 (1982).
 
       The basis matrix B is represented as a list of lists [b_1, ..., b_n],
-      where b_i = [b_i1, ..., b_id] for i = 1, ..., n are the n rows of A. It is
+      where b_i = [b_i1, ..., b_id] for i = 1, ..., n are the n rows of B. It is
       required that B has integer entries of type int or mpz.
 
       @param B    The basis matrix B.

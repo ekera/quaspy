@@ -110,7 +110,7 @@ def sample_j_given_r(
               r. This by using the sampling procedure described in [E24t] (see
               in particular Sects. 5.3.5 and 5.4.3).
 
-      This fuction can also be used to sample from the distribution induced by
+      This function can also be used to sample from the distribution induced by
       Seifert's variation [Seifert01] of Shor's order-finding algorithm for a
       given order r, depending on how parameters are selected.
 
@@ -136,7 +136,7 @@ def sample_j_given_r(
                                   Springer LNCS 2020, pp. 319–227 (2001).
 
       [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
-                       logarithms and orders with tradeoffs".
+                        logarithms and orders with tradeoffs".
                        J. Math. Cryptol. 15(1), pp. 359–407 (2021).
 
       [E24] Ekerå, M.: "On the success probability of quantum order finding".

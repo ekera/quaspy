@@ -373,12 +373,12 @@ class PointOnShortWeierstrassCurveOverPrimeField(CyclicGroupElement):
 class SimulatedCyclicGroupElement(CyclicGroupElement):
 
   """ @brief  A class that represents the simulated group element G^d, for G a
-              generator of a cylic group of order r. """
+              generator of a cyclic group of order r. """
 
   def __init__(self, r, d = 1):
 
     """ @brief  Constructs the simulated group element G^d, for G a generator of
-                a cylic group of order r.
+                a cyclic group of order r.
 
         @param r  The order r. A positive integer.
 

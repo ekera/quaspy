@@ -33,7 +33,7 @@ def enumerate(
 
       This function currently requires B to be square and to have full row rank
       since it calls solve_left(B, t) which takes the inverse of B to solve.
-      These requirement may be relaxed in the future.
+      These requirements may be relaxed in the future.
 
       @param B  The n x d basis matrix B = [b_1, ..., b_n], where
                 b_i = [b_i1, ..., b_id] for i = 1, ..., n represent the n row
@@ -52,10 +52,10 @@ def enumerate(
 
                       Note this function incrementally yields the vectors that
                       are found during the enumeration. The timeout specified
-                      here is respect to the time elapsed since enumerate() was
-                      first called. It hence includes any time spent processing
-                      the results yielded by this function until control returns
-                      to this function.
+                      here is with respect to the time elapsed since enumerate()
+                      was first called. It hence includes any time spent
+                      processing the results yielded by this function until
+                      control returns to this function.
 
       @param gs   The list [Bs, M], where Bs is the Gram–Schmidt orthogonalized
                   basis for B, and M is the associated matrix of Gram–Schmidt

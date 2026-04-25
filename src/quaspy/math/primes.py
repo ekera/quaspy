@@ -106,7 +106,7 @@ def sample_l_bit_prime(l : int) -> int | mpz:
       @remark   This function assumes that the is_prime() function performs a
                 deterministic primality test. In practice, this test is likely
                 probabilistic, but the probability of incorrectly classifying
-                an composite as a prime is so small that the test may be
+                a composite as a prime is so small that the test may be
                 conjectured to be indistinguishable from a determinstic test.
 
       @param l  The bit length l of the prime to sample.

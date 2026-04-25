@@ -32,8 +32,6 @@ def solve_svp(
       enumerate() function that this function calls currently imposes these
       requirements. Said requirements may be relaxed in the future.
 
-      It is assumed that the basis B is reduced, see the lll() function.
-
       @param B  The matrix B.
 
       @param timeout  A timeout after which a TimeoutError will be raised and

@@ -79,7 +79,7 @@ class Timer:
 
         @return   If the timer is stopped, the time delta is returned.
                   Otherwise, the sum of the time delta and the current offset of
-                  the timer returned. """
+                  the timer is returned. """
 
     tmp_delta_t = self.delta_t;
     if self.state == Timer.RUNNING:
