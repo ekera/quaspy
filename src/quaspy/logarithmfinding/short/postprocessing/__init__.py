@@ -321,7 +321,7 @@ def solve_j_k_for_d(
       mu : mpq,
       c : int = 1) -> int | None:
 
-    # Step 1.2:
+    # Step 1.1:
     g1 = g ** s1;
     g2 = g ** s2;
     w = (g1 ** nu1) * (g2 ** nu2) * (x ** -1);
