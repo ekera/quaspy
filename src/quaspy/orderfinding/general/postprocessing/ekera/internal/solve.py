@@ -311,7 +311,7 @@ def solve_j_for_r_tilde_lattice_enumerate(
                         function when processing j + 1 or j - 1, recursively.
 
       @param verbose  A flag that may be set to True to print intermediary
-                      results and status updates when performing th
+                      results and status updates when performing the
                       enumeration.
 
       @return   The tuple [filtered_r_tilde_candidates', [success,

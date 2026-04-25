@@ -387,7 +387,7 @@ def solve_r_for_factors(
   # Setup and reset a timer to measure the time spent exponentiating.
   timer_exponentiation = Timer();
 
-  # Step 2: Build the product of prime factors q^e < cm and multiply onto r.
+  # Step 2: Build the product of prime factors q^e <= cm and multiply onto r.
   rp = prime_power_product(c * m) * r;
 
   # Step 3: Let rp = 2^t o for o odd.

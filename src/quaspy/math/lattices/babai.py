@@ -48,7 +48,7 @@ def babai(
                         case projection factors are represented as exact
                         quotients.
 
-                        Note that this parameter only has an effect if gs is
+                        Note that this parameter only has an effect if Bs is
                         set to None as the Gram–Schmidt orthogonalized basis Bs
                         and the associated matrix M of Gram–Schmidt projection
                         factors are otherwise pre-computed.
