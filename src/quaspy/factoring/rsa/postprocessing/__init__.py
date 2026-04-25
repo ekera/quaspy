@@ -37,7 +37,7 @@ def split_N_given_d(
 
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
-                                        Integers.". In: PQCrypto 2017.
+                                        Integers". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
@@ -65,8 +65,7 @@ def split_N_given_d(
 
   # Compute the bit length l of p and q where N = pq: We have that
   #
-  #   p, q >= 2^(l-1) => N = pq = 2^(2(l-1))
-  #                        = 2^(2l-2),
+  #   p, q >= 2^(l-1) => N = pq >= 2^(2(l-1)) = 2^(2l-2),
   #
   # i.e. N is an n >= 2l - 1 bit integer. At the same time, we have that
   #
@@ -76,7 +75,7 @@ def split_N_given_d(
   # be that l = ceil(n / 2), so we may compute l from n in this manner:
   l = int(ceil(N.bit_length() / 2));
 
-  # Form d' = p + q given d.
+  # Compute d' = p + q given d.
   p_plus_q = 2 * d + 2 ** l + 2;
 
   # Solve d' = p + q and N = pq for p and q using the quadratic formula:

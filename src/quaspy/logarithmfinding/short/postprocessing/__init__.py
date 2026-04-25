@@ -81,7 +81,7 @@ def expected_u_for_j_k_d(
 
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
-                                        Integers.". In: PQCrypto 2017.
+                                        Integers". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
@@ -129,7 +129,7 @@ def expected_u_for_multiple_j_k_d(
 
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
-                                        Integers.". In: PQCrypto 2017.
+                                        Integers". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
@@ -213,7 +213,7 @@ def solve_j_k_for_d(
 
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
-                                        Integers.". In: PQCrypto 2017.
+                                        Integers". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
       [E23p] Ekerå, M.: "On the success probability of the quantum algorithm for
@@ -542,7 +542,7 @@ def solve_multiple_j_k_for_d(
 
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
-                                        Integers.". In: PQCrypto 2017.
+                                        Integers". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for

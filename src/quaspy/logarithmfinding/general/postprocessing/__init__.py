@@ -286,7 +286,7 @@ def solve_multiple_j_k_for_d_given_r(
 
       @param r  The order r of g.
 
-      @param tau  A positive integer tau. Used to scale the basis for the
+      @param tau  A non-negative integer tau. Used to scale the basis for the
                   lattice L^tau that is used in the post-processing.
 
       @param delta  The parameter delta to use when delta-LLL-reducing the basis

@@ -4,7 +4,7 @@
 
     [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                       Discrete Logarithms and Factoring RSA
-                                      Integers.". In: PQCrypto 2017.
+                                      Integers". In: PQCrypto 2017.
                                      Springer LNCS 10346, pp. 347–363 (2017).
 """
 
@@ -59,7 +59,7 @@ def sample_j_k_given_d_r_tau(
 
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
-                                        Integers.". In: PQCrypto 2017.
+                                        Integers". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for
@@ -167,7 +167,7 @@ def sample_j_k_given_d_r(
 
       [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                         Discrete Logarithms and Factoring RSA
-                                        Integers.". In: PQCrypto 2017.
+                                        Integers". In: PQCrypto 2017.
                                        Springer LNCS 10346, pp. 347–363 (2017).
 
       [E20] Ekerå, M.: "On post-processing in the quantum algorithm for

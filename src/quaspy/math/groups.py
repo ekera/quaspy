@@ -344,7 +344,7 @@ class PointOnShortWeierstrassCurveOverPrimeField(CyclicGroupElement):
 
   def __hash__(self):
 
-    """ @brief  Returns the hash digest of this pointgroup element.
+    """ @brief  Returns the hash digest of this group element.
 
         @return   The hash digest of this group element. """
 

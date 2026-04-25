@@ -51,7 +51,7 @@ def split_N_given_g_r(
     raise Exception("Error: Incorrect parameters: N is not odd.");
 
   if not (0 < r < N / 2):
-    raise Exception("Error: Incorrect parameters: N is not on [1, N/2).");
+    raise Exception("Error: Incorrect parameters: r is not on [1, N/2).");
 
   if not gcd(g, N) == 1:
     raise Exception("Error: Incorrect parameters: g is not coprime to N.");

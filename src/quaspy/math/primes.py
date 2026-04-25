@@ -64,7 +64,7 @@ def is_B_smooth(d : int | mpz, B : int) -> bool:
 
   """ @brief  Tests if the integer d is B-smooth.
 
-      As in [E24], d is said to be B-smooth if d = p1^e1 * .. pk^ek, for
+      As in [E24], d is said to be B-smooth if d = q1^e1 * .. qk^ek, for
       q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer
       exponents, if it holds that qi^ei <= B for all i in [1, k].
 

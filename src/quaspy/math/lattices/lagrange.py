@@ -14,11 +14,11 @@ def lagrange(
 
   """ @brief  Returns the Lagrange-reduced basis for a 2 x 2 basis matrix A.
 
-      The basis matrix A is represented as as list [u, v], where u = [u_1, u_2]
+      The basis matrix A is represented as a list [u, v], where u = [u_1, u_2]
       and v = [v_1, v_2] represent the two row vectors that make up the basis.
 
-      @param A  The 2 x 2 basis basis matrix A = [u, v], where u = [u_1, u_2]
-                and v = [v_1, v_2] represent the two row vectors of the basis.
+      @param A  The 2 x 2 basis matrix A = [u, v], where u = [u_1, u_2] and
+                v = [v_1, v_2] represent the two row vectors of the basis.
 
       @param multiples  Row multiples of the form [[m_uu, m_uv], [m_vu, m_vv]]
                         such that [m_uu * u + m_uv * v, m_vu * u + m_vv * v] is
@@ -37,7 +37,7 @@ def lagrange(
       @return   The pair [A', multiples'], where A' = [u', v'] is a
                 Lagrange-reduced basis for A = [u, v], and multiples' is of the
                 form [[m'_uu, m'_uv], [m'_vu, m'_vv]] and A' = [u', v'] =
-                [m'_uu * u + m'uv * v, m'_vu * u + m'_vv * v]. """
+                [m'_uu * u + m'_uv * v, m'_vu * u + m'_vv * v]. """
 
   # Input.
   [u, v] = A;
@@ -116,10 +116,10 @@ def is_lagrange_reduced(
   """ @brief  Returns True if the 2 x 2 basis matrix A is Lagrange-reduced,
               False otherwise.
 
-      The basis matrix A is represented as as list [a1, a2], where a1, a2 are
-      row vectors such that a1 = [a_11, a_12] and a2 = [a_21, a_22].
+      The basis matrix A is represented as a list [a1, a2], where a1, a2 are row
+      vectors such that a1 = [a_11, a_12] and a2 = [a_21, a_22].
 
-      @param A  The 2 x 2 basis basis matrix A.
+      @param A  The 2 x 2 basis matrix A.
 
       @return   True if A is Lagrange-reduced, False otherwise. """
 

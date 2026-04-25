@@ -14,7 +14,7 @@
     [E21]. The notation is also inherited from said works.
 
     [Shor94] Shor, P.W.: "Algorithms for Quantum Computation: Discrete
-                            Logarithms and Factoring".
+                          Logarithms and Factoring".
                          In: Proceedings from FOCS '94, pp. 124–134 (1994).
 
     [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
@@ -84,7 +84,7 @@ class SolutionMethods(Enum):
 
          Expand j / 2^(m + l) in continued fractions to find z / r, and hence
          r_tilde = r / gcd(r, z), as originally proposed in [Shor94], but with
-         slightly smaller m+l, as decribed in [E24].
+         slightly smaller m+l, as described in [E24].
 
          By Lem. 4.1 in [E24], the last convergent p / q with denominator
          q < 2^((m+l)/2) in the continued fractions expansion of j / 2^(m+l) is
@@ -282,7 +282,7 @@ def solve_j_for_r(
                 to False). Otherwise, None, or exceptionally a positive integer
                 multiple of the order r, is returned. If the accept_multiple
                 flag is set to True, some positive integer multiple of r is
-                returned with probabilty >= P. Otherwise, None is returned. """
+                returned with probability >= P. Otherwise, None is returned. """
 
   # Initial setup.
   timeout = Timeout.parse(timeout);
@@ -676,7 +676,7 @@ def solve_j_for_r_mod_N(
                 set to False). Otherwise, None, or exceptionally a positive
                 integer multiple of the order r, is returned. If the
                 accept_multiple flag is set to True, some positive integer
-                multiple of r is returned with probabilty >= P. Otherwise, None
+                multiple of r is returned with probability >= P. Otherwise, None
                 is returned. """
 
   g = IntegerModRingMulSubgroupElement(g, N);

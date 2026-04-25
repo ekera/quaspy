@@ -23,7 +23,6 @@ from gmpy2 import mpz;
 from math import gcd;
 from math import prod;
 from math import floor;
-from math import prod;
 
 from ......utils.timer import Timer;
 
@@ -54,7 +53,7 @@ def is_admissible_r(
   """ @brief  Tests if (pi - 1) / gcd(pi - 1, r) is B-smooth for all but at
               most one of the prime factors pi of N.
 
-      @param r  The order r of an
+      @param r  The order r.
 
       @param B  The upper bound B.
 
@@ -128,7 +127,7 @@ def test_solve_r_for_factors_of_N(
   # Test r.
   if not is_admissible_r(r, c * N.bit_length(), N_factors):
     if verbose:
-      print("\n*** Sampled r which does not admit factorization:\n", d);
+      print("\n*** Sampled r which does not admit factorization:\n", r);
 
     return;
 
@@ -282,15 +281,16 @@ def test_solve_j_for_factors_of_N(
 
                                    for i in [1, n], represented on the form
                                    [F1, ..., Fn], where each Fi is on the form
-                                   [[qi1, qi1], ..., [qim, qim]], for
+                                   [[qi1, di1], ..., [qim, dim]], for
                                    qi1, ..., qim pairwise distinct prime
                                    factors, and for di1, ..., dim positive
-                                   integer exponents.
-
-                                   May be set to None, in which case r will be
-                                   computed deterministically as described
-                                   above. If explicitly specified, the order r
-                                   will be computed exactly.
+                                   integer exponents. The factors may only be
+                                   specified when sample_g is set to True, in
+                                   which case the order r of g is computed
+                                   exactly using the factors. May be set to
+                                   None, as is the default, in which case the
+                                   order r of g is computed heuristically if
+                                   sample_g is set to True.
 
       @param c_factor   A parameter c_factor >= 1 that specifies the maximum
                         size of the missing smooth component in lambda'(N) when
@@ -303,7 +303,7 @@ def test_solve_j_for_factors_of_N(
       @param B_solve  The bound B on the offset in j when solving j for r.
 
       @param B_sample   The bound B on the offset in j when sampling j from the
-                        frequency distribution induced by Shor's algorithm.
+                        frequency distribution induced by the quantum algorithm.
 
       @param sample_g   A flag that may be set to True to not exactly sample the
                         order r of an element g selected uniformly at random
@@ -359,7 +359,7 @@ def test_solve_j_for_factors_of_N(
   # Test r.
   if not is_admissible_r(r, c_factor * N.bit_length(), N_factors):
     if verbose:
-      print("\n*** Sampled r which does not admit factorization:\n", d);
+      print("\n*** Sampled r which does not admit factorization:\n", r);
 
     return;
 

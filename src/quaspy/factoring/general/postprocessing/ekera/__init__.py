@@ -1194,10 +1194,13 @@ def solve_multiple_j_for_factors_mod_N(
                          logarithms and orders, quantumly".
                         PhD thesis, KTH Royal Institute of Technology (2024).
 
-      @remark   This convenience function simply calls solve_multiple_j_for_r(),
-                and then solve_r_for_factors(), passing along r. To access all
-                options of these functions, call them manually in sequence
-                instead.
+      @remark   This convenience function simply calls
+                solve_multiple_j_for_factors() with g setup by calling
+                IntegerModRingMulSubgroupElement(g, N). In turn, the
+                solve_multiple_j_for_factors() convenience function simply
+                calls solve_multiple_j_for_r(), and then solve_r_for_factors(),
+                passing along r. To access all options of these functions, call
+                them manually in sequence instead.
 
       @param j_list   The n frequencies [j_1, ..., j_n] where j_1, ..., j_n are
                       integers on [0, 2^(m + l)).

@@ -311,7 +311,7 @@ def test_all_solve_for_r(verbose : bool = True) -> None:
       for each such combination, for all solution methods in
 
         {SolutionMethods.CONTINUED_FRACTIONS_BASED,
-         SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR;
+         SolutionMethods.LATTICE_BASED_SHORTEST_VECTOR,
          SolutionMethods.LATTICE_BASED_ENUMERATE},
 
       and, for each such combination, for all values of m in
@@ -398,9 +398,9 @@ def test_solve_for_r_tilde(
       For each solver, it is verified that r_tilde = r / gcd(r, z) is
       successfully recovered.
 
-      If the Deltas flag is set to true, this function also attempt to solve j
+      If the Deltas flag is set to true, this function also attempts to solve j
       for r using the lattice-based solver with enumeration, whilst setting
-      l = m - Delta och re-computing j = j0(z) given r, m and l, for all Delta
+      l = m - Delta and re-computing j = j0(z) given r, m and l, for all Delta
       in [0, ..., min(m - 1, 12)]. For each value of Delta, it is again verified
       that r_tilde is successfully  recovered.
 

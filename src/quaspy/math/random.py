@@ -32,7 +32,7 @@ def sample_l_bit_integer(l : int) -> int:
                 be indistinguishable from an integer that is selected uniformly
                 at random from [0, B).
 
-      @param l  The bit length l of the prime to sample.
+      @param l  The bit length l of the integer to sample.
 
       @return   An l-bit integer selected uniformly at random from the set of
                 all such integers. """

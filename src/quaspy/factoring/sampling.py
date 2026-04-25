@@ -98,7 +98,7 @@ def sample_r_given_N(
 
   # Sanity checks.
   if N != prod([pi ** ei for [pi, ei] in factors]):
-    raise Exception("Error: Incorrect factorization: N != sum(pi ** ei)");
+    raise Exception("Error: Incorrect factorization: N != prod(pi ** ei)");
 
   pis = [pi for [pi, _] in factors];
   if len(set(pis)) != n:
@@ -156,7 +156,7 @@ def sample_g_r_given_N(
 
       1. If the factorization of pi - 1 for i in [1, n] is *not* specified, this
       function then heuristically estimates the order ri of gi by using the
-      method in App. A of [E21b]: Specificially, by using that
+      method in App. A of [E21b]: Specifically, by using that
 
          lambda(pi^ei) = (pi - 1) pi^(ei - 1),
 
@@ -176,7 +176,7 @@ def sample_g_r_given_N(
       gi^(ri' / f) = 1 (mod N), let ri' <- ri' / f. It follows that ri = ri' at
       the end of the procedure. The order of g is then r = lcm(r1, ..., rn).
 
-      The above procedure is described in [E21b], and in the factoritall
+      The above procedure is described in [E21b], and in the Factoritall
       repository (available at https://github.com/ekera/factoritall).
 
       [E21b] Ekerå, M.: "On completely factoring any integer efficiently in a
@@ -193,13 +193,13 @@ def sample_g_r_given_N(
       @param pi_minus_one_factors  The factors of pi-1 = qi1^di1 * ... * qim^dim,
                                    for i in [1, n], represented on the form
                                    [F1, ..., Fn], where each Fi is on the form
-                                   [[qi1, qi1], ..., [qim, qim]], for
+                                   [[qi1, di1], ..., [qim, dim]], for
                                    qi1, ..., qim pairwise distinct prime factors,
                                    and for di1, ..., dim positive integer
                                    exponents. May be set to None, in which case
-                                   r will be computed deterministically as
-                                   described above. If explicitly specified, the
-                                   order r will be computed exactly.
+                                   r will be computed heuristically as described
+                                   above. If explicitly specified, the order r
+                                   will be computed exactly.
 
       @param B  The upper bound on the prime factors to consider when performing
                 trial division. Has no effect if pi_minus_one_factors is
@@ -219,7 +219,7 @@ def sample_g_r_given_N(
 
   # Sanity checks.
   if N != prod([pi ** ei for [pi, ei] in factors]):
-    raise Exception("Error: Incorrect factorization of N: N != sum(pi ** ei)");
+    raise Exception("Error: Incorrect factorization of N: N != prod(pi ** ei)");
 
   pis = [pi for [pi, _] in factors];
   if len(set(pis)) != n:
@@ -257,7 +257,7 @@ def sample_g_r_given_N(
       # Sanity checks.
       if pis[i] - 1 != prod([qj ** dj for [qj, dj] in pi_minus_one_factors[i]]):
         raise Exception("Error: Incorrect factorization of pi - 1: "\
-          "p" + str(i) + " - 1 != sum(qj ** dj)");
+          "p" + str(i) + " - 1 != prod(qj ** dj)");
 
       qjs = [qj for [qj, _] in pi_minus_one_factors[i]];
       if len(set(qjs)) != mi:
@@ -306,22 +306,22 @@ def sample_g_r_given_N(
     # Branch on whether the factorization of pi - 1 is known.
     if pi_minus_one_factors != None:
       # If the factorization of pi - 1 is known, then we know the factorization
-      # of the order phi(pi^ei) of Z_{pi^ei}^* and so we can exactly find the
+      # of the order lambda(pi^ei) of Z_{pi^ei}^* and so we can exactly find the
       # order ri of the element gi sampled from Z_{pi^ei}^* above.
 
-      # Let F be the factorization of phi(pi^ei). Since we know the complete
+      # Let F be the factorization of lambda(pi^ei). Since we know the complete
       # factorization of pi - 1 we can guarantee that F will be complete.
       F = pi_minus_one_factors[i];
       if ei > 1:
         F.append([pi, ei - 1]);
 
-      # Initially let ri = phi(pi^ei) = (pi - 1) * pi^(ei - 1) / prod(F) = 1.
+      # Initially let ri = lambda(pi^ei) = (pi - 1) * pi^(ei - 1) / prod(F) = 1.
       ri = 1;
 
       # Initially let gip = gi^ri mod pi^ei = gi.
       gip = gi;
     else:
-      # Let F be the factorization of phi(pi^ei). Since we do not know the
+      # Let F be the factorization of lambda(pi^ei). Since we do not know the
       # complete factorization of pi - 1 it may be that F will not be complete.
       F = [];
       if ei > 1:
@@ -340,7 +340,7 @@ def sample_g_r_given_N(
         if d > 0:
           F.append([q, d]);
 
-      # Initially let ri = phi(pi^ei) = (pi - 1) * pi^(ei - 1) / prod(F).
+      # Initially let ri = lambda(pi^ei) = (pi - 1) * pi^(ei - 1) / prod(F).
       ri = tmp;
 
       # Initially let gip = gi^ri mod pi^ei.
@@ -377,8 +377,9 @@ def sample_g_r_given_N(
       return recursive(x_L, F_L).union(recursive(x_R, F_R));
 
     # Call the above recursive function for x = gip and F, use the set of tuples
-    # (x^(prod(F) / q^d), q, d) = (gip^(phi(pi^ei) / ri / q^d), q, d) it returns
-    # to identify the power of q in the order of gip, and multiply it onto ri.
+    # (x^(prod(F) / q^d), q, d) = (gip^(lambda(pi^ei) / ri / q^d), q, d) it
+    # returns to find the power of q in the order of gip, and multiply said
+    # power of q onto ri.
 
     for (x, q, d) in recursive(gip, F):
       for _ in range(d):

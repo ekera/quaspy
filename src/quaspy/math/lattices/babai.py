@@ -25,11 +25,11 @@ def babai(
       [Babai86] Babai, L.: "On Lovász’ lattice reduction and the nearest lattice
                             point problem". Combinatorica 6(1), pp. 1–13 (1986).
 
-      The basis matrix B is represented as as list of lists [b_1, ..., b_n],
+      The basis matrix B is represented as a list of lists [b_1, ..., b_n],
       where b_i = [b_i1, ..., b_id] for i = 1, ..., n represent the n row
       vectors that make up the basis.
 
-      @param B  The n x d basis basis matrix B = [b_1, ..., b_n], where
+      @param B  The n x d basis matrix B = [b_1, ..., b_n], where
                 b_i = [b_i1, ..., b_id] for i = 1, ..., n represent the n row
                 vectors that make up the basis.
 
