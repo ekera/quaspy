@@ -129,7 +129,6 @@ def solve_j_k_for_d_given_r(
                       class. May be set to None, as is the default, in which
                       case no timeout is enforced.
 
-
       @param verbose  A flag that may be set to True to print intermediary
                       results and status updates when executing the
                       post-processing algorithm.

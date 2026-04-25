@@ -107,7 +107,7 @@ def sample_l_bit_prime(l : int) -> int | mpz:
                 deterministic primality test. In practice, this test is likely
                 probabilistic, but the probability of incorrectly classifying
                 a composite as a prime is so small that the test may be
-                conjectured to be indistinguishable from a determinstic test.
+                conjectured to be indistinguishable from a deterministic test.
 
       @param l  The bit length l of the prime to sample.
 
