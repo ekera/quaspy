@@ -285,7 +285,7 @@ def solve_j_k_for_d(
     raise Exception("Error: Incorrect parameter:",
                       "tau must be an integer on [0, l].");
 
-  if not (0 <= t < m):
+  if (t is not None) and not (0 <= t < m):
     raise Exception("Error: Incorrect parameter:",
                       "t must be an integer on [0, m).");
 
