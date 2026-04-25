@@ -241,7 +241,7 @@ def is_lll_reduced(
         return False;
 
   # Step 2: Check the Lovász condition.
-  for i in range(1, n - 1):
+  for i in range(1, n):
     if delta * norm2(Bs[i - 1]) > \
          norm2(Bs[i]) + M[i][i - 1] ** 2 * norm2(Bs[i - 1]):
       return False;
