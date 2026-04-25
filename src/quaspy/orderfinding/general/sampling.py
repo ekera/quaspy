@@ -17,7 +17,7 @@
     [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
                                  algorithm via simultaneous Diophantine
                                  approximation". In: CT-RSA 2001.
-                                Springer LNCS 2020, pp. 319–227 (2001).
+                                Springer LNCS 2020, pp. 319–327 (2001).
 
     [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
                       logarithms and orders with tradeoffs".
@@ -133,7 +133,7 @@ def sample_j_given_r(
       [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
                                    algorithm via simultaneous Diophantine
                                    approximation". In: CT-RSA 2001.
-                                  Springer LNCS 2020, pp. 319–227 (2001).
+                                  Springer LNCS 2020, pp. 319–327 (2001).
 
       [E21] Ekerå, M.: "Quantum algorithms for computing general discrete
                         logarithms and orders with tradeoffs".

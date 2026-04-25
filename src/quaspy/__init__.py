@@ -76,7 +76,7 @@
     [Seifert01] Seifert, J.-P.: "Using fewer qubits in Shor's factorization
                                  algorithm via simultaneous Diophantine
                                  approximation". In: CT-RSA 2001.
-                                Springer LNCS 2020, pp. 319–227 (2001).
+                                Springer LNCS 2020, pp. 319–327 (2001).
 
     [EH17] Ekerå, M. and Håstad, J.: "Quantum Algorithms for Computing Short
                                       Discrete Logarithms and Factoring RSA
