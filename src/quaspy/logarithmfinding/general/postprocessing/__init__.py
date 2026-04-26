@@ -59,7 +59,7 @@ class EnumerationOptions(Enum):
 
   CVP = "CVP";
 
-  BOUNDED_BY_TAU = "BOUNDED_BY_TAU"
+  BOUNDED_BY_TAU = "BOUNDED_BY_TAU";
 
 
 def solve_j_k_for_d_given_r(
@@ -339,7 +339,7 @@ def solve_multiple_j_k_for_d_given_r(
   if n < 1:
     return None;
 
-  js, ks = zip(*j_k_list)
+  js, ks = zip(*j_k_list);
 
   # Setup a basis for the lattice.
   if verbose:

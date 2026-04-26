@@ -145,7 +145,7 @@ def enumerate(
     if B2 < 0:
       return; # Return nothing.
 
-    cx[k - 1] = round(a)
+    cx[k - 1] = round(a);
     tmp = abs(cx[k - 1] - a);
     if tmp * tmp <= B2:
       yield from enumerate_inner(cx.copy(), ct.copy(), k - 1);

@@ -127,7 +127,7 @@ def solve_left(
     B_inv = invert(B);
 
   # Multiply t to the right by the inverse to form c = t B^-1.
-  c = [sum([t[i] * B_inv[i][j] for i in range(n)]) for j in range(d)]
+  c = [sum([t[i] * B_inv[i][j] for i in range(n)]) for j in range(d)];
 
   # Return c.
   return c;

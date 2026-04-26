@@ -541,7 +541,7 @@ def solve_j_for_r(
     return None;
 
   return min([algorithm(g, r_tilde_candidate, m, c, timeout)
-    for r_tilde_candidate in filtered_r_tilde_candidates])
+    for r_tilde_candidate in filtered_r_tilde_candidates]);
 
 
 def solve_j_for_r_mod_N(
@@ -1001,7 +1001,7 @@ def solve_multiple_j_for_r(
       return None;
 
     return min([algorithm(g, r_tilde_candidate, m, c, timeout)
-      for r_tilde_candidate in filtered_r_tilde_candidates])
+      for r_tilde_candidate in filtered_r_tilde_candidates]);
 
   else:
     raise Exception("Error: Incorrect parameters: Unknown enumerate option.");

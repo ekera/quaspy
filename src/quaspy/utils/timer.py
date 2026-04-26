@@ -146,32 +146,32 @@ class Timer:
 
     if days > 0:
       if hr != "":
-        hr += " "
+        hr += " ";
       hr += str(days) + " d";
 
     if hours > 0:
       if hr != "":
-        hr += " "
+        hr += " ";
       hr += str(hours) + " h";
 
     if mins > 0:
       if hr != "":
-        hr += " "
+        hr += " ";
       hr += str(mins) + " m";
 
     if secs > 0:
       if hr != "":
-        hr += " "
+        hr += " ";
       hr += str(secs) + " s";
 
     if ms > 0:
       if hr != "":
-        hr += " "
+        hr += " ";
       hr += str(ms) + " ms";
 
     if us > 0:
       if hr != "":
-        hr += " "
+        hr += " ";
       hr += str(us) + " µs";
 
     # Handle the special case of the time delta being zero.

@@ -111,7 +111,7 @@ def expected_u_for_j_k_d(
 
       @return   The vector u. """
 
-  return expected_u_for_multiple_j_k_d([[j, k]], m, l, d, tau)
+  return expected_u_for_multiple_j_k_d([[j, k]], m, l, d, tau);
 
 
 def expected_u_for_multiple_j_k_d(
@@ -623,7 +623,7 @@ def solve_multiple_j_k_for_d(
   if n < 1:
     return None;
 
-  js, ks = zip(*j_k_list)
+  js, ks = zip(*j_k_list);
 
   # Setup a basis for the lattice.
   if verbose:

@@ -11,7 +11,7 @@
 
     ``` """
 
-from ......math.primes import is_B_smooth
+from ......math.primes import is_B_smooth;
 from ......utils.timer import Timer;
 
 from ......math.groups import SimulatedCyclicGroupElement;
