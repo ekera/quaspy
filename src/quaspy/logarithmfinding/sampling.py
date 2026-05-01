@@ -311,7 +311,7 @@ def sample_j_k_given_d_r_heuristic(
     [alpha_r_0, alpha_r_1, eta] = result;
 
     # Sample alpha_r from the interval in alpha_r.
-    alpha_r  = alpha_r_1 + sample_integer(alpha_r_1 - alpha_r_0);
+    alpha_r = alpha_r_0 + sample_integer(alpha_r_1 - alpha_r_0);
 
     # Ensure that the alpha_r sampled is admissible.
     kappa_r = kappa(r);
