@@ -1,26 +1,39 @@
-all:
-	python3 -m pip install --upgrade build
-	python3 -m build
+VENV = venv
+PYTHON = $(VENV)/bin/python3
+PIP = $(VENV)/bin/pip3
+
+all: $(VENV) build
+
+$(VENV):
+	python3 -m venv $(VENV)
+	$(PIP) install --upgrade build twine
+
+build: $(VENV)
+	$(PYTHON) -m pip install --upgrade build
+	$(PYTHON) -m build
 
 install:
-	pip3 install dist/quaspy-*.whl
+	$(PIP) install dist/quaspy-*.whl
 
 uninstall:
-	pip3 uninstall -y quaspy
+	$(PIP) uninstall -y quaspy
 
 reinstall:
-	pip3 uninstall -y quaspy
-	pip3 install dist/quaspy-*.whl
+	$(PIP) uninstall -y quaspy
+	$(PIP) install dist/quaspy-*.whl
 
 pre-publish-check:
-	python3 -m twine check dist/*
+	$(PYTHON) -m twine check dist/*
 
 publish:
-	python3 -m twine upload dist/*
+	$(PYTHON) -m twine upload dist/*
 
 publish-test:
-	python3 -m twine upload -r testpypi dist/*
+	$(PYTHON) -m twine upload -r testpypi dist/*
 
 clean:
 	rm -rf dist
 	rm -rf src/quaspy.egg-info
+
+clean-all: clean
+	rm -rf $(VENV)
