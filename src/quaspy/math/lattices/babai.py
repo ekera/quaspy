@@ -36,7 +36,7 @@ def babai(
       @param t  The target vector t = [t_1, ..., t_d].
 
       @param Bs   The Gram–Schmidt orthogonalization Bs of B, if available, or
-                  None in which case the Gram–Schmidt orthogonalization Bs is
+                  None in which case the Gram–Schmidt orthogonalization of B is
                   computed by this function. (If you plan on calling this
                   function several times for the same lattice L, then you may
                   wish to pre-compute Bs and pass it along in each call to this
