@@ -42,7 +42,7 @@ def solve_j_k_for_d_given_r(j : int | gmpy2.mpz,
 | r | The order r of g. |
 | B_ETA | An upper bound on the search space in eta. |
 | B_T | An upper bound on the search space in t. |
-| timeout | A timeout after which a TimeoutError will be raised and the computation aborted.<br><br>The timeout may be represented as an integer specifying the timeout in seconds, or as an instance of the Timeout class. May be set to None, as is the default, in which case no timeout is enforced.<br><br> |
+| timeout | A timeout after which a TimeoutError will be raised and the computation aborted.<br><br>The timeout may be represented as an integer specifying the timeout in seconds, or as an instance of the Timeout class. May be set to None, as is the default, in which case no timeout is enforced. |
 | verbose | A flag that may be set to True to print intermediary results and status updates when executing the post-processing algorithm. |
 
 ## Return value

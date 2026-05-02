@@ -19,7 +19,7 @@ def sample_l_bit_integer(l : int)
 ## Parameters
 | <b>Name</b> | <b>Description</b> |
 | ----------- | ------------------ |
-| l | The bit length l of the prime to sample. |
+| l | The bit length l of the integer to sample. |
 
 ## Return value
 An l-bit integer selected uniformly at random from the set of all such integers.

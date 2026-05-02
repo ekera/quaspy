@@ -15,5 +15,5 @@ def peek(self)
 ```
 
 ## Return value
-If the timer is stopped, the time delta is returned. Otherwise, the sum of the time delta and the current offset of the timer returned.
+If the timer is stopped, the time delta is returned. Otherwise, the sum of the time delta and the current offset of the timer is returned.
 

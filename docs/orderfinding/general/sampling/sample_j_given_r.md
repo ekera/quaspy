@@ -1,7 +1,7 @@
 ## Function: <code>sample\_j\_given\_r(r, m, l, ..)</code>
 Samples a frequency j from the distribution induced by the quantum part of Shor's order-finding algorithm [[Shor94]](https://doi.org/10.1109/SFCS.1994.365700) for a given order r. This by using the sampling procedure described in [[E24t]](https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf) (see in particular Sects. 5.3.5 and 5.4.3).
 
-This fuction can also be used to sample from the distribution induced by Seifert's variation [[Seifert01]](https://doi.org/10.1007/3-540-45353-9_24) of Shor's order-finding algorithm for a given order r, depending on how parameters are selected.
+This function can also be used to sample from the distribution induced by Seifert's variation [[Seifert01]](https://doi.org/10.1007/3-540-45353-9_24) of Shor's order-finding algorithm for a given order r, depending on how parameters are selected.
 
 Throughout this function, the algorithms are as described in [[E21]](https://doi.org/10.1515/jmc-2020-0006), [[E24]](https://doi.org/10.1145/3655026) and [[E24t]](https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf). The notation is also inherited from said works.
 

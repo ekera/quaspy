@@ -3,7 +3,7 @@ Recovers r, assuming r_tilde is such that r = d * r_tilde where d is cm-smooth.
 
 This function implements Alg. 2 from [[E24]](https://doi.org/10.1145/3655026).
 
-As in [[E24]](https://doi.org/10.1145/3655026), d is said to be cm-smooth if d = p1^e1 * .. pk^ek, for q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer exponents, if it holds that qi^ei <= cm for all i in [1, k].
+As in [[E24]](https://doi.org/10.1145/3655026), d is said to be cm-smooth if d = q1^e1 * .. qk^ek, for q1, ..., qk pairwise distinct primes, and e1, ..., ek positive integer exponents, if it holds that qi^ei <= cm for all i in [1, k].
 
 ## Import directive
 ```python

@@ -1,5 +1,5 @@
 ## Method: <code>SimulatedCyclicGroupElement.\_\_init\_\_(self, r, ..)</code>
-Constructs the simulated group element G^d, for G a generator of a cylic group of order r.
+Constructs the simulated group element G^d, for G a generator of a cyclic group of order r.
 
 ## Import directive
 ```python

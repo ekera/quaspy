@@ -24,4 +24,4 @@ import quaspy.math.groups
   A class that represents an elliptic curve on short Weierstrass form y^2 = x^3 + ax + b (mod p) for p a prime number.
 - [<code>SimulatedCyclicGroupElement</code>](SimulatedCyclicGroupElement.md)
 
-  A class that represents the simulated group element G^d, for G a generator of a cylic group of order r.
+  A class that represents the simulated group element G^d, for G a generator of a cyclic group of order r.

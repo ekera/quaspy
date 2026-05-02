@@ -1,5 +1,5 @@
 ## Method: <code>PointOnShortWeierstrassCurveOverPrimeField.\_\_hash\_\_(self)</code>
-Returns the hash digest of this pointgroup element.
+Returns the hash digest of this group element.
 
 ## Import directive
 ```python

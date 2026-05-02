@@ -38,7 +38,7 @@ def solve_multiple_j_k_for_d_given_r(j_k_list : list,
 | g | The group element g. |
 | x | The group element x = g^d. |
 | r | The order r of g. |
-| tau | A positive integer tau. Used to scale the basis for the lattice L^tau that is used in the post-processing. |
+| tau | A non-negative integer tau. Used to scale the basis for the lattice L^tau that is used in the post-processing. |
 | delta | The parameter delta to use when delta-LLL-reducing the basis for the lattice L^tau used in the post-processing. Must be on the interval (1/4, 1]. A polynomial runtime in the dimension of the lattice is only guaranteed for delta < 1. |
 | precision | The precision to use when computing the Gram–Schmidt projection factors as a part of delta-LLL-reducing the basis for the lattice L^tau used in the post-processing.<br><br>The precision may be set to None, as is the default, in which case the projection factors are represented as exact quotients. |
 | enumerate | A flag that may be set to True to enumerate vectors in the lattice L^tau (until d is found or the specified timeout has elapsed), or to EnumerationOptions.CVP to consider only a closest vector in the lattice as returned by performing a limited enumeration, or to False to consider only the vector returned by Babai's nearest plane algorithm.<br><br>May also be set to EnumerationOptions.BOUNDED_BY_TAU in which case all vectors within distance R of the origin of the lattice L^tau are enumerated, where R depends on tau as R = sqrt(n + 1) * 2^(m + sigma - l + tau). |

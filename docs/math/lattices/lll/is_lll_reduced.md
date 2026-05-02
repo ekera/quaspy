@@ -1,7 +1,7 @@
 ## Function: <code>is\_lll\_reduced(B, ..)</code>
 Checks if an n x d basis matrix B is delta-LLL-reduced, where LLL is short for Lenstra–Lenstra–Lovász [[LLL82]](https://doi.org/10.1007/BF01457454).
 
-The basis matrix B is represented as a list of lists [b_1, ..., b_n], where b_i = [b_i1, ..., b_id] for i = 1, ..., n are the n rows of A. It is required that B has integer entries of type int or mpz.
+The basis matrix B is represented as a list of lists [b_1, ..., b_n], where b_i = [b_i1, ..., b_id] for i = 1, ..., n are the n rows of B. It is required that B has integer entries of type int or mpz.
 
 ## Import directive
 ```python

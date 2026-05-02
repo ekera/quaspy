@@ -1,5 +1,5 @@
 ## Function: <code>truncmod(x, N)</code>
-Returns x mod N constrained to the interval [N/2, N/2).
+Returns x mod N constrained to the interval [-N/2, N/2).
 
 ## Import directive
 ```python
@@ -22,5 +22,5 @@ def truncmod(x : int | gmpy2.mpz,
 | N | The modulus N. |
 
 ## Return value
-The integer x mod N, constrained to the interval [N/2, N/2).
+The integer x mod N, constrained to the interval [-N/2, N/2).
 

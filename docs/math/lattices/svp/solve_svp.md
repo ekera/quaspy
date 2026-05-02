@@ -9,8 +9,6 @@ It is required that B has integer entries of type int or mpz.
 
 Furthermore, it is required that B has full rank and is square since the enumerate() function that this function calls currently imposes these requirements. Said requirements may be relaxed in the future.
 
-It is assumed that the basis B is reduced, see the lll() function.
-
 ## Import directive
 ```python
 from quaspy.math.lattices.svp import solve_svp

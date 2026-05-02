@@ -3,7 +3,7 @@ Returns an l-bit prime selected uniformly at random from the set of all such pri
 
 > This function calls sample_l_bit_integer() to select l-bit integers uniformly at random from the set of all l-bit integers. In practice, sample_l_bit_integer() returns an l-bit integer that may be conjectured to be indistinguishable from an integer that is selected uniformly at random from said set.
 
-> This function assumes that the is_prime() function performs a deterministic primality test. In practice, this test is likely probabilistic, but the probability of incorrectly classifying an composite as a prime is so small that the test may be conjectured to be indistinguishable from a determinstic test.
+> This function assumes that the is_prime() function performs a deterministic primality test. In practice, this test is likely probabilistic, but the probability of incorrectly classifying a composite as a prime is so small that the test may be conjectured to be indistinguishable from a deterministic test.
 
 ## Import directive
 ```python

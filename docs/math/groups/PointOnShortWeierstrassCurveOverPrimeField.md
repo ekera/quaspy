@@ -18,7 +18,7 @@ from quaspy.math.groups import PointOnShortWeierstrassCurveOverPrimeField
 
 - [<code>\_\_hash\_\_(self)</code>](PointOnShortWeierstrassCurveOverPrimeField/__hash__.md)
 
-  Returns the hash digest of this pointgroup element.
+  Returns the hash digest of this group element.
 
 - [<code>\_\_init\_\_(self, x, y, E)</code>](PointOnShortWeierstrassCurveOverPrimeField/__init__.md)
 

@@ -5,7 +5,7 @@ This by using the algorithm from [[E21b]](https://doi.org/10.1007/s11128-021-030
 
 Throughout this function, the algorithms are as described in [[E24t]](https://diva-portal.org/smash/get/diva2:1902626/FULLTEXT01.pdf), [[E21]](https://doi.org/10.1515/jmc-2020-0006) and [[E21b]](https://doi.org/10.1007/s11128-021-03069-1). The notation is also inherited from said works.
 
-> This convenience function simply calls solve_multiple_j_for_r(), and then solve_r_for_factors(), passing along r. To access all options of these functions, call them manually in sequence instead.
+> This convenience function simply calls solve_multiple_j_for_factors() with g setup by calling IntegerModRingMulSubgroupElement(g, N). In turn, the solve_multiple_j_for_factors() convenience function simply calls solve_multiple_j_for_r(), and then solve_r_for_factors(), passing along r. To access all options of these functions, call them manually in sequence instead.
 
 ## Import directive
 ```python
