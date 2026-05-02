@@ -190,16 +190,16 @@ def sample_g_r_given_N(
                         pairwise distinct prime factors, and for e1, ..., en
                         positive integer exponents.
 
-      @param pi_minus_one_factors  The factors of pi-1 = qi1^di1 * ... * qim^dim,
-                                   for i in [1, n], represented on the form
-                                   [F1, ..., Fn], where each Fi is on the form
-                                   [[qi1, di1], ..., [qim, dim]], for
-                                   qi1, ..., qim pairwise distinct prime factors,
-                                   and for di1, ..., dim positive integer
-                                   exponents. May be set to None, in which case
-                                   r will be computed heuristically as described
-                                   above. If explicitly specified, the order r
-                                   will be computed exactly.
+      @param pi_minus_one_factors  The factors of pi - 1 = qi1^di1 * ... *
+                                   qim^dim, for i in [1, n], represented on the
+                                   form [F1, ..., Fn], where each Fi is on the
+                                   form [[qi1, di1], ..., [qim, dim]], for
+                                   qi1, ..., qim pairwise distinct prime
+                                   factors, and for di1, ..., dim positive
+                                   integer exponents. May be set to None, in
+                                   which case r will be computed heuristically
+                                   as described above. If explicitly specified,
+                                   the order r will be computed exactly.
 
       @param B  The upper bound on the prime factors to consider when performing
                 trial division. Has no effect if pi_minus_one_factors is
