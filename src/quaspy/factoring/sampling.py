@@ -143,10 +143,10 @@ def sample_g_r_given_N(
   pi_minus_one_factors : list[list[list[int | mpz]]] | None = None,
   B : int = B_DEFAULT_SAMPLE) -> list[int]:
 
-  """ @brief  Returns [g, r], for g an element selected uniformly at random
-              from the multiplicative group of the ring of integers modulo N,
-              and r either a heuristic estimate of the order of g, or the exact
-              order of g, depending on if optional parameters are specified.
+  """ @brief  Returns [g, r], for g an element selected uniformly at random from
+              the multiplicative group of the ring of integers modulo N, and r
+              either a heuristic estimate of the order of g, or the exact order
+              of g, depending on if optional parameters are specified.
 
       Suppose that N = p1^e1 * ... * pn^en, for p1, ..., pn pairwise distinct
       odd prime factors, and e1, ..., en positive integer exponents.
@@ -163,8 +163,8 @@ def sample_g_r_given_N(
       as pi is odd, and by using a factor base of primes <= B to find all small
       factors of pi - 1 via trial division. It then computes g via the Chinese
       remainder theorem, by requiring that gi = g mod pi^ei, along with a
-      heuristic estimate r = lcm(r1, ..., rn) of the order of g, that is
-      correct with high probability, as is explained in [E21b].
+      heuristic estimate r = lcm(r1, ..., rn) of the order of g, that is correct
+      with high probability, as is explained in [E21b].
 
       2. If the factorization of pi - 1 for i in [1, n] is specified, this
       function then exactly computes the order ri of gi. Specifically, by using
