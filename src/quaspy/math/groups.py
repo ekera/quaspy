@@ -180,7 +180,7 @@ class ShortWeierstrassCurveOverPrimeField:
         the y coordinate is 0 if (0, 0) is not in E, and (0, 1) otherwise.
 
         @return   The y coordinate of the point used to represent the
-                  point at infinity on this curve."""
+                  point at infinity on this curve. """
 
     if 0 == self.b:
       return 1; # Point at infinity is represented as (0, 1).

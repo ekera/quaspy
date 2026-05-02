@@ -30,7 +30,7 @@ class CandidateCollection:
 
         @param candidate  The candidate for r_tilde.
 
-        @return True if the collection was modified, False otherwise. """
+        @return   True if the collection was modified, False otherwise. """
 
     if candidate in self:
       # The candidate is already in the collection.
@@ -50,7 +50,8 @@ class CandidateCollection:
 
         @param candidate  The candidate for r_tilde.
 
-        @return True if the candidate is in the collection, False otherwise. """
+        @return   True if the candidate is in the collection, False
+                  otherwise. """
 
     if candidate in self.candidates:
       return True;

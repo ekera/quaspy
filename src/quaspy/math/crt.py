@@ -15,7 +15,7 @@ def crt(
               function returns an integer v in [0, N) such that v = vi (mod Ni)
               for all i in [1, n], where N = N1 * ... * Nn.
 
-      @remark It is required that all Ni >= 2, and pairwise coprime.
+      @remark   It is required that all Ni >= 2, and pairwise coprime.
 
       @param values   The values = [v1, ..., vn].
 

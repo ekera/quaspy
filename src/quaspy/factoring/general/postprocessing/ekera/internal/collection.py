@@ -45,7 +45,8 @@ class FactorCollection:
 
     """ @brief  Checks if all prime factors of N have been found.
 
-        @return True if all prime factors have been found, False otherwise. """
+        @return   True if all prime factors have been found, False
+                  otherwise. """
 
     return self.residual == 1;
 

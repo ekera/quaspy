@@ -55,7 +55,7 @@ class Timer:
 
         @param delta_t  The time delta. Defaults to zero.
 
-        @return The timer. """
+        @return   The timer. """
 
     self.state = Timer.STOPPED;
     self.delta_t = delta_t;

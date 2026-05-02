@@ -42,7 +42,7 @@ def prime_power_product(B : int) -> int | mpz:
       @param B  The upper bound B.
 
       @return   The product of q^e, as q runs over all primes <= B, for e the
-                largest non-negative integer exponent such that q^e <= B."""
+                largest non-negative integer exponent such that q^e <= B. """
 
   factor = 1;
 

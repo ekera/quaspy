@@ -428,7 +428,7 @@ def test_solve_for_r_tilde(
                       results. Defaults to False.
 
       @return   This function has no return value. If the test fails, or if some
-                other error occurs, an exception is instead raised."""
+                other error occurs, an exception is instead raised. """
 
   l = m;
   while (l > 1) and ((r ** 2) < (2 ** (m + l - 1))):

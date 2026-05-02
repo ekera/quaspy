@@ -30,8 +30,8 @@ def gram_schmidt(
                         default, in which case the projection factors are
                         represented as exact quotients.
 
-      @return The pair [Bs, M], where Bs is the Gram–Schmidt orthogonalization
-              of B and M is the matrix of Gram–Schmidt projection factors. """
+      @return   The pair [Bs, M], where Bs is the Gram–Schmidt orthogonalization
+                of B and M is the matrix of Gram–Schmidt projection factors. """
 
   (n, d) = dimensions(B);
 
