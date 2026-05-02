@@ -3,5 +3,7 @@
 .ipynb_checkpoints
 *.pyc
 
+venv/
+
 src/quaspy.egg-info/
 
